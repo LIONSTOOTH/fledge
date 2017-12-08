@@ -4,5 +4,5 @@ import { getAllApplications } from './jobApplications.jsx';
 // the request from view here will be a click to view kanban board
 export const fetchUserApplications = ({ user }) => ({
   type: 'FETCH_APPLICATIONS',
-  getAllApplications(user)
+  getAllApplications()
 });
