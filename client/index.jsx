@@ -6,12 +6,11 @@ import App from './components/app.jsx'
 import reducer from './reducers/main.jsx'
 import Main from './components/main.jsx'
 
-const store = createStore(reducer)
+const store = createStore(reducer);
 
 render(
   <Provider store={store}>
     <Main />
   </Provider>,
   document.getElementById('app')
-)
-
+);

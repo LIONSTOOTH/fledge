@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // dummy data for testing
 // refactor to GET from database once set up
-export getAllApplications = ({ user }) => {
+export const getAllApplications = ({ user }) => {
 
   return {
     applications: [
