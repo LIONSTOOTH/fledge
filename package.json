@@ -21,6 +21,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "semantic-ui-react": "^0.77.0",
     "webpack": "^3.10.0"
   },
   "devDependencies": {
