@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 let db = require('../db/index.js');
 
 app.set('port', (process.env.PORT || 2000));
-app.use(express.static(__dirname + '/../'));
+app.use(express.static(__dirname + '/../dist/'));
 app.use(bodyParser.json());
 
 app.listen(app.get('port'), function() {
