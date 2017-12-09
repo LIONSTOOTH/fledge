@@ -12,13 +12,11 @@ import axios from 'axios';
 class App extends React.Component {
   constructor(props) {
       super(props);
-      this.state = {
-        userLoggedIn: false
-      }
   }
 
   handleLogin () {
-    this.setState({userLoggedIn: !this.state.userLoggedIn});
+    // should only call authenticateLogin if google auth passes
+    this.props.authenticateLogin();
   }
 
   componentDidMount() {
@@ -34,27 +32,28 @@ class App extends React.Component {
 
   render() {
     return (
-      !this.state.userLoggedIn
+      !this.props.userLoggedIn
         ? <Landing handleLogin={this.handleLogin.bind(this)} />
         : <Dashboard handleLogin={this.handleLogin.bind(this)} />
     )
-
-    // if (!this.state.userLoggedIn) {
-    //   return (
-    //       <div>
-    //         <Landing handleLogin={this.handleLogin.bind(this)} />
-    //       </div>
-    //   )
-    // } else {
-    //   return (
-    //     <div>
-    //         <Dashboard handleLogin={this.handleLogin.bind(this)} />
-    //       </div>
-    //   )
-    // }
   }
 }
 
-export default App;
+// the action that gets dispatched
+const authenticateLogin = () => {
+  return {
+    type: 'LOGIN',
+    payload: getAllApplications().applications,
+  }
+}
+
+
+const mapStateToProps= () => {
+  return {
+    applications: state.applicationReducer.applications
+  };
+}
+
+export default connect(mapStateToProps, { l })(App);
 
 

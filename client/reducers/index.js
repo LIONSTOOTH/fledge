@@ -22,11 +22,21 @@ const fetchFlagReducer = (state = { isFetching: false }, action) => {
   }
 };
 
+const loginReducer = (state = { isLoggedIn : false }, action) => {
+  switch (action.type) {
+    case 'TOGGLE_LOGIN':
+      return { isLoggedIn: action.payload };
+    default:
+      return state;
+  }
+};
+
 // main reducer to combine all other reducers
 const rootReducer = combineReducers({
   applicationReducer,
   fetchFlagReducer,
-  form: formReducer
+  form: formReducer,
+  loginReducer,
 });
 
 export default rootReducer;
