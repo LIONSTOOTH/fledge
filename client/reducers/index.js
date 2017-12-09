@@ -14,7 +14,7 @@ const counterReducer = (state = { counter: 0 }, action) => {
   console.log('action is', action)
   switch (action.type) {
     case 'INCREMENT':
-      return state.counter + 1;
+      return { counter: state.counter + 1 };
     default:
       return state;
   }
