@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-// import mainReducer from './reducers/main.jsx'
 import Landing from './landing.jsx'
 import Dashboard from './dashboard.jsx'
 import { connect } from 'react-redux';
@@ -17,7 +16,6 @@ class App extends React.Component {
       }
   }
 
-
   handleLogin () {
     this.setState({userLoggedIn: !this.state.userLoggedIn});
   }
@@ -25,38 +23,31 @@ class App extends React.Component {
   render() {
     console.log('props is', this.props);
     return (
-    //   !this.state.userLoggedIn
-    //     ? <Landing handleLogin={this.handleLogin.bind(this)} />
-    //     : <Dashboard handleLogin={this.handleLogin.bind(this)} />
-    <button onClick={this.props.actionCreator}>Hello {this.props.counter}</button>
+      !this.state.userLoggedIn
+        ? <Landing handleLogin={this.handleLogin.bind(this)} />
+        : <Dashboard handleLogin={this.handleLogin.bind(this)} />
+    /* <button onClick={this.props.incrementCounterActionCreator}>Hello {this.props.counter}</button> */
 
     )
-
 
     // if (!this.state.userLoggedIn) {
     //   return (
     //       <div>
-
-
     //         <Landing handleLogin={this.handleLogin.bind(this)} />
     //       </div>
-
     //   )
     // } else {
     //   return (
     //     <div>
-
-
     //         <Dashboard handleLogin={this.handleLogin.bind(this)} />
     //       </div>
-
     //   )
     // }
-
   }
 }
 
-const actionCreator = () => {
+// dispatches an action
+const incrementCounterActionCreator = () => {
   return {
     type: 'INCREMENT',
     payload: 1,
@@ -65,9 +56,11 @@ const actionCreator = () => {
 
 const mapStateToProps = (state) => {
   console.log(state)
-  return { counter: state.counterReducer.counter };
+  return {
+    counter: state.counterReducer.counter
+  };
 }
 
-export default connect(mapStateToProps, { actionCreator })(App)
-//mapStateToProps
+export default connect(mapStateToProps, { incrementCounterActionCreator })(App)
+
 
