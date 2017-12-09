@@ -21,7 +21,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('props is', this.props);
     return (
       !this.state.userLoggedIn
         ? <Landing handleLogin={this.handleLogin.bind(this)} />
@@ -55,7 +54,6 @@ const incrementCounterActionCreator = () => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     counter: state.counterReducer.counter
   };

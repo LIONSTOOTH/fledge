@@ -10,17 +10,17 @@ class Kanban extends React.Component {
   }
 
   componentWillMount() {
-
+    console.log('component will mount')
     // dispatches an action on mount
     this.props.fetchApplicationsActionCreator()
   }
 
   render() {
-    console.log('props', this.props)
+    console.log('props in kanban render', this.props)
     return(
-      <div>
+      <div style={{ border: 'solid 3px blue' }}>
       {/* columns will dispatch action to receive applications based on user and status prop*/}
-      <Column applications={this.props.applications}/>
+      <Column title="Applications" applications={this.props.applications}/>
       </div>
     );
   }
@@ -28,14 +28,15 @@ class Kanban extends React.Component {
 
 // dispatches an action
 const fetchApplicationsActionCreator = () => {
+  console.log('getAllApplications called:', getAllApplications())
   return {
     type: 'FETCH_APPLICATIONS',
     payload: getAllApplications().applications,
   }
 }
 
-const mapStateToProps = (...state) => {
-  console.log('map to props state:',state)
+const mapStateToProps = (state) => {
+  console.log('map state to props:',state)
   return {
     applications: state.applicationReducer.applications
   };

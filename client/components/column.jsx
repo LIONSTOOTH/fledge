@@ -4,13 +4,13 @@ import { getAllApplications } from '../actions/jobApplications.jsx';
 import { connect } from 'react-redux';
 
 
-export const Column = ({ applications }) => {
-  console.log('in column', applications)
+export const Column = ({ title, applications }) => {
+  console.log('applications in column', applications)
   return(
-    <div>
-    <h1>{applications.applications[0].status}</h1>
+    <div style={{ border: 'solid 3px red' }}>
+    <h1>{title}</h1>
     <ul>
-      {applications.applications.map((application) =>
+      {applications.map((application) =>
         <ApplicationChip
           key={application.id}
           id={application.id}
@@ -18,6 +18,7 @@ export const Column = ({ applications }) => {
         />
       )}
     </ul>
+
   </div>
 );
 }
