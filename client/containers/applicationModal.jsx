@@ -1,10 +1,17 @@
 import React from 'react';
 import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react';
 
-const ApplicationModal = ({ dispatch }) => {
+const ApplicationModal = ({ application, dispatch }) => {
   return (
-    <Modal trigger={<Button>Scrolling Content Modal</Button>}>
-      <Modal.Header>Application Detail</Modal.Header>
+    <Modal
+      trigger={
+        <Button
+          basic color='blue'>
+            Expand
+        </Button>
+      }
+    >
+      <Modal.Header>{application.company}</Modal.Header>
       <Modal.Content image scrolling>
         <Image
           size='medium'
@@ -13,7 +20,7 @@ const ApplicationModal = ({ dispatch }) => {
         />
 
         <Modal.Description>
-          <Header>Header</Header>
+          <Header>{application.position}</Header>
           <p>Content..... will need a form in here</p>
         </Modal.Description>
       </Modal.Content>

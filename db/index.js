@@ -72,8 +72,8 @@ let saveApp = function(app,callback) {
 		if (err) {
 			console.log('app db save error', err);
 		} else {
-			consoel.log('app db save success');
-			callback();
+			console.log('app db save success', app);
+			callback(app);
 		}
 	});
 }

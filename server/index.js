@@ -10,16 +10,17 @@ app.use(express.static(__dirname + '/../dist/'));
 app.use(bodyParser.json());
 
 app.post('/api/applications', function(req,res) {
-  console.log('in server post');
-  console.log('req.body in server post', req.body);
+  db.saveApp(req.body, function(app) {
+    res.setHeader("Content-Type", "application/json")
+    res.send(JSON.stringify({ app: app }))
+  });
 });
 
 app.get('/api/applications', function(req, res) {
   db.getApplications(function(apps) {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({ apps: apps }));
-  });
-});
+  });});
 
 
 app.listen(app.get('port'), function() {
