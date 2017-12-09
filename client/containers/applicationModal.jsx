@@ -17,21 +17,13 @@ const ApplicationModal = ({ dispatch }) => {
         />
 
         <Modal.Description>
-          <Header>Modal Header</Header>
-          <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
-
-          {/*_.times(8, i => (
-            <Image
-              key={i}
-              src=''
-              style={{ paddingBottom: 5 }}
-            />
-          ))*/}
+          <Header>Header</Header>
+          <p>Content..... will need a form in here</p>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
         <Button primary>
-          Proceed <Icon name='right chevron' />
+          Save <Icon name='right chevron' />
         </Button>
       </Modal.Actions>
     </Modal>
