@@ -11,6 +11,8 @@ const Landing = (props) => (
     Login
   </Button>
     <h2>landing</h2>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
   </div>
 )
 
