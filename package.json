@@ -3,15 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "6.11.5"
+  },
   "scripts": {
-    "wp": "webpack -d --progress --colors --watch",
+    "heroku-postbuild": "webpack",
     "start": "node server/index.js",
+    "wp": "webpack -d --progress --colors --watch",
     "startdev": "nodemon --inspect server/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "mongo": "^0.1.0",
