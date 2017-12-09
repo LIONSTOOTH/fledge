@@ -25,8 +25,6 @@ class App extends React.Component {
       !this.state.userLoggedIn
         ? <Landing handleLogin={this.handleLogin.bind(this)} />
         : <Dashboard handleLogin={this.handleLogin.bind(this)} />
-    /* <button onClick={this.props.incrementCounterActionCreator}>Hello {this.props.counter}</button> */
-
     )
 
     // if (!this.state.userLoggedIn) {
@@ -45,20 +43,6 @@ class App extends React.Component {
   }
 }
 
-// dispatches an action
-const incrementCounterActionCreator = () => {
-  return {
-    type: 'INCREMENT',
-    payload: 1,
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    counter: state.counterReducer.counter
-  };
-}
-
-export default connect(mapStateToProps, { incrementCounterActionCreator })(App)
+export default App;
 
 
