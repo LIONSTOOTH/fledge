@@ -16,63 +16,38 @@ class App extends React.Component {
       }
   }
 
-//   render() {
-//     return (
-//       <Router>
-//         <div>
-//           <Button
-//             color='orange'
-//             size='massive'
-//           >
-//             Hello!
-//           </Button>
-//           <Route path="/" exact={true} component = {Dashboard} />
-//           <Route path="/landing" component = {Landing} />
-//         </div>
-//       </Router>
-//     )
-//   }
 
-// }
+  handleLogin () {
+    this.setState({userLoggedIn: !this.state.userLoggedIn});
+  }
 
   render() {
-    if (!this.state.userLoggedIn) {
-      return (
-          <div>
-            <Button
-              color='orange'
-              size='massive'
-              onClick={() => {
-                console.log(this)
-                this.setState({userLoggedIn: true})
-              }}
-            >
-              Login
-            </Button>
+    return (
+      !this.state.userLoggedIn
+        ? <Landing handleLogin={this.handleLogin.bind(this)} />
+        : <Dashboard handleLogin={this.handleLogin.bind(this)} />
+    )
 
-            <Landing />
-          </div>
 
-      )
-    } else {
-      return (
-        <div>
-            <Button
-              color='orange'
-              size='massive'
-              onClick={() => {
-                console.log(this)
-                this.setState({userLoggedIn: false})
-              }}
-            >
-              Logout
-            </Button>
+    // if (!this.state.userLoggedIn) {
+    //   return (
+    //       <div>
 
-            <Dashboard />
-          </div>
 
-      )
-    }
+    //         <Landing handleLogin={this.handleLogin.bind(this)} />
+    //       </div>
+
+    //   )
+    // } else {
+    //   return (
+    //     <div>
+
+
+    //         <Dashboard handleLogin={this.handleLogin.bind(this)} />
+    //       </div>
+
+    //   )
+    // }
 
   }
 }

@@ -8,8 +8,6 @@ const Main = () => (
   <Router>
     <Switch>
       <Route path="/" exact={true} component = {App} />
-      <Route path="/landing" component = {Landing} />
-      <App />
     </Switch>
   </Router>
 )
