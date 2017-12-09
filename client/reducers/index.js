@@ -24,7 +24,7 @@ const fetchFlagReducer = (state = { isFetching: false }, action) => {
 
 const loginReducer = (state = { isLoggedIn : false }, action) => {
   switch (action.type) {
-    case 'TOGGLE_LOGIN':
+    case 'LOGIN':
       return { isLoggedIn: action.payload };
     default:
       return state;
