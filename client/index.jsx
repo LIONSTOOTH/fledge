@@ -4,12 +4,13 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import App from './components/app.jsx'
 import reducer from './reducers/main.jsx'
+import Main from './components/main.jsx'
 
 const store = createStore(reducer)
 
 render(
   <Provider store={store}>
-    <App />
+    <Main />
   </Provider>,
   document.getElementById('app')
 )
