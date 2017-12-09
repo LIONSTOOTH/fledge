@@ -16,5 +16,8 @@ module.exports = {
           }
       }
     ]
+  },
+  resolveLoader: {
+    moduleExtensions: ['-loader']
   }
 }
