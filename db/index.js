@@ -94,6 +94,19 @@ let saveChecklist = function(checklist, callback) {
 	});
 }
 
+let getApplications = cb => {
+  App.find()
+    .sort('company')
+    .exec(function(error, apps) {
+      if (error) {
+        return next(error);
+      } else {
+        cb(apps);
+      }
+   	});
+};
+
+module.exports.getApplications = getApplications;
 module.exports.saveUser = saveUser;
 module.exports.saveApp = saveApp;
 module.exports.saveChecklist = saveChecklist;
