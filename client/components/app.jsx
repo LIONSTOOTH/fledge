@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 // import mainReducer from './reducers/main.jsx'
 import Landing from './landing.jsx'
 import Dashboard from './dashboard.jsx'
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   constructor(props) {
@@ -22,10 +23,13 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('props is', this.props);
     return (
-      !this.state.userLoggedIn
-        ? <Landing handleLogin={this.handleLogin.bind(this)} />
-        : <Dashboard handleLogin={this.handleLogin.bind(this)} />
+    //   !this.state.userLoggedIn
+    //     ? <Landing handleLogin={this.handleLogin.bind(this)} />
+    //     : <Dashboard handleLogin={this.handleLogin.bind(this)} />
+    <button onClick={this.props.actionCreator}>Hello {this.props.counter}</button>
+
     )
 
 
@@ -52,4 +56,18 @@ class App extends React.Component {
   }
 }
 
-export default App
+const actionCreator = () => {
+  return {
+    type: 'INCREMENT',
+    payload: 1,
+  }
+}
+
+const mapStateToProps = (state) => {
+  console.log(state)
+  return { counter: state.counterReducer.counter };
+}
+
+export default connect(mapStateToProps, { actionCreator })(App)
+//mapStateToProps
+
