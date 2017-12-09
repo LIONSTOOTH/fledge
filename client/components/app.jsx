@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-// import mainReducer from './reducers/main.jsx'
 import Landing from './landing.jsx'
 import Dashboard from './dashboard.jsx'
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +15,6 @@ class App extends React.Component {
         userLoggedIn: false
       }
   }
-
 
   handleLogin () {
     this.setState({userLoggedIn: !this.state.userLoggedIn});
@@ -28,28 +27,22 @@ class App extends React.Component {
         : <Dashboard handleLogin={this.handleLogin.bind(this)} />
     )
 
-
     // if (!this.state.userLoggedIn) {
     //   return (
     //       <div>
-
-
     //         <Landing handleLogin={this.handleLogin.bind(this)} />
     //       </div>
-
     //   )
     // } else {
     //   return (
     //     <div>
-
-
     //         <Dashboard handleLogin={this.handleLogin.bind(this)} />
     //       </div>
-
     //   )
     // }
-
   }
 }
 
-export default App
+export default App;
+
+

@@ -1,10 +1,6 @@
 import React from 'react';
 import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react';
 
-// import { connect } from 'react-redux';
-// need to create dispatch action
-// import { addApplication } from '../actions';
-
 const ApplicationModal = ({ dispatch }) => {
   return (
     <Modal trigger={<Button>Scrolling Content Modal</Button>}>
