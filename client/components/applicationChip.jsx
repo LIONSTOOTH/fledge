@@ -1,21 +1,21 @@
 import React from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
-// import { connect } from 'react-redux';
-// need to create dispatch action
-// import { addApplication } from '../actions';
+import ApplicationModal from '../containers/applicationModal.jsx';
+import { connect } from 'react-redux';
+import { showModal } from '../actions/index.jsx';
 
-export const ApplicationChip = ({ position, company, dispatch }) => {
-  console.log('in chip',position);
+let ApplicationChip = ({ application, dispatch }) => {
+
   return (
     <div>
       <Card>
         <Card.Content>
           <Image floated='right' size='mini' src='' />
           <Card.Header>
-            {company}
+            {application.company}
           </Card.Header>
           <Card.Meta>
-            {position}
+            {application.position}
           </Card.Meta>
           <Card.Description>
             Some words we might want to add... <strong>at some point</strong>
@@ -23,7 +23,9 @@ export const ApplicationChip = ({ position, company, dispatch }) => {
         </Card.Content>
         <Card.Content extra>
           <div className='ui two buttons'>
-            <Button basic color='blue'>Expand</Button>
+            {/* button click dispatches action to show modal */}
+            <Button basic color='blue' onClick={() => showModal(<ApplicationModal application={application} /> )}
+            >Expand</Button>
             <Button basic color='red'>Delete</Button>
           </div>
         </Card.Content>
@@ -31,3 +33,6 @@ export const ApplicationChip = ({ position, company, dispatch }) => {
     </div>
   );
 };
+
+
+export default ApplicationChip;
