@@ -7,10 +7,10 @@
     "node": "6.11.5"
   },
   "scripts": {
-    "wp": "webpack -d --progress --colors --watch",
+    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress",
     "start": "node server/index.js",
-    "startdev": "nodemon --inspect server/index.js",
-    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
+    "wp": "webpack -d --progress --colors --watch",
+    "startdev": "nodemon --inspect server/index.js"
   },
   "author": "",
   "license": "ISC",
