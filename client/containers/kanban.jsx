@@ -1,13 +1,47 @@
 import React from 'react';
+import { Button } from 'semantic-ui-react';
 import { Column } from '../components/column.jsx';
 import { getAllApplications } from '../actions/jobApplications.jsx';
+import { connect } from 'react-redux';
 
-export const Kanban = () => {
-  return(
-    <div>
-    {/* columns will dispatch action to receive applications based on user and status prop*/}
-    <Column applications={getAllApplications()}/>
-    </div>
-  );
+class Kanban extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+
+    // dispatches an action on mount
+    this.props.fetchApplicationsActionCreator()
+  }
+
+  render() {
+    console.log('props', this.props)
+    return(
+      <div>
+      {/* columns will dispatch action to receive applications based on user and status prop*/}
+      <Column applications={this.props.applications}/>
+      </div>
+    );
+  }
 }
 
+// dispatches an action
+const fetchApplicationsActionCreator = () => {
+  return {
+    type: 'FETCH_APPLICATIONS',
+    payload: getAllApplications().applications,
+  }
+}
+
+const mapStateToProps = (...state) => {
+  console.log('map to props state:',state)
+  return {
+    applications: state.applicationReducer.applications
+  };
+}
+
+// how to map component did mount results to state
+export default connect(mapStateToProps, { fetchApplicationsActionCreator })(Kanban);
+
+// =======> action has payload but empty array getting passed as applications
