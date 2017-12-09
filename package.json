@@ -7,7 +7,7 @@
     "node": "6.11.5"
   },
   "scripts": {
-    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress",
+    "heroku-postbuild": "webpack",
     "start": "node server/index.js",
     "wp": "webpack -d --progress --colors --watch",
     "startdev": "nodemon --inspect server/index.js"
