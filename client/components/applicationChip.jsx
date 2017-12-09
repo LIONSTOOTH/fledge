@@ -23,9 +23,9 @@ let ApplicationChip = ({ application, dispatch }) => {
         </Card.Content>
         <Card.Content extra>
           <div className='ui two buttons'>
-            {/* button click dispatches action to show modal */}
-            <Button basic color='blue' onClick={() => showModal(<ApplicationModal application={application} /> )}
-            >Expand</Button>
+            <ApplicationModal
+              application={application}
+            />
             <Button basic color='red'>Delete</Button>
           </div>
         </Card.Content>
@@ -36,3 +36,7 @@ let ApplicationChip = ({ application, dispatch }) => {
 
 
 export default ApplicationChip;
+
+
+            /*<Button basic color='blue' onClick={() => showModal(<ApplicationModal application={application} /> )}
+            >Expand</Button>*/
