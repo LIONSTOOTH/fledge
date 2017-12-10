@@ -15,7 +15,7 @@ const fetchFlagReducer = (state = { isFetching: false }, action) => {
   console.log('fetch flag reducer action',action);
   switch (action.type) {
     case 'IS_FETCHING':
-      return { isFetching: action.payload };
+      return { isFetching: !state.isFetching };
     default:
       return state;
   }

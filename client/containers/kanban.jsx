@@ -37,13 +37,13 @@ class Kanban extends React.Component {
 const getAllApplications = (user) => {
   return (dispatch) => {
     // dispatch a flag action to show waiting view
-    dispatch({ type: 'IS_FETCHING', payload: true })
+    dispatch({ type: 'IS_FETCHING' })
 
     const request = axios.get('/api/applications');
 
     return request.then(
       response => dispatch(fetchApplicationsSuccess(response.data.apps)))
-      .then(dispatch({ type: 'IS_FETCHING', payload: false }))
+      .then(dispatch({ type: 'IS_FETCHING'}))
       .catch(err => console.log(err));
   }
 }
