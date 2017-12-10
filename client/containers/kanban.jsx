@@ -36,7 +36,7 @@ class Kanban extends React.Component {
               <Grid.Column>
                 <Column title="Submitted"
                   applications={this.props.applications.filter((application) =>
-                    application.status === 'Submitted')}/>
+                    application.status === 'Submitted' || application.status === 'Applied')}/>
               </Grid.Column>
               <Grid.Column>
                 <Column title="Phone Screen"

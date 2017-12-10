@@ -20,7 +20,7 @@ let ApplicationChip = ({ application, dispatch }) => {
           {/*<Card.Description>
             Some words we might want to add... <strong>at some point</strong>
           </Card.Description>
-        */}
+          */}
         </Card.Content>
         <Card.Content extra>
           <div className='ui two buttons'>
