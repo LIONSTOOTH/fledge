@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 let db = require('../db/index.js');
 let passport = require('passport');
 let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
+let expressSession = require('express-session');
 
 
 
@@ -14,6 +14,11 @@ app.set('port', (process.env.PORT || 2000));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../dist/'));
 app.use(bodyParser.json());
+app.use(expressSession({
+  secret: 'shhhh',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -38,7 +43,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log("method", req.isAuthenticated())
+    console.log("method", req.user)
     res.redirect('/')
   });
 
@@ -68,7 +73,14 @@ app.get('/api/applications', function(req, res) {
 //   res.send(html);
 // });
 //   });
+app.get('/logged', function(req, res) {
+  console.log('is authenticated?', req.user)
+  res.send(req.isAuthenticated())
+})
 
+// app.get('*', function(req, res) {
+//   res.render
+// })
 
 app.listen(app.get('port'), function() {
 	console.log('app is running on port', app.get('port'));
