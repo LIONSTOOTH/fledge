@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk'
 import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 import { Column } from '../components/column.jsx';
 import Waiting from '../components/waiting.jsx';
 
@@ -25,7 +26,35 @@ class Kanban extends React.Component {
     } else {
       return(
         <div>
-          <Column title="Applications" applications={this.props.applications}/>
+          <Grid columns={5} divided>
+            <Grid.Row>
+              <Grid.Column>
+                <Column title="In Progress"
+                  applications={this.props.applications.filter((application) =>
+                    application.status === 'In Progress')}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Column title="Submitted"
+                  applications={this.props.applications.filter((application) =>
+                    application.status === 'Submitted')}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Column title="Phone Screen"
+                  applications={this.props.applications.filter((application) =>
+                    application.status === 'Phone Screen')}/>
+              </Grid.Column>
+              <Grid.Column>
+              <Column title="Onsite Interview"
+                applications={this.props.applications.filter((application) =>
+                  application.status === 'Onsite Interview')}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Column title="Offer"
+                  applications={this.props.applications.filter((application) =>
+                    application.status === 'Offer')}/>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
       );
     }
@@ -57,7 +86,6 @@ const fetchApplicationsSuccess = (response) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state in map state: ', state)
   return {
     applications: state.applicationReducer.applications,
     isFetching: state.fetchFlagReducer.isFetching,
