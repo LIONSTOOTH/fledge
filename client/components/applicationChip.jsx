@@ -17,9 +17,10 @@ let ApplicationChip = ({ application, dispatch }) => {
           <Card.Meta>
             {application.position}
           </Card.Meta>
-          <Card.Description>
+          {/*<Card.Description>
             Some words we might want to add... <strong>at some point</strong>
           </Card.Description>
+        */}
         </Card.Content>
         <Card.Content extra>
           <div className='ui two buttons'>
@@ -36,7 +37,3 @@ let ApplicationChip = ({ application, dispatch }) => {
 
 
 export default ApplicationChip;
-
-
-            /*<Button basic color='blue' onClick={() => showModal(<ApplicationModal application={application} /> )}
-            >Expand</Button>*/

@@ -61,7 +61,6 @@ class Kanban extends React.Component {
   }
 }
 
-
 // should take user obj with id property
 const getAllApplications = (user) => {
   return (dispatch) => {
