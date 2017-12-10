@@ -1,11 +1,25 @@
 import React from 'react';
 import axios from 'axios';
 
-// dummy data for testing
-// refactor to GET from database once set up
-export const getAllApplications = () => {
+// should take user obj with id property
+export const getAllApplications = (user, callback) => {
 
-  return {
+  if (user) {
+    axios.get(`/api/applications/user?id=${user.id}`)
+      .then(response => {
+        console.log('response from server:',response)
+      })
+  } else {
+    // no users set up yet
+     axios.get('/api/applications')
+      .then(response => {
+        console.log('response from server:',response)
+      })
+  }
+
+/*
+  return
+  {
     applications: [
       {
         "id": 1,
@@ -69,4 +83,5 @@ export const getAllApplications = () => {
       }
     ]
   };
+  */
 };
