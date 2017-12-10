@@ -38,7 +38,8 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
+    console.log("method", req.isAuthenticated())
+    res.redirect('/')
   });
 
 passport.serializeUser(function(user, done) {
@@ -61,6 +62,12 @@ app.get('/api/applications', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({ apps: apps }));
   });});
+
+// app.get('/dashboard', function(req, res) {
+//   res.render('index', {'loggedIn': true}, function(err, html) {
+//   res.send(html);
+// });
+//   });
 
 
 app.listen(app.get('port'), function() {
