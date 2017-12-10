@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReduxThunk from 'redux-thunk'
 import { Column } from '../components/column.jsx';
 import { connect } from 'react-redux';
 import { Waiting } from '../components/waiting.jsx';
@@ -12,16 +13,15 @@ class Kanban extends React.Component {
 
   componentWillMount() {
     // dispatches an action on mount
-    this.props.fetchingApplications();
     this.props.getAllApplications();
   }
 
   render() {
 
     return(
-        <div>
-        Column{/*<Column title="Applications" applications={this.props.applications}/>*/}
-        </div>
+      <div>
+        <Column title="Applications" applications={this.props.applications}/>
+      </div>
     );
   }
 }
@@ -29,22 +29,22 @@ class Kanban extends React.Component {
 
 // should take user obj with id property
 const getAllApplications = (user) => {
-  if (user) {
-    axios.get(`/api/applications/user?id=${user.id}`)
-      .then(response => {
-        console.log('response from server:',response)
-      })
-  } else {
-    // no users set up yet
-     axios.get('/api/applications')
-      .then(response => {
-        console.log('response from server:',response)
-        fetchApplicationsSuccess(response.data.apps);
-        fetchingApplications()
+  return function action(dispatch) {
+    dispatch({ type: 'IS_FETCHING' })
 
-      })
+    const request = axios.get('/api/applications');
+
+    return request.then(
+      response => {
+        dispatch(fetchApplicationsSuccess(response.data.apps))
+        dispatch({ type: 'IS_FETCHING' })
+      },
+      err => console.log(err)
+    );
   }
-};
+}
+
+
 
 // dispatches an action
 const fetchApplicationsSuccess = (response) => {
@@ -52,13 +52,6 @@ const fetchApplicationsSuccess = (response) => {
   return {
     type: 'FETCH_SUCCESS',
     payload: response,
-  }
-}
-
-
-const fetchingApplications = () => {
-  return {
-    type: 'IS_FETCHING',
   }
 }
 
@@ -71,4 +64,4 @@ const mapStateToProps = (state) => {
 
 // how to map component did mount results to state
 export default connect(mapStateToProps,
-  { fetchApplicationsSuccess, fetchingApplications, getAllApplications })(Kanban);
+  { fetchApplicationsSuccess, getAllApplications })(Kanban);
