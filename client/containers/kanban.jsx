@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import ReduxThunk from 'redux-thunk'
-import { Column } from '../components/column.jsx';
+import thunk from 'redux-thunk'
 import { connect } from 'react-redux';
-import { Waiting } from '../components/waiting.jsx';
+import { Column } from '../components/column.jsx';
+import Waiting from '../components/waiting.jsx';
 
 class Kanban extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   componentWillMount() {
@@ -17,12 +16,19 @@ class Kanban extends React.Component {
   }
 
   render() {
-
+    if (this.props.isFetching) {
+    return(
+      <div>
+        <Waiting/>
+      </div>
+    );
+    } else {
     return(
       <div>
         <Column title="Applications" applications={this.props.applications}/>
       </div>
     );
+    }
   }
 }
 
@@ -30,6 +36,7 @@ class Kanban extends React.Component {
 // should take user obj with id property
 const getAllApplications = (user) => {
   return function action(dispatch) {
+    // dispatch a flag action to show waiting view
     dispatch({ type: 'IS_FETCHING' })
 
     const request = axios.get('/api/applications');
@@ -37,13 +44,13 @@ const getAllApplications = (user) => {
     return request.then(
       response => {
         dispatch(fetchApplicationsSuccess(response.data.apps))
+        // switch off waiting view
         dispatch({ type: 'IS_FETCHING' })
       },
       err => console.log(err)
     );
   }
 }
-
 
 
 // dispatches an action
@@ -58,10 +65,10 @@ const fetchApplicationsSuccess = (response) => {
 const mapStateToProps = (state) => {
   console.log('state in map state: ', state)
   return {
-    applications: state.applicationReducer.applications
+    applications: state.applicationReducer.applications,
+    isFetching: state.applicationReducer.isFetching,
   };
 }
 
-// how to map component did mount results to state
 export default connect(mapStateToProps,
   { fetchApplicationsSuccess, getAllApplications })(Kanban);
