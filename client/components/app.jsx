@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import Landing from './landing.jsx'
 import Dashboard from './dashboard.jsx'
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +19,17 @@ class App extends React.Component {
 
   handleLogin () {
     this.setState({userLoggedIn: !this.state.userLoggedIn});
+  }
+
+  componentDidMount() {
+    let context = this;
+    axios.get('/logged').then(function(res){
+      if(res.data) {
+        context.setState({userLoggedIn: true})
+      }
+    })
+
+
   }
 
   render() {

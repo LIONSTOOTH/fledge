@@ -11,6 +11,8 @@ const Landing = (props) => (
     Login
   </Button>
     <h2>landing</h2>
+    <a href="/auth/google">Sign In with Google</a>
+
   </div>
 )
 

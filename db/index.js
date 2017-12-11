@@ -9,6 +9,8 @@ db.once('open', function() {
 
 let userSchema = mongoose.Schema({
 	name: String,
+	googleId: String,
+	sessionID: String,
 	email: String,
 	password: String
 });
@@ -41,6 +43,8 @@ let Checklist = mongoose.model('Checklist', checklistSchema);
 let saveUser = function(user,callback) {
 	let newUser = new User({
 		name: user.name,
+		googleId: user.googleId,
+	  sessionID: user.sessionID,
 		email: user.email,
 		password: user.password
 	});
@@ -106,7 +110,33 @@ let getApplications = cb => {
    	});
 };
 
+let findOrCreateUser = (query, cb) => {
+  User.findOne({ googleId: query.googleId }, (err, user) => {
+    if (!user) {
+      saveUser(query, (err2) => {
+        if (err2) {
+          console.log('error saving user: ', err2);
+        } else {
+          User.findOne(query, (err, user) => {
+            cb(err, user);
+          });
+        }
+      });
+    } else {
+      User.findOneAndUpdate({ username: user.username }, { sessionID: query.sessionID }, { new: true }, (err, updatedUser) => {
+        if (err) {
+          console.log('error saving in findOrCreate: ', err);
+        }
+        console.log('updated User: ', updatedUser);
+        cb(err, user);
+      });
+    }
+  });
+}
+
 module.exports.getApplications = getApplications;
 module.exports.saveUser = saveUser;
 module.exports.saveApp = saveApp;
 module.exports.saveChecklist = saveChecklist;
+module.exports.findOrCreateUser = findOrCreateUser;
+module.exports.User = User;
