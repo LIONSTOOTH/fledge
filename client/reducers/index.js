@@ -1,8 +1,14 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+const initialState = {
+  applications: [],
+  isFetching: false,
+  isLoggedIn: false,
+}
+
 // takes in current state and action
-const applicationReducer = (state = { applications: [] }, action) => {
+const applicationReducer = (state = initialState, action) => {
   console.log('application reducer action',action);
   switch (action.type) {
     case 'FETCH_SUCCESS':
@@ -12,7 +18,7 @@ const applicationReducer = (state = { applications: [] }, action) => {
   }
 };
 
-const fetchFlagReducer = (state = { isFetching: false }, action) => {
+const fetchFlagReducer = (state = initialState, action) => {
   console.log('fetch flag reducer action',action);
   switch (action.type) {
     case 'IS_FETCHING':
@@ -22,9 +28,11 @@ const fetchFlagReducer = (state = { isFetching: false }, action) => {
   }
 };
 
-const loginReducer = (state = { isLoggedIn : false }, action) => {
+const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOGIN':
+    case 'LOG_IN':
+      return { isLoggedIn: action.payload };
+    case 'LOG_OUT':
       return { isLoggedIn: action.payload };
     default:
       return state;
