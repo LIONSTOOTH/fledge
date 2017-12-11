@@ -1,13 +1,12 @@
 const express = require('express');
-let app = express();
-let bodyParser = require('body-parser');
-let mongoose = require('mongoose');
-let db = require('../db/index.js');
-let passport = require('passport');
-let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-let expressSession = require('express-session');
-
-
+const app = express();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const db = require('../db/index.js');
+const helpers = require('./helpers.js');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const expressSession = require('express-session');
 
 
 app.set('port', (process.env.PORT || 2000));
@@ -31,7 +30,7 @@ passport.use(new GoogleStrategy({
   //lookup or create a new user using the googleId (no associated username or password)
   function(accessToken, refreshToken, profile, done) {
     console.log(profile);
-    db.findOrCreateUser({ name: profile.displayName, googleId: profile.id, sessionID: profile.sessionID }, function (err, user) {
+    helpers.findOrCreateUser({ name: profile.displayName, googleId: profile.id, sessionID: profile.sessionID }, function (err, user) {
       return done(err, user);
     });
   }
@@ -56,14 +55,14 @@ passport.deserializeUser(function(user, done) {
 });
 
 app.post('/api/applications', function(req,res) {
-  db.saveApp(req.body, function(app) {
+  helpers.saveApp(req.body, function(app) {
     res.setHeader("Content-Type", "application/json")
     res.send(JSON.stringify({ app: app }))
   });
 });
 
 app.get('/api/applications', function(req, res) {
-  db.getApplications(function(apps) {
+  helpers.getApplications(function(apps) {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({ apps: apps }));
   });});
