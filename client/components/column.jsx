@@ -9,8 +9,8 @@ export const Column = ({ title, applications }) => {
       <ul>
         {applications.map((application) =>
           <ApplicationChip
-            key={application.id}
-            id={application.id}
+            key={application._id}
+            id={application._id}
             application={application}
           />
         )}
