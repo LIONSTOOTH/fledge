@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const db = require('../db/index.js');
-const helpers = require('./helpers.js');
+const helpers = require('../db/helpers.js');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const expressSession = require('express-session');
@@ -22,8 +22,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GoogleStrategy({
-  clientID: "108994268957-a7mgrj68ai43tdd89ivrsmuk4jcnhi0i.apps.googleusercontent.com",
-  clientSecret: "vsKhk5EYDP7rrBnCgaZcZa7c",
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "/auth/google/callback",
   proxy: true
   },
@@ -36,16 +36,6 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] }));
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    console.log("method", req.user)
-    res.redirect('/')
-  });
-
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -53,6 +43,17 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] }));
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    console.log("method", req.user)
+    res.redirect('/')
+  });
+
 
 app.post('/api/applications', function(req,res) {
   helpers.saveApp(req.body, function(app) {
@@ -74,6 +75,7 @@ app.get('/api/applications', function(req, res) {
 //   });
 app.get('/logged', function(req, res) {
   console.log('is authenticated?', req.user)
+  console.log(JSON.stringify(req.isAuthenticated))
   res.send(req.isAuthenticated())
 })
 
