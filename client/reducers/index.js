@@ -29,6 +29,7 @@ const fetchFlagReducer = (state = initialState, action) => {
 };
 
 const loginReducer = (state = initialState, action) => {
+  console.log('loginreducer ', action);
   switch (action.type) {
     case 'LOG_IN':
       return { isLoggedIn: action.payload };

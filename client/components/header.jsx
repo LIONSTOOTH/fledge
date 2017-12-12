@@ -1,15 +1,20 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 
-export const Header = ({ isLoggedIn, logIn, logOut }) => {
+export const Header = ({ isLoggedIn, logOut }) => {
 
   return (
+    isLoggedIn ?
     <div style={{ border: '2px solid black' }}>
-      <Button color='orange' onClick={isLoggedIn ? logOut : logIn}>
-      {isLoggedIn ? 'Log out' : 'Sign In with Google'}
+      <Button color='orange' onClick={logOut}>
+        Log out
+      </Button>
+      </div>
+    :
+    <div style={{ border: '2px solid black' }}>
+      <Button color='orange'>
+        <a href="/auth/google">Sign In with Google</a>
       </Button>
     </div>
   );
 }
-
-// dispatches actions to change loggedin state

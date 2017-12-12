@@ -30,7 +30,7 @@ passport.use(new GoogleStrategy({
   },
   //lookup or create a new user using the googleId (no associated username or password)
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
+    console.log('profile session id: ', profile.sessionID)
     helpers.findOrCreateUser({ name: profile.displayName, googleId: profile.id, sessionID: profile.sessionID }, function (err, user) {
       return done(err, user);
     });
@@ -51,7 +51,6 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
-    console.log("method", req.user)
     res.redirect('/')
   });
 
@@ -75,8 +74,8 @@ app.get('/api/applications', function(req, res) {
 // });
 //   });
 app.get('/logged', function(req, res) {
-  console.log('is authenticated?', req.user)
-  console.log(JSON.stringify(req.isAuthenticated))
+  console.log('is authenticated?', req.isAuthenticated())
+  console.log(req.session)
   res.send(req.isAuthenticated())
 })
 

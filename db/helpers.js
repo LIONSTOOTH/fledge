@@ -1,3 +1,5 @@
+const db = require('./index.js');
+
 let saveUser = function(user,callback) {
   let newUser = new User({
     name: user.name,
@@ -57,7 +59,7 @@ let saveChecklist = function(checklist, callback) {
 }
 
 let getApplications = cb => {
-  App.find()
+  db.App.find()
     .sort('company')
     .exec(function(error, apps) {
       if (error) {
@@ -69,7 +71,7 @@ let getApplications = cb => {
 };
 
 let findOrCreateUser = (query, cb) => {
-  User.findOne({ googleId: query.googleId }, (err, user) => {
+  db.User.findOne({ googleId: query.googleId }, (err, user) => {
     if (!user) {
       saveUser(query, (err2) => {
         if (err2) {
@@ -81,7 +83,7 @@ let findOrCreateUser = (query, cb) => {
         }
       });
     } else {
-      User.findOneAndUpdate({ username: user.username }, { sessionID: query.sessionID }, { new: true }, (err, updatedUser) => {
+      db.User.findOneAndUpdate({ username: user.username }, { sessionID: query.sessionID }, { new: true }, (err, updatedUser) => {
         if (err) {
           console.log('error saving in findOrCreate: ', err);
         }
