@@ -1,20 +1,24 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 
-export const Header = ({ isLoggedIn, logOut }) => {
+export const Header = ({ isLoggedIn }) => {
 
   return (
     isLoggedIn ?
-    <div style={{ border: '2px solid black' }}>
-      <Button color='orange' onClick={logOut}>
-        Log out
-      </Button>
+    <div>
+      <Segment textAlign="right">
+        <Button color="orange">
+          <a href="https://mail.google.com/mail/u/0/?logout&hl=en" style={{ color: 'white' }}>Log out</a>
+        </Button>
+      </Segment>
       </div>
     :
-    <div style={{ border: '2px solid black' }}>
-      <Button color='orange'>
-        <a href="/auth/google">Sign In with Google</a>
-      </Button>
+    <div>
+      <Segment textAlign="right">
+        <Button color='orange'>
+          <a href="/auth/google" style={{ color: 'white' }}>Sign in with Google</a>
+        </Button>
+      </Segment>
     </div>
   );
 }

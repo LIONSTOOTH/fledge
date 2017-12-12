@@ -17,8 +17,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
-    console.log('component Did Mount')
     //check whether authenticated
     this.props.handleLogin();
   }
@@ -32,44 +30,38 @@ class App extends React.Component {
       </div>
       :
       <div>
-        <Header isLoggedIn={this.props.isLoggedIn} logOut={this.handleLogout}/>
+        <Header isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <Dashboard />
         </div>
     )
   }
 }
 
-// service functions that dispatches action upon server/api response
+// service functions that dispatch action upon server response
 const handleLogin = () => {
   return (dispatch) => {
-    const request = axios.get('/logged');
+    let request = axios.get('/logged');
 
     return request.then(
       response => response.data ? dispatch(logIn()) : console.log('not logged in'))
       .catch(err => console.log(err));
-    };
+  };
 };
 
+/*
 const handleLogout = () => {
-  // make call to server to terminate session
-  // dispatch logOut action
-  /*
-
-    const request = axios.get('/auth/google');
+  console.log('handleLogout called');
+  return (dispatch) => {
+    let request = axios.get('/logout');
 
     return request.then(
-      response => {
-
-        response ? console.log('response from server', response) : console.log('empty response from server')
-      })
+      response => response.data ? dispatch(logOut()) : console.log('not logged out'))
       .catch(err => console.log(err));
-    //}
-    */
+  };
 }
+*/
 
-
-
-//action creators
+// action creator functions
 const logIn = () => {
   console.log('logIn action called')
   return {
@@ -78,6 +70,7 @@ const logIn = () => {
   };
 }
 
+/*
 const logOut = () => {
   console.log('logOut action called')
   return {
@@ -85,6 +78,7 @@ const logOut = () => {
     payload: false,
   };
 }
+*/
 
 const mapStateToProps = (state) => {
   console.log('state in map props', state)
@@ -93,17 +87,7 @@ const mapStateToProps = (state) => {
   };
 }
 
+export default connect(mapStateToProps, { logIn, handleLogin })(App);
 
-// mapDispatchToProps binds action creators so they can be called here
-// const mapDispatchToProps = (dispatch) => {
-//  return bindActionCreators( { countUp }, dispatch)
-// }
-
-export default connect(mapStateToProps, { logIn, logOut, handleLogin })(App);
-
-// return { ...state, objVariable e.g. clicks }
-// define constants to use in actions instead of strings
-
-// getAllApplications is a service that calls an action
 
 
