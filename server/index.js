@@ -79,6 +79,21 @@ app.get('/logged', function(req, res) {
   res.send(req.isAuthenticated())
 })
 
+/*
+// need to refactor client side logout
+app.get('/logout', (req, res) => {
+  console.log("LOGOUT CALLED SERVER")
+  req.session.destroy((err) => {
+    if (err) {
+      console.log('error on logout: ', err);
+      res.send(false);
+    } else {
+      res.send(true);
+    }
+  });
+});
+*/
+
 // app.get('*', function(req, res) {
 //   res.render
 // })
