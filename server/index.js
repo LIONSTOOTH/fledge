@@ -8,6 +8,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const expressSession = require('express-session');
 
+require('dotenv').config();
 
 app.set('port', (process.env.PORT || 2000));
 app.use(bodyParser.urlencoded({ extended: true }));
