@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk'
 import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { Grid } from 'semantic-ui-react';
 import { Column } from '../components/column.jsx';
 import Waiting from '../components/waiting.jsx';
@@ -94,6 +96,8 @@ const mapStateToProps = (state) => {
   };
 }
 
+
+Kanban =  DragDropContext(HTML5Backend)(Kanban);
 
 export default connect(mapStateToProps,
   { fetchApplicationsSuccess, getAllApplications })(Kanban);
