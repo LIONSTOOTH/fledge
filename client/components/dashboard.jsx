@@ -1,10 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Button, Segment } from 'semantic-ui-react';
+import ApplicationModal from '../containers/applicationModal.jsx';
 import Kanban from '../containers/kanban.jsx';
 
 const Dashboard = (props) => (
   <div>
-    <h2>dashboard</h2>
+    <ApplicationModal application=""
+      trigger={
+      <Button basic color='blue'>
+        Add application
+      </Button>
+    }/>
     <Kanban/>
   </div>
 );
