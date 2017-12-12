@@ -1,14 +1,14 @@
 const express = require('express');
-let app = express();
-let bodyParser = require('body-parser');
-let mongoose = require('mongoose');
-let db = require('../db/index.js');
-let passport = require('passport');
-let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-let expressSession = require('express-session');
+const app = express();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const db = require('../db/index.js');
+const helpers = require('../db/helpers.js');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const expressSession = require('express-session');
 
-
-
+require('dotenv').config();
 
 app.set('port', (process.env.PORT || 2000));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,29 +23,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GoogleStrategy({
-  clientID: "108994268957-a7mgrj68ai43tdd89ivrsmuk4jcnhi0i.apps.googleusercontent.com",
-  clientSecret: "vsKhk5EYDP7rrBnCgaZcZa7c",
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "/auth/google/callback",
   proxy: true
   },
   //lookup or create a new user using the googleId (no associated username or password)
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-    db.findOrCreateUser({ name: profile.displayName, googleId: profile.id, sessionID: profile.sessionID }, function (err, user) {
+    console.log('profile session id: ', profile.sessionID)
+    helpers.findOrCreateUser({ name: profile.displayName, googleId: profile.id, sessionID: profile.sessionID }, function (err, user) {
       return done(err, user);
     });
   }
 ));
-
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] }));
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    console.log("method", req.user)
-    res.redirect('/')
-  });
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -55,15 +45,25 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] }));
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/')
+  });
+
+
 app.post('/api/applications', function(req,res) {
-  db.saveApp(req.body, function(app) {
+  helpers.saveApp(req.body, function(app) {
     res.setHeader("Content-Type", "application/json")
     res.send(JSON.stringify({ app: app }))
   });
 });
 
 app.get('/api/applications', function(req, res) {
-  db.getApplications(function(apps) {
+  helpers.getApplications(function(apps) {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({ apps: apps }));
   });});
@@ -74,9 +74,25 @@ app.get('/api/applications', function(req, res) {
 // });
 //   });
 app.get('/logged', function(req, res) {
-  console.log('is authenticated?', req.user)
+  console.log('is authenticated?', req.isAuthenticated())
+  console.log(req.session)
   res.send(req.isAuthenticated())
 })
+
+/*
+// need to refactor client side logout
+app.get('/logout', (req, res) => {
+  console.log("LOGOUT CALLED SERVER")
+  req.session.destroy((err) => {
+    if (err) {
+      console.log('error on logout: ', err);
+      res.send(false);
+    } else {
+      res.send(true);
+    }
+  });
+});
+*/
 
 // app.get('*', function(req, res) {
 //   res.render
