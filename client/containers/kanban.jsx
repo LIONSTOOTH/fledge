@@ -96,7 +96,6 @@ const mapStateToProps = (state) => {
   };
 }
 
-
 Kanban =  DragDropContext(HTML5Backend)(Kanban);
 
 export default connect(mapStateToProps,

@@ -30,7 +30,6 @@ function collect(connect, monitor) {
   }
 }
 
-
 class ApplicationChip extends Component {
   constructor(props) {
     super(props)
