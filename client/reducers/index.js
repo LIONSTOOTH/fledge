@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 // takes in current state and action
 const applicationReducer = (state = { applications: [] }, action) => {
@@ -25,6 +26,7 @@ const fetchFlagReducer = (state = { isFetching: false }, action) => {
 const rootReducer = combineReducers({
   applicationReducer,
   fetchFlagReducer,
+  form: formReducer
 });
 
 export default rootReducer;

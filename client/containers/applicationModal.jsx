@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react';
+import ModalForm from './modalForm.jsx';
 
 const ApplicationModal = ({ application, dispatch }) => {
   return (
@@ -22,6 +23,10 @@ const ApplicationModal = ({ application, dispatch }) => {
         <Modal.Description>
           <Header>{application.position}</Header>
           <p>Content..... will need a form in here</p>
+          <div>
+          <ModalForm onSubmit={values => {console.log(this.props)}} />
+
+          </div>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
