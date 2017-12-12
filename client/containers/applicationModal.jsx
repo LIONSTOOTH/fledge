@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react';
 import ModalForm from './modalForm.jsx';
 
-const ApplicationModal = ({ application, dispatch }) => {
+const ApplicationModal = ({ application, dispatch, trigger }) => {
   return (
     <Modal
-      trigger={
+      trigger={trigger ? trigger :
         <Button
           basic color='blue'>
             Expand
