@@ -31,7 +31,7 @@ passport.use(new GoogleStrategy(
     proxy: true,
   },
   // lookup or create a new user using the googleId (no associated username or password)
-  (accessToken, refreshToken, profile, done) => {
+  ((accessToken, refreshToken, profile, done) => {
     console.log('profile is: ', profile);
     helpers.findOrCreateUser(
       {
@@ -40,21 +40,19 @@ passport.use(new GoogleStrategy(
         googleId: profile.id,
         sessionID: profile.sessionID,
       },
-      (err, user) => {
+      ((err, user) => {
         console.log('after findOrCreateUser, user : ', user);
         return done(err, user);
-      },
+      })
     );
-  }, // why is the sessionId null
+  })
 ));
 
 passport.serializeUser((user, done) => {
-  console.log('user in serialize: ', user);
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log('id in deserialize: ', id);
   db.User.findById(id, (err, user) => {
     done(null, user);
   });
@@ -62,7 +60,7 @@ passport.deserializeUser((id, done) => {
 
 app.get(
   '/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] }),
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] })
 );
 
 app.get(
@@ -70,21 +68,27 @@ app.get(
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
-  },
+  }
 );
 
-
+// adding an application MUST have userId
 app.post('/api/applications', (req, res) => {
-  helpers.saveApp(req.body, (application) => {
+  helpers.saveApp(req.body, (apps) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ applications: application }));
+    res.send(JSON.stringify({ applications: apps }));
   });
 });
 
 app.get('/api/applications', (req, res) => {
-  helpers.getApplications((apps) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ applications: apps }));
+  console.log('get called req:', req.user.googleId)
+  // get applications for specific user
+  helpers.getApplications(req.user.googleId, (err, apps) => {
+    if (err) {
+      console.log(err);
+    } else {
+      //res.setHeader('Access-Control-Allow-Origin', '*');
+      res.send(JSON.stringify({ applications: apps }))
+    }
   });
 });
 
@@ -94,10 +98,66 @@ app.get('/api/applications', (req, res) => {
 // });
 //   });
 app.get('/logged', (req, res) => {
-  console.log('is authenticated?', req.isAuthenticated());
-  console.log(req.session);
-  res.send(req.isAuthenticated());
+  console.log('/logged request: ', req.body)
+  if (req.isAuthenticated()) {
+    console.log(req.session);
+    res.send(req.isAuthenticated());
+    // need to send back user obj and attach _id to state
+  }
 });
+
+
+[
+  {
+    "user": "105255441500267599698",
+    "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+    "position": "Software Engineer",
+    "company": "Facebook",
+    "contact": {
+      "name": "Bob Smith",
+      "position": "Engineer",
+      "email": "bs@facebook.com",
+      "phone": "917-123-4567"
+    },
+    "checklist": {
+      "researched": "true",
+      "reachedOut": "true",
+      "sentNote": "true",
+      "networked": "true"
+    },
+    "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+    "status": "Applied"
+  },
+  {
+    "user": "105255441500267599698",
+    "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+    "position": "Software Engineer",
+    "company": "Google",
+    "contact": {
+      "name": "Bob Smith",
+      "position": "Engineer",
+      "email": "bs@google.com",
+      "phone": "917-123-4567"
+    },
+    "checklist": {
+      "researched": "true",
+      "reachedOut": "true",
+      "sentNote": "true",
+      "networked": "true"
+    },
+    "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+    "status": "Applied"
+  }
+  ].forEach((app) => {
+    helpers.saveApp(app, (err, a) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(a, ' saved')
+      }
+    })
+  });
+
 
 /*
 // need to refactor client side logout

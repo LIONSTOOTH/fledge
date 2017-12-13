@@ -9,6 +9,7 @@ let Schema = mongoose.Schema;
 
 
 let appSchema = new Schema({
+
 	date: Date,
 	position: String,
 	company: String,

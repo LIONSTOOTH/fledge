@@ -1,8 +1,11 @@
 const db = require('./index.js');
+const mongoose = require('mongoose');
+
 
 // saves new user to db with empty apps array
 let saveNewUser = (user, callback) => {
-  let newUser = new User({
+  let newUser = new db.User({
+    _id: new mongoose.Types.ObjectId(),
     username: user.username || user.googleId,
     googleId: user.googleId,
     sessionID: user.sessionID,
@@ -19,19 +22,51 @@ let saveNewUser = (user, callback) => {
   });
 }
 
-let saveApp = function(app, callback) {
-  let newApp = new App ({
-    _user: app.user._id, //how to grab userid
-    date: app.date,
+// currently allows duplicate apps to be saved
+let saveApp = (app, callback) => {
+  db.User.findOne({ googleId: app.user })
+    .then((user) => {
+      user.apps.push({
+        date: app.dateApplied,
+        position: app.position,
+        company: app.company,
+        contact: {
+          name: app.contact.name,
+          position: app.contact.position,
+          email: app.contact.email,
+          phone: app.contact.phone
+        },
+        contactDate: app.lastContactDate,
+        checklist: {
+          researched: app.checklist.researched,
+          reachedOut: app.checklist.reachedOut,
+          sentNote: app.checklist.sentNote,
+          networked: app.checklist.networked
+        },
+        status: app.status
+        });
+        user.save().then(() => {
+          db.User.findOne({ googleId : app.user })
+          .then((user) => callback(null, user))
+        })
+    });
+};
+
+
+
+  /*
+  let newApp = new db.App ({
+    _user: app.user_id, //how to grab userid
+    date: app.dateApplied,
     position: app.position,
     company: app.company,
     contact: {
-      name: app.company.name,
-      position: app.company.position,
-      email: app.company.email,
-      phone: app.company.phone
+      name: app.contact.name,
+      position: app.contact.position,
+      email: app.contact.email,
+      phone: app.contact.phone
     },
-    contactDate: app.contactDate,
+    contactDate: app.lastContactDate,
     checklist: {
       researched: app.checklist.researched,
       reachedOut: app.checklist.reachedOut,
@@ -43,23 +78,38 @@ let saveApp = function(app, callback) {
   newApp.save(function(err, app) {
     if (err) {
       console.log('app db save error', err);
+      callback(err, null);
     } else {
+      db.findOne({ _id: app._user }).apps.push(app).save(callback(null, app));
       console.log('app db save success', app);
-      callback(app);
+      //callback(null, app);
     }
   });
 }
+*/
 
-let getApplications = (cb) => {
-  db.App.find()
-    .sort('company')
-    .exec(function(error, apps) {
-      if (error) {
-        return next(error);
-      } else {
-        cb(apps);
-      }
-    });
+let updateApp = (app, callback) => {
+  //db.User.find( { googleId: googleId }, { apps: { $elemMatch: { _id: app._id } } })
+  App
+  .findOne({ _id: app._id })
+  .exec((err, updatedApp) => {
+    if (err) {
+      console.log('error updating app: ', err)
+    } else {
+      callback(updatedApp);
+    }
+  })
+};
+
+
+let getApplications = (userId, callback) => {
+  db.User.find({ googleId: userId })
+  .then((user) => {
+    callback(null, user[0].apps)
+  })
+  .catch((err) => {
+    callback(err, null);
+  })
 };
 
 let findOrCreateUser = (query, callback) => {
