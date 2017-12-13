@@ -5,5 +5,3 @@ dist/bundle.js
 npm-debug.log
 
 .env
-
-.eslintrc.js
