@@ -19,10 +19,10 @@ const applicationReducer = (state = initialState, action) => {
 };
 
 const fetchFlagReducer = (state = initialState, action) => {
-  console.log('fetch flag reducer action',action);
+  console.log('fetch flag reducer action', action);
   switch (action.type) {
     case 'IS_FETCHING':
-      return { isFetching: !state.isFetching };
+      return { isFetching: action.payload };
     default:
       return state;
   }

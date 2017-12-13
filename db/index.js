@@ -1,45 +1,45 @@
 const mongoose = require('mongoose');
+
 mongoose.connect('mongodb://localhost/fledge');
 
-let db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'db connection error: '));
-db.once('open', function() {
-	console.log('db connection success');
+db.once('open', () => console.log('db connection success'));
+
+const Schema = mongoose.Schema;
+
+
+const appSchema = new Schema({
+  date: Date,
+  position: String,
+  company: String,
+  contact: {
+    name: String,
+    position: String,
+    email: String,
+    phone: String,
+  },
+  contactDate: Date,
+  checklist: {
+    researched: Boolean,
+    reachedOut: Boolean,
+    sentNote: Boolean,
+    networked: Boolean,
+  },
+  status: String,
 });
 
-let userSchema = mongoose.Schema({
-	name: String,
-	googleId: String,
-	sessionID: String,
-	email: String,
-	password: String
+const userSchema = new Schema({
+  username: String,
+  photoUrl: String,
+  googleId: { type: String, unique: true },
+  sessionID: String,
+  email: String,
+  password: String,
+  apps: [appSchema], // array of _.id props of users apps
 });
 
-let appSchema = mongoose.Schema({
-	date: Date,
-	position: String,
-	company: String,
-	contact: {
-		name: String,
-		position: String,
-		email: String,
-		phone: String
-	},
-	contactDate: Date,
-	status: String
-});
 
-let checklistSchema = mongoose.Schema({
-	researched: Boolean,
-	reachedOut: Boolean,
-	sentNote: Boolean,
-	networked: Boolean
-});
-
-let User = mongoose.model('User', userSchema);
-let App = mongoose.model('App', appSchema);
-let Checklist = mongoose.model('Checklist', checklistSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports.User = User;
-module.exports.App = App;
-module.exports.Checklist = Checklist;

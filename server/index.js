@@ -1,83 +1,172 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const path = require('path');
+const passport = require('passport');
+const expressSession = require('express-session');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const db = require('../db/index.js');
 const helpers = require('../db/helpers.js');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const expressSession = require('express-session');
+
+const app = express();
 
 require('dotenv').config();
 
 app.set('port', (process.env.PORT || 2000));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/../dist/'));
+app.use(express.static(path.join(__dirname, '/../dist/')));
 app.use(bodyParser.json());
 app.use(expressSession({
   secret: 'shhhh',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback",
-  proxy: true
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/auth/google/callback',
+    proxy: true,
   },
-  //lookup or create a new user using the googleId (no associated username or password)
-  function(accessToken, refreshToken, profile, done) {
-    console.log('profile session id: ', profile.sessionID)
-    helpers.findOrCreateUser({ name: profile.displayName, googleId: profile.id, sessionID: profile.sessionID }, function (err, user) {
-      return done(err, user);
-    });
-  }
+  // lookup or create a new user using the googleId (no associated username or password)
+  ((accessToken, refreshToken, profile, done) => {
+    helpers.findOrCreateUser(
+      {
+        username: profile.displayName,
+        photoUrl: profile.photos[0].value,
+        googleId: profile.id,
+        sessionID: profile.sessionID,
+      },
+      ((err, user) => done(err, user))
+    );
+  })
 ));
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
+passport.serializeUser((user, done) => {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser((id, done) => {
+  db.User.findById(id, (err, user) => {
+    done(null, user);
+  });
 });
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] }));
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] })
+);
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/')
-  });
+  (req, res) => {
+    res.redirect('/');
+  }
+);
+
+app.post('/api/applications', (req, res) => {
+  var userId = req.user.googleId;
+  console.log('post request', req.body)
+
+  // if request is for adding new
+  if (req.body.newApplication !== undefined) {
+    console.log('add application post request')
+    helpers.saveApp(userId, req.body.newApplication, (err, userApps) => {
+      if (err) {
+        console.log('Error saving new:', err);
+      } else {
+        console.log('user response from save', userApps)
+        res.send(JSON.stringify({ applications: userApps }));
+      }
+    });
+
+  // if request is for edit
+  } else if (req.body.edited !== undefined) {
+    console.log('edit application post request')
+    helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
+      if (err) {
+        console.log('Error updating: ', err);
+      } else {
+        res.send(JSON.stringify({ applications: updatedAppList }));
+      }
+    });
+  }
+});
 
 
-app.post('/api/applications', function(req,res) {
-  helpers.saveApp(req.body, function(app) {
-    res.setHeader("Content-Type", "application/json")
-    res.send(JSON.stringify({ app: app }))
+app.get('/api/applications', (req, res) => {
+  // get applications for specific user
+  helpers.getApplications(req.user.googleId, (err, apps) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(JSON.stringify({ applications: apps }))
+    }
   });
 });
 
-app.get('/api/applications', function(req, res) {
-  helpers.getApplications(function(apps) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ apps: apps }));
-  });});
 
-// app.get('/dashboard', function(req, res) {
-//   res.render('index', {'loggedIn': true}, function(err, html) {
-//   res.send(html);
-// });
+app.get('/logged', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.send(req.isAuthenticated());
+  }
+});
+
+
+app.listen(app.get('port'), () =>	console.log('app running on port', app.get('port')));
+
+
+// [
+//   {
+//     "user": "105255441500267599698",
+//     "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "position": "Software Engineer",
+//     "company": "Facebook",
+//     "contact": {
+//       "name": "Bob Smith",
+//       "position": "Engineer",
+//       "email": "bs@facebook.com",
+//       "phone": "917-123-4567"
+//     },
+//     "checklist": {
+//       "researched": "true",
+//       "reachedOut": "true",
+//       "sentNote": "true",
+//       "networked": "true"
+//     },
+//     "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "status": "Applied"
+//   },
+//   {
+//     "user": "105255441500267599698",
+//     "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "position": "Software Engineer",
+//     "company": "Google",
+//     "contact": {
+//       "name": "Bob Smith",
+//       "position": "Engineer",
+//       "email": "bs@google.com",
+//       "phone": "917-123-4567"
+//     },
+//     "checklist": {
+//       "researched": "true",
+//       "reachedOut": "true",
+//       "sentNote": "true",
+//       "networked": "true"
+//     },
+//     "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "status": "Applied"
+//   }
+//   ].forEach((app) => {
+//     helpers.saveApp(app, (err, a) => {
+//       if (err) {
+//         console.log(err)
+//       } else {
+//         console.log(a, ' saved')
+//       }
+//     })
 //   });
-app.get('/logged', function(req, res) {
-  console.log('is authenticated?', req.isAuthenticated())
-  console.log(req.session)
-  res.send(req.isAuthenticated())
-})
 
 /*
 // need to refactor client side logout
@@ -98,6 +187,3 @@ app.get('/logout', (req, res) => {
 //   res.render
 // })
 
-app.listen(app.get('port'), function() {
-	console.log('app is running on port', app.get('port'));
-})

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import thunk from 'redux-thunk'
 import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
@@ -30,16 +31,17 @@ class ModalForm extends React.Component {
         console.log('saved edited application')
       })
     } else {
-      console.log('current values', values)
-      console.log('trying to get user id', context)
+      this.props.addNewApp(values);
+      // console.log('HELLOOOO')
+      // return (dispatch) => {
+      //   console.log('dispatch called')
+      //   const request = axios.post('/api/applications',  {
+      //     newApplication: values
+      //   });
 
-      axios.post('/api/applications', {
-        newApplication: values})
-        .then(
-      response => dispatch(fetchApplicationsSuccess(response.data.apps)))
-      .then(dispatch({ type: 'IS_FETCHING'}))
-      .catch(err => console.log(err));
-
+      //   return request.then(
+      //     response => dispatch(fetchApplicationsSuccess(response.data.applications)))
+      //     .catch(err => console.log(err));
       }
 
     // Required fields:
@@ -47,7 +49,6 @@ class ModalForm extends React.Component {
     // position
     // date
     // status
-
   }
 
   render() {
@@ -102,6 +103,21 @@ const fetchApplicationsSuccess = (response) => {
   }
 }
 
+const addNewApp = (values) => {
+  return (dispatch) => {
+    console.log('dispatch called')
+    const request = axios.post('/api/applications',  {
+      newApplication: values
+    });
+
+    return request.then(
+      response => dispatch(fetchApplicationsSuccess(response.data.applications)))
+      .catch(err => console.log(err));
+    }
+};
+
+
+
 const getAllApplications = (user) => {
   return (dispatch) => {
     // dispatch a flag action to show waiting view
@@ -123,6 +139,6 @@ const mapStateToProps = (state) => {
   };
 }
 
-export default connect(mapStateToProps, {getAllApplications})(ModalForm)
+export default connect(mapStateToProps, {getAllApplications, addNewApp})(ModalForm)
 
 
