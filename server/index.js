@@ -54,13 +54,11 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-app.get(
-  '/auth/google',
+app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] })
 );
 
-app.get(
-  '/auth/google/callback',
+app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
@@ -114,6 +112,9 @@ app.get('/logged', (req, res) => {
     res.send(req.isAuthenticated());
   }
 });
+
+
+app.listen(app.get('port'), () =>	console.log('app running on port', app.get('port')));
 
 
 // [
@@ -186,4 +187,3 @@ app.get('/logout', (req, res) => {
 //   res.render
 // })
 
-app.listen(app.get('port'), () =>	console.log('app running on port', app.get('port')));
