@@ -21,7 +21,7 @@ class ModalForm extends React.Component {
 
     console.log(this.props.application);
 
-    axios.post('/edit', {
+    axios.post('/api/applications', {
       edited: context.props.application
     }).then(function(response) {
       console.log('saved edited application')
@@ -29,15 +29,10 @@ class ModalForm extends React.Component {
 
   }
 
-  submit(values) {
-    // print the form values to the console
-    console.log(values)
-  }
-
   render() {
     const { handleSubmit, onSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(  this.editApplication.bind(this)    )}>
+      <form onSubmit={handleSubmit(this.editApplication.bind(this))}>
         <div>
           <label htmlFor="firstName">Company Name</label>
           <Field name="company" component="input" type="text" placeholder={this.props.application.company} />
@@ -49,7 +44,7 @@ class ModalForm extends React.Component {
 
         <div>
           <label htmlFor="date">Date Applied</label>
-          <Field name="date" component="input" type="text" placeholder={this.props.application.dateApplied} />
+          <Field name="dateApplied" component="input" type="text" placeholder={this.props.application.dateApplied} />
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -58,7 +53,6 @@ class ModalForm extends React.Component {
 }
 
 ModalForm = reduxForm({
-
   form: 'application'
 })(ModalForm)
 
@@ -86,5 +80,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {getAllApplications})(ModalForm)
 
-// export default connect(mapStateToProps,
-//   { fetchApplicationsSuccess, getAllApplications })(Kanban);
+
