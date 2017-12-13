@@ -88,17 +88,14 @@ let saveApp = (app, callback) => {
 }
 */
 
-let updateApp = (app, callback) => {
-  //db.User.find( { googleId: googleId }, { apps: { $elemMatch: { _id: app._id } } })
-  App
-  .findOne({ _id: app._id })
-  .exec((err, updatedApp) => {
-    if (err) {
-      console.log('error updating app: ', err)
-    } else {
-      callback(updatedApp);
-    }
-  })
+let updateApp = (userId, app, callback) => {
+  db.User.find({ googleId: userId }, { apps: { $elemMatch: { _id: app._id } } })
+    .then((retrievedApp) => {
+      saveApp(retrievedApp, callback);
+    })
+    .catch((err) => {
+      callback(err, null);
+    });
 };
 
 
@@ -139,4 +136,5 @@ let findOrCreateUser = (query, callback) => {
 module.exports.getApplications = getApplications;
 module.exports.saveUser = saveNewUser;
 module.exports.saveApp = saveApp;
+module.exports.updateApp = updateApp;
 module.exports.findOrCreateUser = findOrCreateUser;

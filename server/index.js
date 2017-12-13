@@ -32,7 +32,6 @@ passport.use(new GoogleStrategy(
   },
   // lookup or create a new user using the googleId (no associated username or password)
   ((accessToken, refreshToken, profile, done) => {
-    console.log('profile is: ', profile);
     helpers.findOrCreateUser(
       {
         username: profile.displayName,
@@ -41,7 +40,6 @@ passport.use(new GoogleStrategy(
         sessionID: profile.sessionID,
       },
       ((err, user) => {
-        console.log('after findOrCreateUser, user : ', user);
         return done(err, user);
       })
     );
@@ -71,38 +69,55 @@ app.get(
   }
 );
 
-// adding an application MUST have userId
 app.post('/api/applications', (req, res) => {
-  helpers.saveApp(req.body, (apps) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ applications: apps }));
-  });
+  console.log('post called id:', req.user.googleId)
+  console.log('post called body:', req.body)
+  helpers.updateApp(req.user.googleId, req.body.edited, (err, updatedApp) => {
+    if (err) {
+      console.log('not updated');
+    } else {
+      helpers.getApplications(req.user.googleId, (err, apps) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(JSON.stringify({ applications: apps }))
+        }
+      });
+    }
+  })
 });
 
+
+  // helpers.saveApp(req.body, (err, savedApp) => {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     helpers.getApplications(req.user.googleId, (err, apps) => {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         res.send(JSON.stringify({ applications: apps }))
+  //       }
+  //     });
+  //   }
+  // })
+// });
+
 app.get('/api/applications', (req, res) => {
-  console.log('get called req:', req.user.googleId)
   // get applications for specific user
   helpers.getApplications(req.user.googleId, (err, apps) => {
     if (err) {
       console.log(err);
     } else {
-      //res.setHeader('Access-Control-Allow-Origin', '*');
       res.send(JSON.stringify({ applications: apps }))
     }
   });
 });
 
-// app.get('/dashboard', function(req, res) {
-//   res.render('index', {'loggedIn': true}, function(err, html) {
-//   res.send(html);
-// });
-//   });
+
 app.get('/logged', (req, res) => {
-  console.log('/logged request: ', req.body)
   if (req.isAuthenticated()) {
-    console.log(req.session);
     res.send(req.isAuthenticated());
-    // need to send back user obj and attach _id to state
   }
 });
 
