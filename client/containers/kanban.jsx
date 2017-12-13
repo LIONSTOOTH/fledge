@@ -61,17 +61,20 @@ class Kanban extends React.Component {
   }
 }
 
-// should take user obj with id property
-const getAllApplications = (user) => {
+// should take user obj with id property (googleId)
+const getAllApplications = () => {
   return (dispatch) => {
     // dispatch a flag action to show waiting view
-    dispatch({ type: 'IS_FETCHING' })
+    dispatch({ type: 'IS_FETCHING', payload: true })
 
     const request = axios.get('/api/applications');
 
     return request.then(
-      response => dispatch(fetchApplicationsSuccess(response.data.apps)))
-      .then(dispatch({ type: 'IS_FETCHING'}))
+      response => {
+        console.log('response from server:', response)
+        dispatch(fetchApplicationsSuccess(response.data.applications))
+      })
+      .then(dispatch({ type: 'IS_FETCHING', payload: false }))
       .catch(err => console.log(err));
   }
 }
