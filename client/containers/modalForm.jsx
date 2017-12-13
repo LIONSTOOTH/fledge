@@ -3,45 +3,81 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
+import { formValues } from 'redux-form';
 
-let ModalForm = props => {
-  const { handleSubmit, onSubmit } = props;
+
+class ModalForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  editApplication(values) {
 
     let context = this;
 
+    for (let key in values) {
+      this.props.application[key] = values[key];
+    }
 
-  return (
-    <form onSubmit={handleSubmit(  () =>{console.log(reduxForm) }   )}>
-      <div>
-        <label htmlFor="firstName">Company Name</label>
-        <Field name="firstName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="lastName">Description</label>
-        <Field name="lastName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="email" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  )
+    console.log(this.props.application);
+
+    axios.post('/api/applications', {
+      edited: context.props.application
+    }).then(function(response) {
+      console.log('saved edited application')
+    })
+
+  }
+
+  render() {
+    const { handleSubmit, onSubmit } = this.props;
+    return (
+      <form onSubmit={handleSubmit(this.editApplication.bind(this))}>
+        <div>
+          <label htmlFor="firstName">Company Name</label>
+          <Field name="company" component="input" type="text" placeholder={this.props.application.company} />
+        </div>
+        <div>
+          <label htmlFor="position">Position</label>
+          <Field name="position" component="input" type="text" placeholder={this.props.application.position} />
+        </div>
+
+        <div>
+          <label htmlFor="date">Date Applied</label>
+          <Field name="dateApplied" component="input" type="text" placeholder={this.props.application.dateApplied} />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    )
+  }
 }
 
 ModalForm = reduxForm({
-
   form: 'application'
 })(ModalForm)
 
+
+const getAllApplications = (user) => {
+  return (dispatch) => {
+    // dispatch a flag action to show waiting view
+    dispatch({ type: 'IS_FETCHING' })
+
+    const request = axios.get('/api/applications');
+
+    return request.then(
+      response => dispatch(fetchApplicationsSuccess(response.data.apps)))
+      .then(dispatch({ type: 'IS_FETCHING'}))
+      .catch(err => console.log(err));
+  }
+}
+
 const mapStateToProps = (state) => {
   return {
-    applications: state.applicationReducer.applications,
-    isFetching: state.fetchFlagReducer.isFetching,
+    applications: state.applicationReducer.applications
+
   };
 }
 
-// export default connect(mapStateToProps,
-//   { fetchApplicationsSuccess, getAllApplications })(Kanban);
+export default connect(mapStateToProps, {getAllApplications})(ModalForm)
 
-export default ModalForm;
+

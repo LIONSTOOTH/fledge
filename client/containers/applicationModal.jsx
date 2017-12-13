@@ -24,7 +24,7 @@ const ApplicationModal = ({ application, dispatch, trigger }) => {
           <Header>{application.position}</Header>
           <p>Content..... will need a form in here</p>
           <div>
-          <ModalForm onSubmit={values => {console.log(this.props)}} />
+          <ModalForm application={application} onSubmit={values => {console.log(this.props)}} />
 
           </div>
         </Modal.Description>
