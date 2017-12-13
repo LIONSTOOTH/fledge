@@ -12,20 +12,38 @@ class ModalForm extends React.Component {
   }
 
   editApplication(values) {
+    console.log(this.props.application)
+    console.log('current form values', values)
 
     let context = this;
+    if (this.props.application && this.props.application.length > 0) {
+      for (let key in values) {
+        this.props.application[key] = values[key];
+      }
 
-    for (let key in values) {
-      this.props.application[key] = values[key];
-    }
+      console.log(this.props.application);
 
-    console.log(this.props.application);
+      axios.post('/api/applications', {
+        edited: context.props.application
+      }).then(function(response) {
+        console.log('saved edited application')
+      })
+    } else {
+      console.log('current values', values)
+      console.log('trying to get user id', context)
 
-    axios.post('/api/applications', {
-      edited: context.props.application
-    }).then(function(response) {
-      console.log('saved edited application')
-    })
+      axios.post('/api/applications', {
+        newApplication: values})
+        .then(function(response) {
+      console.log('saved new application')
+        })
+      }
+
+    // Required fields:
+    // company
+    // position
+    // date
+    // status
 
   }
 
