@@ -70,6 +70,7 @@ app.get(
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
   console.log('post request', req.body)
+
   // if request is for adding new
   if (req.body.newApplication !== undefined) {
     console.log('add application post request')
@@ -77,6 +78,7 @@ app.post('/api/applications', (req, res) => {
       if (err) {
         console.log('Error saving new:', err);
       } else {
+        console.log('user response from save', userApps)
         res.send(JSON.stringify({ applications: userApps }));
       }
     });
