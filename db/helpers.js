@@ -1,25 +1,27 @@
 const db = require('./index.js');
 
-let saveUser = function(user,callback) {
+// saves new user to db with empty apps array
+let saveNewUser = (user, callback) => {
   let newUser = new User({
-    name: user.name,
+    username: user.username || user.googleId,
     googleId: user.googleId,
     sessionID: user.sessionID,
     email: user.email,
-    password: user.password
+    password: user.password,
+    apps: []
   });
-  newUser.save(function(err, user) {
+  newUser.save((err, user) => {
     if (err) {
-      console.log('user db save error'. err);
+      console.log('user save error', err);
     } else {
-      console.log('user db save success');
-      callback();
+      callback(null, user);
     }
   });
 }
 
 let saveApp = function(app, callback) {
   let newApp = new App ({
+    _user: app.user._id, //how to grab userid
     date: app.date,
     position: app.position,
     company: app.company,
@@ -30,6 +32,12 @@ let saveApp = function(app, callback) {
       phone: app.company.phone
     },
     contactDate: app.contactDate,
+    checklist: {
+      researched: app.checklist.researched,
+      reachedOut: app.checklist.reachedOut,
+      sentNote: app.checklist.sentNote,
+      networked: app.checklist.networked
+    },
     status: app.status
   });
   newApp.save(function(err, app) {
@@ -42,23 +50,7 @@ let saveApp = function(app, callback) {
   });
 }
 
-let saveChecklist = function(checklist, callback) {
-  let newChecklist = new Checklist({
-    researched: checklist.researched,
-    reachedOut: checklist.reachedOut,
-    sentNote: checklist.sentNote,
-    networked: checklist.networked
-  });
-  newCheckList.save(function(err, checklist) {
-    if(err) {
-      console.log('checklist db save error', err);
-    } else {
-      console.log('checklist db save success');
-    }
-  });
-}
-
-let getApplications = cb => {
+let getApplications = (cb) => {
   db.App.find()
     .sort('company')
     .exec(function(error, apps) {
@@ -70,32 +62,31 @@ let getApplications = cb => {
     });
 };
 
-let findOrCreateUser = (query, cb) => {
+let findOrCreateUser = (query, callback) => {
   db.User.findOne({ googleId: query.googleId }, (err, user) => {
+    //if user not found
     if (!user) {
-      saveUser(query, (err2) => {
-        if (err2) {
-          console.log('error saving user: ', err2);
+      //save new
+      saveNewUser(query, (err, user) => {
+        if (err) {
+          console.log('error saving user: ', err);
         } else {
-          User.findOne(query, (err, user) => {
-            cb(err, user);
-          });
+          callback(null, user);
         }
       });
     } else {
       db.User.findOneAndUpdate({ username: user.username }, { sessionID: query.sessionID }, { new: true }, (err, updatedUser) => {
         if (err) {
           console.log('error saving in findOrCreate: ', err);
+        } else {
+          callback(null, updatedUser);
         }
-        console.log('updated User: ', updatedUser);
-        cb(err, user);
       });
     }
   });
 }
 
 module.exports.getApplications = getApplications;
-module.exports.saveUser = saveUser;
+module.exports.saveUser = saveNewUser;
 module.exports.saveApp = saveApp;
-module.exports.saveChecklist = saveChecklist;
 module.exports.findOrCreateUser = findOrCreateUser;
