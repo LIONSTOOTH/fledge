@@ -69,9 +69,10 @@ app.get(
 
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
-
+  console.log('post request', req.body)
   // if request is for adding new
   if (req.body.newApplication !== undefined) {
+    console.log('add application post request')
     helpers.saveApp(userId, req.body.newApplication, (err, userApps) => {
       if (err) {
         console.log('Error saving new:', err);
@@ -82,6 +83,7 @@ app.post('/api/applications', (req, res) => {
 
   // if request is for edit
   } else if (req.body.edited !== undefined) {
+    console.log('edit application post request')
     helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
       if (err) {
         console.log('Error updating: ', err);
