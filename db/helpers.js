@@ -22,70 +22,7 @@ const saveNewUser = (user, callback) => {
   });
 };
 
-// const saveApp = (userId, app, callback) => {
-//   db.User.findOne({ googleId: userId })
-//     // push app document to user's apps array
-//     .then((user) => {
-//       user.apps.push({
-//         date: app.dateApplied,
-//         position: app.position,
-//         company: app.company,
-//         contact: {
-//           name: app.contact.name,
-//           position: app.contact.position,
-//           email: app.contact.email,
-//           phone: app.contact.phone,
-//         },
-//         contactDate: app.lastContactDate,
-//         checklist: {
-//           researched: app.checklist.researched,
-//           reachedOut: app.checklist.reachedOut,
-//           sentNote: app.checklist.sentNote,
-//           networked: app.checklist.networked,
-//         },
-//         status: app.status,
-//       });
-//       // confirm save by finding saved user
-//       user.save().then(() => {
-//         db.User.findOne({ googleId: app.user })
-//         // return all user apps
-//           .then(savedUser => callback(null, savedUser.apps))
-//           .catch(error => callback(error, null));
-//       });
-//     });
-// };
-
-// currently allows duplicate apps to be saved
-// let saveApp = (userId, app, callback) => {
-//   db.User.findOne({ googleId: userId })
-//     .then((user) => {
-//       user.apps.push({
-//         date: app.dateApplied,
-//         position: app.position,
-//         company: app.company,
-//         contact: {
-//           name: app.contact ? app.contact.name : null,
-//           position: app.contact ? app.contact.position : null,
-//           email: app.contact ? app.contact.email : null,
-//           phone: app.contact ? app.contact.phone : null,
-//         },
-//         contactDate: app.lastContactDate,
-//         checklist: {
-//           researched: app.checklist ? app.checklist.researched : null,
-//           reachedOut: app.checklist ? app.checklist.reachedOut : null,
-//           sentNote: app.checklist ? app.checklist.sentNote : null,
-//           networked: app.checklist ? app.checklist.networked : null,
-//         },
-//         status: app.status
-//         });
-//         user.save().then(() => {
-//           db.User.findOne({ googleId: userId })
-//           .then((user) => callback(null, user))
-//         })
-//     });
-// };
-
-let saveApp = function(userId, app, callback) {
+const saveApp = function(userId, app, callback) {
   db.User.findOne({ googleId: userId })
     .then((user) => {
       console.log('found user:', user)
