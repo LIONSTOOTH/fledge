@@ -39,9 +39,7 @@ passport.use(new GoogleStrategy(
         googleId: profile.id,
         sessionID: profile.sessionID,
       },
-      ((err, user) => {
-        return done(err, user);
-      })
+      ((err, user) => done(err, user))
     );
   })
 ));
@@ -70,38 +68,30 @@ app.get(
 );
 
 app.post('/api/applications', (req, res) => {
-  console.log('post called id:', req.user.googleId)
-  console.log('post called body:', req.body)
-  helpers.updateApp(req.user.googleId, req.body.edited, (err, updatedApp) => {
-    if (err) {
-      console.log('not updated');
-    } else {
-      helpers.getApplications(req.user.googleId, (err, apps) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.send(JSON.stringify({ applications: apps }))
-        }
-      });
-    }
-  })
+  var userId = req.user.googleId;
+
+  // if request is for adding new
+  if (req.body.newApplication !== undefined) {
+    helpers.saveApp(userId, req.body.newApplication, (err, userApps) => {
+      if (err) {
+        console.log('Error saving new:', err);
+      } else {
+        res.send(JSON.stringify({ applications: userApps }));
+      }
+    });
+
+  // if request is for edit
+  } else if (req.body.edited !== undefined) {
+    helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
+      if (err) {
+        console.log('Error updating: ', err);
+      } else {
+        res.send(JSON.stringify({ applications: updatedAppList }));
+      }
+    });
+  }
 });
 
-
-  // helpers.saveApp(req.body, (err, savedApp) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     helpers.getApplications(req.user.googleId, (err, apps) => {
-  //       if (err) {
-  //         console.log(err);
-  //       } else {
-  //         res.send(JSON.stringify({ applications: apps }))
-  //       }
-  //     });
-  //   }
-  // })
-// });
 
 app.get('/api/applications', (req, res) => {
   // get applications for specific user
@@ -122,57 +112,56 @@ app.get('/logged', (req, res) => {
 });
 
 
-[
-  {
-    "user": "105255441500267599698",
-    "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-    "position": "Software Engineer",
-    "company": "Facebook",
-    "contact": {
-      "name": "Bob Smith",
-      "position": "Engineer",
-      "email": "bs@facebook.com",
-      "phone": "917-123-4567"
-    },
-    "checklist": {
-      "researched": "true",
-      "reachedOut": "true",
-      "sentNote": "true",
-      "networked": "true"
-    },
-    "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-    "status": "Applied"
-  },
-  {
-    "user": "105255441500267599698",
-    "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-    "position": "Software Engineer",
-    "company": "Google",
-    "contact": {
-      "name": "Bob Smith",
-      "position": "Engineer",
-      "email": "bs@google.com",
-      "phone": "917-123-4567"
-    },
-    "checklist": {
-      "researched": "true",
-      "reachedOut": "true",
-      "sentNote": "true",
-      "networked": "true"
-    },
-    "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-    "status": "Applied"
-  }
-  ].forEach((app) => {
-    helpers.saveApp(app, (err, a) => {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(a, ' saved')
-      }
-    })
-  });
-
+// [
+//   {
+//     "user": "105255441500267599698",
+//     "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "position": "Software Engineer",
+//     "company": "Facebook",
+//     "contact": {
+//       "name": "Bob Smith",
+//       "position": "Engineer",
+//       "email": "bs@facebook.com",
+//       "phone": "917-123-4567"
+//     },
+//     "checklist": {
+//       "researched": "true",
+//       "reachedOut": "true",
+//       "sentNote": "true",
+//       "networked": "true"
+//     },
+//     "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "status": "Applied"
+//   },
+//   {
+//     "user": "105255441500267599698",
+//     "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "position": "Software Engineer",
+//     "company": "Google",
+//     "contact": {
+//       "name": "Bob Smith",
+//       "position": "Engineer",
+//       "email": "bs@google.com",
+//       "phone": "917-123-4567"
+//     },
+//     "checklist": {
+//       "researched": "true",
+//       "reachedOut": "true",
+//       "sentNote": "true",
+//       "networked": "true"
+//     },
+//     "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
+//     "status": "Applied"
+//   }
+//   ].forEach((app) => {
+//     helpers.saveApp(app, (err, a) => {
+//       if (err) {
+//         console.log(err)
+//       } else {
+//         console.log(a, ' saved')
+//       }
+//     })
+//   });
 
 /*
 // need to refactor client side logout
