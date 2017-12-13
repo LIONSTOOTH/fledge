@@ -91,5 +91,6 @@ const mapStateToProps = (state) => {
   };
 }
 
+
 export default connect(mapStateToProps,
   { fetchApplicationsSuccess, getAllApplications })(Kanban);

@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 import { formValues } from 'redux-form';
 
 
+
 class ModalForm extends React.Component {
   constructor(props) {
     super(props);
@@ -34,9 +35,11 @@ class ModalForm extends React.Component {
 
       axios.post('/api/applications', {
         newApplication: values})
-        .then(function(response) {
-      console.log('saved new application')
-        })
+        .then(
+      response => dispatch(fetchApplicationsSuccess(response.data.apps)))
+      .then(dispatch({ type: 'IS_FETCHING'}))
+      .catch(err => console.log(err));
+
       }
 
     // Required fields:
@@ -55,15 +58,33 @@ class ModalForm extends React.Component {
           <label htmlFor="firstName">Company Name</label>
           <Field name="company" component="input" type="text" placeholder={this.props.application.company} />
         </div>
+  <br></br>
         <div>
           <label htmlFor="position">Position</label>
           <Field name="position" component="input" type="text" placeholder={this.props.application.position} />
         </div>
-
+<br></br>
         <div>
           <label htmlFor="date">Date Applied</label>
           <Field name="dateApplied" component="input" type="text" placeholder={this.props.application.dateApplied} />
         </div>
+<br></br>
+         <div>
+        <label>Status</label>
+        <span>
+          <Field name="status" component="select" placeholder="poop" >
+            <option value={this.props.application.status}> {this.props.application.status}</option>
+
+            <option value="In Progress">In Progress</option>
+            <option value="Submitted">Submitted</option>
+            <option value="Phone Screen">Phone Screen</option>
+            <option value="Onsite Interview">Onsite Interview</option>
+            <option value="Offer">Offer</option>
+          </Field>
+        </span>
+        </div>
+
+        <br></br>
         <button type="submit">Submit</button>
       </form>
     )
@@ -74,6 +95,12 @@ ModalForm = reduxForm({
   form: 'application'
 })(ModalForm)
 
+const fetchApplicationsSuccess = (response) => {
+  return {
+    type: 'FETCH_SUCCESS',
+    payload: response,
+  }
+}
 
 const getAllApplications = (user) => {
   return (dispatch) => {
