@@ -47,6 +47,7 @@ class ModalForm extends React.Component {
       console.log("NEW APPLICATION")
       this.props.addNewApp(values);
 
+      }
   }
 
   render() {
