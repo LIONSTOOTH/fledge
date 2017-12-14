@@ -7,10 +7,10 @@ import App from './app.jsx';
 const Main = () => (
   <Router>
     <Switch>
-      <Route path="/" exact={true} component = {App} />
-      <Route path="/dashboard" component = {Dashboard} />
+      <Route path="/" exact={true} component={App} />
+      <Route path="/dashboard" component={Dashboard} />
     </Switch>
   </Router>
-)
+);
 
 export default Main;

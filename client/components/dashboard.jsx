@@ -3,15 +3,17 @@ import { Button } from 'semantic-ui-react';
 import ApplicationModal from '../containers/applicationModal.jsx';
 import Kanban from '../containers/kanban.jsx';
 
-const Dashboard = (props) => (
+const Dashboard = props => (
   <div>
-    <ApplicationModal application=""
+    <ApplicationModal
+      application=""
       trigger={
-      <Button basic color='blue'>
-        Add application
-      </Button>
-    }/>
-    <Kanban/>
+        <Button basic color="blue">
+          Add application
+        </Button>
+      }
+    />
+    <Kanban />
   </div>
 );
 

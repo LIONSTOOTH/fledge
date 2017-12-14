@@ -11,38 +11,42 @@ const app = express();
 
 require('dotenv').config();
 
-app.set('port', (process.env.PORT || 2000));
+app.set('port', process.env.PORT || 2000);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/../dist/')));
 app.use(bodyParser.json());
-app.use(expressSession({
-  secret: 'shhhh',
-  resave: true,
-  saveUninitialized: true,
-}));
+app.use(
+  expressSession({
+    secret: 'shhhh',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy(
-  {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback',
-    proxy: true,
-  },
-  // lookup or create a new user using the googleId (no associated username or password)
-  ((accessToken, refreshToken, profile, done) => {
-    helpers.findOrCreateUser(
-      {
-        username: profile.displayName,
-        photoUrl: profile.photos[0].value,
-        googleId: profile.id,
-        sessionID: profile.sessionID,
-      },
-      ((err, user) => done(err, user))
-    );
-  })
-));
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/auth/google/callback',
+      proxy: true,
+    },
+    // lookup or create a new user using the googleId (no associated username or password)
+    (accessToken, refreshToken, profile, done) => {
+      helpers.findOrCreateUser(
+        {
+          username: profile.displayName,
+          photoUrl: profile.photos[0].value,
+          googleId: profile.id,
+          sessionID: profile.sessionID,
+        },
+        (err, user) => done(err, user)
+      );
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -54,11 +58,19 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/calendar'] })
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: [
+      'https://www.googleapis.com/auth/plus.login',
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/calendar',
+    ],
+  })
 );
 
-app.get('/auth/google/callback',
+app.get(
+  '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
@@ -67,23 +79,23 @@ app.get('/auth/google/callback',
 
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
-  console.log('post request', req.body)
+  console.log('post request', req.body);
 
   // if request is for adding new
   if (req.body.newApplication !== undefined) {
-    console.log('add application post request')
+    console.log('add application post request');
     helpers.saveApp(userId, req.body.newApplication, (err, userApps) => {
       if (err) {
         console.log('Error saving new:', err);
       } else {
-        console.log('user response from save', userApps)
+        console.log('user response from save', userApps);
         res.send(JSON.stringify({ applications: userApps }));
       }
     });
 
-  // if request is for edit
+    // if request is for edit
   } else if (req.body.edited !== undefined) {
-    console.log('edit application post request')
+    console.log('edit application post request');
     helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
       if (err) {
         console.log('Error updating: ', err);
@@ -94,18 +106,16 @@ app.post('/api/applications', (req, res) => {
   }
 });
 
-
 app.get('/api/applications', (req, res) => {
   // get applications for specific user
   helpers.getApplications(req.user.googleId, (err, apps) => {
     if (err) {
       console.log(err);
     } else {
-      res.send(JSON.stringify({ applications: apps }))
+      res.send(JSON.stringify({ applications: apps }));
     }
   });
 });
-
 
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
@@ -113,9 +123,9 @@ app.get('/logged', (req, res) => {
   }
 });
 
-
-app.listen(app.get('port'), () =>	console.log('app running on port', app.get('port')));
-
+app.listen(app.get('port'), () =>
+  console.log('app running on port', app.get('port'))
+);
 
 // [
 //   {
@@ -186,4 +196,3 @@ app.get('/logout', (req, res) => {
 // app.get('*', function(req, res) {
 //   res.render
 // })
-
