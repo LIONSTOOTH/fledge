@@ -60,7 +60,7 @@ const updateApp = (userId, app, callback) => {
   db.User.find({ googleId: userId }, { apps: { $elemMatch: { _id: app._id } } })
     .then(retrievedApp => {
       console.log('app found in db:', retrievedApp);
-      saveApp(userId, retrievedApp, callback);
+     // saveApp(userId, retrievedApp, callback);
     })
     .catch(err => {
       callback(err, null);
