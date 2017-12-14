@@ -84,12 +84,12 @@ app.post('/api/applications', (req, res) => {
   // if request is for adding new
   if (req.body.newApplication !== undefined) {
     console.log('add application post request');
-    helpers.saveApp(userId, req.body.newApplication, (err, userApps) => {
+    helpers.saveApp(userId, req.body.newApplication, (err, user) => {
       if (err) {
         console.log('Error saving new:', err);
       } else {
-        console.log('user response from save', userApps);
-        res.send(JSON.stringify({ applications: userApps }));
+        console.log('user response from save', user.apps);
+        res.send(JSON.stringify({ applications: user.apps }));
       }
     });
 
@@ -120,6 +120,8 @@ app.get('/api/applications', (req, res) => {
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
     res.send(req.isAuthenticated());
+  } else {
+    res.sendStatus(401);
   }
 });
 
