@@ -28,42 +28,25 @@ class ModalForm extends React.Component {
 
       return (dispatch) => {
 
-          axios.post('/api/applications',  {
-      edited: context.props.application
-    }).then(
-      response => {
+        axios.post('/api/applications',  {
+          edited: context.props.application
+        }).then(
+          response => {
 
-        console.log('ABOUT TO DISPATCH', response.data.applications)
-        return (dispatch) => {
-          dispatch({
-            type: 'FETCH_SUCCESS',
-            payload: response.data.applications,
+            console.log('ABOUT TO DISPATCH', response.data.applications)
+            return (dispatch) => {
+              dispatch({
+                type: 'FETCH_SUCCESS',
+                payload: response.data.applications,
+              })
+            }
           })
-        }
-      })
-
       }
 
     } else {
       console.log("NEW APPLICATION")
       this.props.addNewApp(values);
-      // console.log('HELLOOOO')
-      // return (dispatch) => {
-      //   console.log('dispatch called')
-      //   const request = axios.post('/api/applications',  {
-      //     newApplication: values
-      //   });
 
-      //   return request.then(
-      //     response => dispatch(fetchApplicationsSuccess(response.data.applications)))
-      //     .catch(err => console.log(err));
-      }
-
-    // Required fields:
-    // company
-    // position
-    // date
-    // status
   }
 
   render() {
