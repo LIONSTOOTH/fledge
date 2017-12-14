@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -20,40 +20,57 @@ class Kanban extends React.Component {
 
   render() {
     if (this.props.isFetching) {
-      return(
+      return (
         <div>
-          <Waiting/>
+          <Waiting />
         </div>
       );
     } else {
-      return(
+      return (
         <div>
           <Grid columns={5} divided>
             <Grid.Row>
               <Grid.Column>
-                <Column title="In Progress"
-                  applications={this.props.applications.filter((application) =>
-                    application.status === 'In Progress')}/>
+                <Column
+                  title="In Progress"
+                  applications={this.props.applications.filter(
+                    application => application.status === 'In Progress'
+                  )}
+                />
               </Grid.Column>
               <Grid.Column>
-                <Column title="Submitted"
-                  applications={this.props.applications.filter((application) =>
-                    application.status === 'Submitted' || application.status === 'Applied')}/>
+                <Column
+                  title="Submitted"
+                  applications={this.props.applications.filter(
+                    application =>
+                      application.status === 'Submitted' ||
+                      application.status === 'Applied'
+                  )}
+                />
               </Grid.Column>
               <Grid.Column>
-                <Column title="Phone Screen"
-                  applications={this.props.applications.filter((application) =>
-                    application.status === 'Phone Screen')}/>
+                <Column
+                  title="Phone Screen"
+                  applications={this.props.applications.filter(
+                    application => application.status === 'Phone Screen'
+                  )}
+                />
               </Grid.Column>
               <Grid.Column>
-              <Column title="Onsite Interview"
-                applications={this.props.applications.filter((application) =>
-                  application.status === 'Onsite Interview')}/>
+                <Column
+                  title="Onsite Interview"
+                  applications={this.props.applications.filter(
+                    application => application.status === 'Onsite Interview'
+                  )}
+                />
               </Grid.Column>
               <Grid.Column>
-                <Column title="Offer"
-                  applications={this.props.applications.filter((application) =>
-                    application.status === 'Offer')}/>
+                <Column
+                  title="Offer"
+                  applications={this.props.applications.filter(
+                    application => application.status === 'Offer'
+                  )}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -65,38 +82,40 @@ class Kanban extends React.Component {
 
 // should take user obj with id property (googleId)
 const getAllApplications = () => {
-  return (dispatch) => {
+  return dispatch => {
     // dispatch a flag action to show waiting view
-    dispatch({ type: 'IS_FETCHING', payload: true })
+    dispatch({ type: 'IS_FETCHING', payload: true });
 
     const request = axios.get('/api/applications');
 
-    return request.then(
-      response => {
-        console.log('response from server:', response)
-        dispatch(fetchApplicationsSuccess(response.data.applications))
+    return request
+      .then(response => {
+        console.log('response from server:', response);
+        dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .then(dispatch({ type: 'IS_FETCHING', payload: false }))
       .catch(err => console.log(err));
-  }
-}
+  };
+};
 
 // dispatches an action
-const fetchApplicationsSuccess = (response) => {
+const fetchApplicationsSuccess = response => {
   return {
     type: 'FETCH_SUCCESS',
     payload: response,
-  }
-}
+  };
+};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     applications: state.applicationReducer.applications,
     isFetching: state.fetchFlagReducer.isFetching,
   };
-}
+};
 
-Kanban =  DragDropContext(HTML5Backend)(Kanban);
+Kanban = DragDropContext(HTML5Backend)(Kanban);
 
-export default connect(mapStateToProps,
-  { fetchApplicationsSuccess, getAllApplications })(Kanban);
+export default connect(mapStateToProps, {
+  fetchApplicationsSuccess,
+  getAllApplications,
+})(Kanban);

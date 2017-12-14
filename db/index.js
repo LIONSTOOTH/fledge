@@ -8,7 +8,6 @@ db.once('open', () => console.log('db connection success'));
 
 const Schema = mongoose.Schema;
 
-
 const appSchema = new Schema({
   date: Date,
   position: String,
@@ -38,7 +37,6 @@ const userSchema = new Schema({
   password: String,
   apps: [appSchema], // array of _.id props of users apps
 });
-
 
 const User = mongoose.model('User', userSchema);
 
