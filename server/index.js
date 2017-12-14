@@ -120,6 +120,8 @@ app.get('/api/applications', (req, res) => {
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
     res.send(req.isAuthenticated());
+  } else {
+    app.next();
   }
 });
 
