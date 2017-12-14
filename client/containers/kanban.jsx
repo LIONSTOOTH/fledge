@@ -19,6 +19,7 @@ class Kanban extends React.Component {
   }
 
   render() {
+    console.log('PROPS!!:', this.props)
     if (this.props.isFetching) {
       return (
         <div>
@@ -35,7 +36,7 @@ class Kanban extends React.Component {
                   title="In Progress"
                   applications={this.props.applications.filter(
                     application => application.status === 'In Progress'
-                  )}
+                  )}s
                 />
               </Grid.Column>
               <Grid.Column>
