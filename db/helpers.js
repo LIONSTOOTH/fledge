@@ -61,7 +61,6 @@ const updateApp = (userId, app, callback) => {
   db.User.findOneAndUpdate(
     {  googleId: userId, 'apps._id': app._id },
     { $set: {
-      //do keys have to be in quotes?
       'apps.date': app.date,
       'apps.position': app.position,
       'apps.company': app.company,
@@ -78,7 +77,7 @@ const updateApp = (userId, app, callback) => {
         'apps.sentNote': app.checklist,
         'apps.networked': app.checklist,
       },
-      'apps.status': app.status, //required field
+      'apps.status': app.status,
     }
   })
   .then((user) => {
@@ -87,15 +86,6 @@ const updateApp = (userId, app, callback) => {
   })
 };
 
-//   db.User.find({ googleId: userId }, { apps: { $elemMatch: { _id: app._id } } })
-//     .then(retrievedApp => {
-//       console.log('app found in db:', retrievedApp);
-//      // saveApp(userId, retrievedApp, callback);
-//     })
-//     .catch(err => {
-//       callback(err, null);
-//     });
-// };
 
 const getApplications = (userId, callback) => {
   db.User.find({ googleId: userId })

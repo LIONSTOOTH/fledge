@@ -88,6 +88,7 @@ app.post('/api/applications', (req, res) => {
       if (err) {
         console.log('Error updating: ', err);
       } else {
+        console.log(updatedAppList);
         res.send(JSON.stringify({ applications: updatedAppList }));
       }
     });
@@ -129,56 +130,6 @@ app.listen(app.get('port'), () =>
   console.log('app running on port', app.get('port'))
 );
 
-// [
-//   {
-//     "user": "105255441500267599698",
-//     "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-//     "position": "Software Engineer",
-//     "company": "Facebook",
-//     "contact": {
-//       "name": "Bob Smith",
-//       "position": "Engineer",
-//       "email": "bs@facebook.com",
-//       "phone": "917-123-4567"
-//     },
-//     "checklist": {
-//       "researched": "true",
-//       "reachedOut": "true",
-//       "sentNote": "true",
-//       "networked": "true"
-//     },
-//     "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-//     "status": "Applied"
-//   },
-//   {
-//     "user": "105255441500267599698",
-//     "dateApplied": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-//     "position": "Software Engineer",
-//     "company": "Google",
-//     "contact": {
-//       "name": "Bob Smith",
-//       "position": "Engineer",
-//       "email": "bs@google.com",
-//       "phone": "917-123-4567"
-//     },
-//     "checklist": {
-//       "researched": "true",
-//       "reachedOut": "true",
-//       "sentNote": "true",
-//       "networked": "true"
-//     },
-//     "lastContactDate": "Fri Dec 08 2017 02:20:35 GMT-0500 (EST)",
-//     "status": "Applied"
-//   }
-//   ].forEach((app) => {
-//     helpers.saveApp(app, (err, a) => {
-//       if (err) {
-//         console.log(err)
-//       } else {
-//         console.log(a, ' saved')
-//       }
-//     })
-//   });
 
 /*
 // need to refactor client side logout
