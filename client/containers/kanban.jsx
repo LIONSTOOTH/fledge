@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Grid } from 'semantic-ui-react';
-import { Column } from '../components/column.jsx';
+import Column from '../components/column.jsx';
 import Waiting from '../components/waiting.jsx';
 
 class Kanban extends React.Component {
@@ -19,6 +19,7 @@ class Kanban extends React.Component {
   }
 
   render() {
+    console.log('PROPS!!:', this.props)
     if (this.props.isFetching) {
       return (
         <div>
@@ -35,7 +36,7 @@ class Kanban extends React.Component {
                   title="In Progress"
                   applications={this.props.applications.filter(
                     application => application.status === 'In Progress'
-                  )}
+                  )}s
                 />
               </Grid.Column>
               <Grid.Column>
