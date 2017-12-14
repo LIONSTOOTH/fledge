@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
@@ -26,8 +26,6 @@ class ModalForm extends React.Component {
       }
       console.log('ONLY EDITING')
 
-      return (dispatch) => {
-
         axios.post('/api/applications',  {
           edited: context.props.application
         }).then(
@@ -41,7 +39,6 @@ class ModalForm extends React.Component {
               })
             }
           })
-      }
 
     } else {
       console.log("NEW APPLICATION")
@@ -66,7 +63,7 @@ class ModalForm extends React.Component {
 <br></br>
         <div>
           <label htmlFor="date">Date Applied</label>
-          <Field name="dateApplied" component="input" type="text" placeholder={this.props.application.dateApplied} />
+          <Field name="date" component="input" type="text" placeholder={this.props.application.date} />
         </div>
 <br></br>
          <div>
@@ -99,28 +96,39 @@ const fetchApplicationsSuccess = (response) => {
   }
 }
 
+// const addNewApp = (values) => {
+//   return (dispatch) => {
+//     console.log('dispatch called')
+
+//     axios.post('/api/applications',  {
+//       newApplication: values
+//     }).then(
+//       response => {
+
+//         console.log('ABOUT TO DISPATCH', response.data.applications)
+//         return (dispatch) => {
+//           dispatch({
+//             type: 'FETCH_SUCCESS',
+//             payload: response.data.applications,
+//           })
+//         }
+//       })
+
+//   }
+// };
+
 const addNewApp = (values) => {
   return (dispatch) => {
     console.log('dispatch called')
-
-    axios.post('/api/applications',  {
+    const request = axios.post('/api/applications',  {
       newApplication: values
-    }).then(
-      response => {
+    });
 
-        console.log('ABOUT TO DISPATCH', response.data.applications)
-        return (dispatch) => {
-          dispatch({
-            type: 'FETCH_SUCCESS',
-            payload: response.data.applications,
-          })
-        }
-      })
-
-  }
+    return request.then(
+      response => dispatch(fetchApplicationsSuccess(response.data.applications)))
+      .catch(err => console.log(err));
+    }
 };
-
-
 
 const getAllApplications = (user) => {
   return (dispatch) => {
