@@ -57,15 +57,45 @@ const saveApp = function(userId, app, callback) {
 };
 
 const updateApp = (userId, app, callback) => {
-  db.User.find({ googleId: userId }, { apps: { $elemMatch: { _id: app._id } } })
-    .then(retrievedApp => {
-      console.log('app found in db:', retrievedApp);
-     // saveApp(userId, retrievedApp, callback);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
+  console.log('update app called')
+  db.User.findOneAndUpdate(
+    {  googleId: userId, 'apps._id': app._id },
+    { $set: {
+      //do keys have to be in quotes?
+      'apps.date': app.dateApplied || apps.date,
+      'apps.position': app.position || apps.position,
+      'apps.company': app.company || apps.company,
+      'apps.contact': {
+        'apps.name': app.contact ? app.contact.name : apps.contact.name || null,
+        'apps.position': app.contact ? app.contact.position : apps.contact.position || null,
+        'apps.email': app.contact ? app.contact.email : apps.contact.email || null,
+        'apps.phone': app.contact ? app.contact.phone : apps.contact.phone || null,
+      },
+      'apps.contactDate': app.lastContactDate || apps.contactDate,
+      'apps.checklist': {
+        'apps.researched': app.checklist ? app.checklist.researched : null,
+        'apps.reachedOut': app.checklist ? app.checklist.reachedOut : null,
+        'apps.sentNote': app.checklist ? app.checklist.sentNote : null,
+        'apps.networked': app.checklist ? app.checklist.networked : null,
+      },
+      'apps.status': app.status, //required field
+    }
+  })
+  .then((user) => {
+    console.log('user after update', user)
+    callback(null, user)
+  })
 };
+
+//   db.User.find({ googleId: userId }, { apps: { $elemMatch: { _id: app._id } } })
+//     .then(retrievedApp => {
+//       console.log('app found in db:', retrievedApp);
+//      // saveApp(userId, retrievedApp, callback);
+//     })
+//     .catch(err => {
+//       callback(err, null);
+//     });
+// };
 
 const getApplications = (userId, callback) => {
   db.User.find({ googleId: userId })

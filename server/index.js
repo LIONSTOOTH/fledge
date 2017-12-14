@@ -81,8 +81,19 @@ app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
   console.log('post request', req.body);
 
+    // if request is for edit
+  if (req.body.edited !== undefined) {
+    console.log('edit application post request');
+    helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
+      if (err) {
+        console.log('Error updating: ', err);
+      } else {
+        res.send(JSON.stringify({ applications: updatedAppList }));
+      }
+    });
+
   // if request is for adding new
-  if (req.body.newApplication !== undefined) {
+  } else if (req.body.newApplication !== undefined) {
     console.log('add application post request');
     helpers.saveApp(userId, req.body.newApplication, (err, user) => {
       if (err) {
@@ -90,17 +101,6 @@ app.post('/api/applications', (req, res) => {
       } else {
         console.log('user response from save', user.apps);
         res.send(JSON.stringify({ applications: user.apps }));
-      }
-    });
-
-    // if request is for edit
-  } else if (req.body.edited !== undefined) {
-    console.log('edit application post request');
-    helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
-      if (err) {
-        console.log('Error updating: ', err);
-      } else {
-        res.send(JSON.stringify({ applications: updatedAppList }));
       }
     });
   }
