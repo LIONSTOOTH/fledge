@@ -99,28 +99,39 @@ const fetchApplicationsSuccess = (response) => {
   }
 }
 
+// const addNewApp = (values) => {
+//   return (dispatch) => {
+//     console.log('dispatch called')
+
+//     axios.post('/api/applications',  {
+//       newApplication: values
+//     }).then(
+//       response => {
+
+//         console.log('ABOUT TO DISPATCH', response.data.applications)
+//         return (dispatch) => {
+//           dispatch({
+//             type: 'FETCH_SUCCESS',
+//             payload: response.data.applications,
+//           })
+//         }
+//       })
+
+//   }
+// };
+
 const addNewApp = (values) => {
   return (dispatch) => {
     console.log('dispatch called')
-
-    axios.post('/api/applications',  {
+    const request = axios.post('/api/applications',  {
       newApplication: values
-    }).then(
-      response => {
+    });
 
-        console.log('ABOUT TO DISPATCH', response.data.applications)
-        return (dispatch) => {
-          dispatch({
-            type: 'FETCH_SUCCESS',
-            payload: response.data.applications,
-          })
-        }
-      })
-
-  }
+    return request.then(
+      response => dispatch(fetchApplicationsSuccess(response.data.applications)))
+      .catch(err => console.log(err));
+    }
 };
-
-
 
 const getAllApplications = (user) => {
   return (dispatch) => {
