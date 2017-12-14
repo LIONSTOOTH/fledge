@@ -25,7 +25,7 @@ const saveApp = function(userId, app, callback) {
   db.User.findOne({ googleId: userId }).then(user => {
     console.log('found user:', user);
     user.apps.push({
-      date: app.dateApplied,
+      date: app.date,
       position: app.position,
       company: app.company,
       contact: {
@@ -62,21 +62,21 @@ const updateApp = (userId, app, callback) => {
     {  googleId: userId, 'apps._id': app._id },
     { $set: {
       //do keys have to be in quotes?
-      'apps.date': app.dateApplied || apps.date,
-      'apps.position': app.position || apps.position,
-      'apps.company': app.company || apps.company,
+      'apps.date': app.date,
+      'apps.position': app.position,
+      'apps.company': app.company,
       'apps.contact': {
-        'apps.name': app.contact ? app.contact.name : apps.contact.name || null,
-        'apps.position': app.contact ? app.contact.position : apps.contact.position || null,
-        'apps.email': app.contact ? app.contact.email : apps.contact.email || null,
-        'apps.phone': app.contact ? app.contact.phone : apps.contact.phone || null,
+        'apps.name': app.contact,
+        'apps.position': app.contact,
+        'apps.email': app.contact,
+        'apps.phone': app.contact,
       },
-      'apps.contactDate': app.lastContactDate || apps.contactDate,
+      'apps.contactDate': app.lastContactDate,
       'apps.checklist': {
-        'apps.researched': app.checklist ? app.checklist.researched : null,
-        'apps.reachedOut': app.checklist ? app.checklist.reachedOut : null,
-        'apps.sentNote': app.checklist ? app.checklist.sentNote : null,
-        'apps.networked': app.checklist ? app.checklist.networked : null,
+        'apps.researched': app.checklist,
+        'apps.reachedOut': app.checklist,
+        'apps.sentNote': app.checklist,
+        'apps.networked': app.checklist,
       },
       'apps.status': app.status, //required field
     }
