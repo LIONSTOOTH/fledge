@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
-import ApplicationModal from '../containers/applicationModal.jsx';
 import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
+import ApplicationModal from '../containers/applicationModal.jsx';
 import { showModal } from '../actions/index.jsx';
+import ItemType from './ItemType.jsx';
 
-const ItemTypes = {
-  APPLICATION: 'application',
+const style = {
+  cursor: 'move',
 };
 
 const applicationSource = {
@@ -40,17 +41,17 @@ class ApplicationChip extends Component {
       isDragging,
       getItem,
       getDropResult,
-      ItemTypes,
+      ItemType,
     } = this.props;
     console.log('APPLICATION_CHIP PROPS:', this.props);
     return connectDragSource(
-      <div>
+      <div style={style}>
         <Card>
           <Card.Content>
-            <Image floated="right" size="mini" src="" />
+            {/* <Image floated="right" size="mini" src="" /> */}
             <Card.Header>{this.props.application.company}</Card.Header>
             <Card.Meta>{this.props.application.position}</Card.Meta>
-            {/*<Card.Description>
+            {/* <Card.Description>
               Some words we might want to add... <strong>at some point</strong>
             </Card.Description>
             */}
@@ -69,6 +70,6 @@ class ApplicationChip extends Component {
   }
 }
 
-export default DragSource(ItemTypes.APPLICATION, applicationSource, collect)(
+export default DragSource(ItemType.APPLICATION, applicationSource, collect)(
   ApplicationChip
 );
