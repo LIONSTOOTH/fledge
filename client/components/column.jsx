@@ -63,8 +63,8 @@ class Column extends Component {
     console.log('ALL COLUMN PROPS', this.props);
     return connectDropTarget(
       <div>
-        <h1>{title}</h1>
-        <ul>
+        <h2>{title}</h2>
+        <span>
           {applications.map(application => (
             <ApplicationChip
               key={application._id}
@@ -72,7 +72,7 @@ class Column extends Component {
               application={application}
             />
           ))}
-        </ul>
+        </span>
       </div>
     );
   }

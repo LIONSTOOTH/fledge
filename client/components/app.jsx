@@ -43,8 +43,7 @@ class App extends React.Component {
       <div>
         <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <div>
-          <Button onClick={this.toggleVisibility} secondary>
-            Nav
+          <Button onClick={this.toggleVisibility} icon="bars" secondary>
           </Button>
           <Sidebar.Pushable as={Segment}>
             <Sidebar
