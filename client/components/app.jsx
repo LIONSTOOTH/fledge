@@ -1,19 +1,30 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import Landing from './landing.jsx';
-import Dashboard from './dashboard.jsx';
-import { Header } from './header.jsx';
-import { connect } from 'react-redux';
-import axios from 'axios';
+import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
+import axios from 'axios';
+import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react';
+import Landing from './landing.jsx';
+import { Header } from './header.jsx';
+import Dashboard from './dashboard.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      visible: false,
+    };
+
+    this.toggleVisibility = this.toggleVisibility.bind(this);
+  }
+
+  toggleVisibility() {
+    this.setState({
+      visible: !this.state.visible,
+    });
   }
 
   componentDidMount() {
@@ -22,6 +33,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { visible } = this.state;
     return !this.props.isLoggedIn ? (
       <div>
         <Header isLoggedIn={this.props.isLoggedIn} logIn={handleLogin} />
@@ -30,7 +42,44 @@ class App extends React.Component {
     ) : (
       <div>
         <Header isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
-        <Dashboard />
+        <div>
+          <Button onClick={this.toggleVisibility} secondary>
+            Nav
+          </Button>
+          <Sidebar.Pushable as={Segment}>
+            <Sidebar
+              as={Menu}
+              animation="slide out"
+              width="thin"
+              visible={visible}
+              icon="labeled"
+              vertical
+              inverted
+            >
+              <Menu.Item name="Dashboard">
+                <Icon name="rocket" />
+                Dashboard
+              </Menu.Item>
+              <Menu.Item name="App Materials">
+                <Icon name="folder" />
+                App Materials
+              </Menu.Item>
+              <Menu.Item name="Metrics">
+                <Icon name="line graph" />
+                Metrics
+              </Menu.Item>
+              <Menu.Item name="Profile">
+                <Icon name="user" />
+                Profile
+              </Menu.Item>
+            </Sidebar>
+            <Sidebar.Pusher>
+              <Segment basic>
+                <Dashboard />
+              </Segment>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+        </div>
       </div>
     );
   }
