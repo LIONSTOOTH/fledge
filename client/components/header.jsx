@@ -12,10 +12,10 @@ export const Head = ({ isLoggedIn, toggleVisibility }) => {
   console.log('HEADER PROPS:', toggleVisibility);
   return isLoggedIn ? (
     <div>
-      <Segment size="big" color="black" clearing>
-        <Header as="h1" textAlign="center">
+      <Segment size="large" color="black" clearing>
+        <Header as="h1" textAlign="left">
           <Icon name="certificate" />
-          <Header.Content>Fledge</Header.Content>
+          Fledge
         </Header>
         <Button color="orange" floated="right">
           <a
