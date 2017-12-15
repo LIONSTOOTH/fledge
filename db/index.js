@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/fledge');
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds135486.mlab.com:35486/heroku_kgsk3z8c` || 'mongodb://localhost/fledge', { mongoUseClient: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'db connection error: '));

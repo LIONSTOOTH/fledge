@@ -79,17 +79,15 @@ app.get(
 
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
-  console.log('post request', req.body);
 
     // if request is for edit
   if (req.body.edited !== undefined) {
     console.log('edit application post request');
-    helpers.updateApp(userId, req.body.edited, (err, updatedAppList) => {
+    helpers.updateApp(userId, req.body.edited, (err, updatedUser) => {
       if (err) {
         console.log('Error updating: ', err);
       } else {
-        console.log(updatedAppList);
-        res.send(JSON.stringify({ applications: updatedAppList }));
+        res.send(JSON.stringify({ applications: updatedUser.apps }));
       }
     });
 
@@ -100,7 +98,6 @@ app.post('/api/applications', (req, res) => {
       if (err) {
         console.log('Error saving new:', err);
       } else {
-        console.log('user response from save', user.apps);
         res.send(JSON.stringify({ applications: user.apps }));
       }
     });
