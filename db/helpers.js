@@ -57,33 +57,63 @@ const saveApp = function(userId, app, callback) {
 };
 
 const updateApp = (userId, app, callback) => {
-  console.log('update app called')
-  db.User.findOneAndUpdate(
-    {  googleId: userId, 'apps._id': app._id },
-    { $set: {
-      'apps.date': app.date,
-      'apps.position': app.position,
-      'apps.company': app.company,
-      'apps.contact': {
-        'apps.name': app.contact,
-        'apps.position': app.contact,
-        'apps.email': app.contact,
-        'apps.phone': app.contact,
-      },
-      'apps.contactDate': app.lastContactDate,
-      'apps.checklist': {
-        'apps.researched': app.checklist,
-        'apps.reachedOut': app.checklist,
-        'apps.sentNote': app.checklist,
-        'apps.networked': app.checklist,
-      },
-      'apps.status': app.status,
-    }
+  console.log('update app called with position', app.position)
+
+  db.User.findOne({ googleId: userId }, function (e, data) {
+    var t = data.apps.id(app._id);
+    t.position = app.position;
+    data.save();
   })
-  .then((user) => {
-    console.log('user after update', user)
-    callback(null, user)
-  })
+
+/*
+  db.User.findOne({ googleId: userId })
+    .then((user) => {
+      console.log('user', user);
+
+      var appToUpdate = user.apps.id(app._id).remove();
+      user.save((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('removed')
+        }
+      })
+      .then(() => {
+        saveApp(userId, app)
+      })
+
+    })
+    */
+    // { '$':
+
+  //     { 'apps':
+  //     {
+      // 'apps.date': app.date,
+      // 'position': app.position,
+      // 'apps.company': app.company,
+      // 'apps.contact': {
+      //   'apps.name': app.contact,
+      //   'apps.position': app.contact,
+      //   'apps.email': app.contact,
+      //   'apps.phone': app.contact,
+      // },
+      // 'apps.contactDate': app.lastContactDate,
+      // 'apps.checklist': {
+      //   'apps.researched': app.checklist,
+      //   'apps.reachedOut': app.checklist,
+      //   'apps.sentNote': app.checklist,
+      //   'apps.networked': app.checklist,
+      // },
+      // 'apps.status': app.status,
+  //   }
+  // }
+  // }
+  // )
+  // .then((user) => {
+  //   console.log('user after update', user)
+  //   callback(null, user)
+  // })
+  // .catch((err) => console.log(err));
 };
 
 
