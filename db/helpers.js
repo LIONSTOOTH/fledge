@@ -74,13 +74,14 @@ const updateApp = (userId, app, callback) => {
       networked: app.checklist.networked,
       }
     a.status = app.status;
-    data.save();
-  })
-  .then((user) => {
-    console.log('user after update', user)
-    callback(null, user)
-  })
-  .catch((err) => callback(err, null));
+    data.save((err, saved) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, data)
+      }
+    });
+  });
 };
 
 
