@@ -37,6 +37,14 @@ passport.use(
     },
     // lookup or create a new user using the googleId (no associated username or password)
     (accessToken, refreshToken, profile, done) => {
+      let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      let clientId = process.env.GOOGLE_CLIENT_ID;
+      let redirectUrl = '/auth/google/callback';
+      let auth = new googleAuth();
+      oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+      let tokenObj = { access_token: accessToken, refresh_token: refreshToken }
+      oauth2Client.credentials = tokenObj;
+
       helpers.findOrCreateUser(
         {
           username: profile.displayName,
