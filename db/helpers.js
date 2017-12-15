@@ -23,7 +23,6 @@ const saveNewUser = (user, callback) => {
 
 const saveApp = function(userId, app, callback) {
   db.User.findOne({ googleId: userId }).then(user => {
-    console.log('found user:', user);
     user.apps.push({
       date: app.date,
       position: app.position,
@@ -43,7 +42,6 @@ const saveApp = function(userId, app, callback) {
       },
       status: app.status,
     });
-
     user.save((err, app) => {
       if (err) {
         console.log('app db save error', err);
@@ -57,63 +55,32 @@ const saveApp = function(userId, app, callback) {
 };
 
 const updateApp = (userId, app, callback) => {
-  console.log('update app called with position', app.position)
-
-  db.User.findOne({ googleId: userId }, function (e, data) {
-    var t = data.apps.id(app._id);
-    t.position = app.position;
+  db.User.findOne({ googleId: userId }, (err, data) => {
+    var a = data.apps.id(app._id);
+    a.date = app.date;
+    a.position = app.position;
+    a.company = app.company;
+    a.contact = {
+      name: app.contact.name,
+      position: app.contact.position,
+      email: app.contact.email,
+      phone: app.contact.phone,
+      }
+    a.contactDate = app.lastContactDate;
+    a.checklist = {
+      researched: app.checklist.researched,
+      reachedOut: app.checklist.reachedOut,
+      sentNote: app.checklist.sentNote,
+      networked: app.checklist.networked,
+      }
+    a.status = app.status;
     data.save();
   })
-
-/*
-  db.User.findOne({ googleId: userId })
-    .then((user) => {
-      console.log('user', user);
-
-      var appToUpdate = user.apps.id(app._id).remove();
-      user.save((err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('removed')
-        }
-      })
-      .then(() => {
-        saveApp(userId, app)
-      })
-
-    })
-    */
-    // { '$':
-
-  //     { 'apps':
-  //     {
-      // 'apps.date': app.date,
-      // 'position': app.position,
-      // 'apps.company': app.company,
-      // 'apps.contact': {
-      //   'apps.name': app.contact,
-      //   'apps.position': app.contact,
-      //   'apps.email': app.contact,
-      //   'apps.phone': app.contact,
-      // },
-      // 'apps.contactDate': app.lastContactDate,
-      // 'apps.checklist': {
-      //   'apps.researched': app.checklist,
-      //   'apps.reachedOut': app.checklist,
-      //   'apps.sentNote': app.checklist,
-      //   'apps.networked': app.checklist,
-      // },
-      // 'apps.status': app.status,
-  //   }
-  // }
-  // }
-  // )
-  // .then((user) => {
-  //   console.log('user after update', user)
-  //   callback(null, user)
-  // })
-  // .catch((err) => console.log(err));
+  .then((user) => {
+    console.log('user after update', user)
+    callback(null, user)
+  })
+  .catch((err) => callback(err, null));
 };
 
 
