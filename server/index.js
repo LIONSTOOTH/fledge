@@ -6,6 +6,8 @@ const expressSession = require('express-session');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const db = require('../db/index.js');
 const helpers = require('../db/helpers.js');
+var googleAuth = require('google-auth-library');
+var oauth2Client;
 
 const app = express();
 
