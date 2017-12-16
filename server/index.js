@@ -9,6 +9,7 @@ const helpers = require('../db/helpers.js');
 var googleAuth = require('google-auth-library');
 var google = require('googleapis');
 var oauth2Client;
+var fs = require('fs');
 
 const app = express();
 
@@ -129,38 +130,48 @@ app.get('/api/applications', (req, res) => {
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
 
-    console.log('setting google calendar reminder', req.body)
 
-    var event = {
-  'summary': 'Google I/O 2015',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'date': '2017-12-15'
-  },
-  'end': {
-    'date': '2017-12-15'
-  },
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 1},
-      {'method': 'popup', 'minutes': 1},
-    ],
-  },
-};
-var calendar = google.calendar('v3');
-calendar.events.insert({
-  auth: oauth2Client,
-  calendarId: 'primary',
-  resource: event,
-}, function(err, event) {
-  console.log('what the heck')
-  if (err) {
-    console.log('There was an error contacting the Calendar service: ' + err);
-    return;
-  }
-  console.log('Event created: %s', event.htmlLink);
-});
+//     console.log('setting google calendar reminder', req.body)
+
+//     var event = {
+//   'summary': 'Google I/O 2015',
+//   'description': 'A chance to hear more about Google\'s developer products.',
+//   'start': {
+//     'dateTime': '2017-12-15T06:00:00-08:00',
+//   },
+//   'end': {
+//     'dateTime': '2017-12-15T18:00:00-08:00',
+//   },
+//   'reminders': {
+//     'useDefault': false,
+//     'overrides': [
+//       {'method': 'email', 'minutes': 1},
+//       {'method': 'popup', 'minutes': 1},
+//     ],
+//   },
+// };
+
+// {
+//   company: 'Etsy'
+//   start: '2017-12-15'
+//   reminder: true
+//   reminderTime: 1 (or 2, for we)
+// }
+
+
+// var calendar = google.calendar('v3');
+// calendar.events.insert({
+//   auth: oauth2Client,
+//   calendarId: 'primary',
+//   resource: event,
+// }, function(err, event) {
+//   console.log('what the heck')
+//   if (err) {
+//     console.log('There was an error contacting the Calendar service: ' + err);
+//     return;
+//   }
+//   console.log('Event created: %s', event.htmlLink);
+// });
 
     res.send(req.isAuthenticated());
   } else {
@@ -180,10 +191,10 @@ app.listen(app.get('port'), () =>
 //   'summary': 'Google I/O 2015',
 //   'description': 'A chance to hear more about Google\'s developer products.',
 //   'start': {
-//     'date': '2017-12-15'
+//     'dateTime': '2017-12-15T06:00:00-08:00',
 //   },
 //   'end': {
-//     'date': '2017-12-15'
+//     'dateTime': '2017-12-15T07:00:00-08:00',
 //   },
 //   'reminders': {
 //     'useDefault': false,
