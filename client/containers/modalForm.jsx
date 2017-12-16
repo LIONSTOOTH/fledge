@@ -2,12 +2,43 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dropdown } from 'semantic-ui-react';
 import { Field, FieldArray, reduxForm, formValues } from 'redux-form';
 
 class ModalForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      businessList: [],
+      selectedOption: '',
+      searchQuery: '',
+    }
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+  }
+
+  handleSearchChange(e, { searchQuery }) {
+    this.setState({ searchQuery })
+    axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=:${this.state.searchQuery}`)
+      .then((response) => {
+        //semantic renders dropdown by text property
+        var mapped = response.data.map((b) => {
+          b.text = b.name;
+          return b
+        })
+        console.log('RESPONSE', mapped)
+        this.setState({ businessList: mapped })
+      })
+      .catch((err) => console.log(err));
+  }
+
+  handleFormInput(key) {
+    console.log(this.state.email)
+    var that = this;
+    return (e) => {
+      var state = {};
+      state[key] = e.target.value;
+      that.setState(state);
+    }
   }
 
   editApplication(values) {
@@ -24,8 +55,25 @@ class ModalForm extends React.Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, application } = this.props;
     return (
+      <div>
+      <div>
+        <Dropdown
+            fluid
+            selection
+            multiple={false}
+            search={true}
+            options={this.state.businessList}
+            value={this.state.searchQuery}
+            placeholder={application.company}
+            onChange={this.handleSearchChange}
+            onSearchChange={this.handleSearchChange}
+            disabled={false}
+            loading={false}
+          />
+        </div>
+
       <form onSubmit={handleSubmit(this.editApplication.bind(this))}>
         <div>
           <label htmlFor="firstName">Company Name</label>
@@ -33,7 +81,7 @@ class ModalForm extends React.Component {
             name="company"
             component="input"
             type="text"
-            placeholder={this.props.application.company}
+            placeholder={application.company}
           />
         </div>
         <br />
@@ -43,7 +91,7 @@ class ModalForm extends React.Component {
             name="position"
             component="input"
             type="text"
-            placeholder={this.props.application.position}
+            placeholder={application.position}
           />
         </div>
         <br />
@@ -53,7 +101,7 @@ class ModalForm extends React.Component {
             name="date"
             component="input"
             type="text"
-            placeholder={this.props.application.date}
+            placeholder={application.date}
           />
         </div>
         <br />
@@ -61,9 +109,9 @@ class ModalForm extends React.Component {
           <label>Status</label>
           <span>
             <Field name="status" component="select" placeholder="">
-              <option value={this.props.application.status}>
+              <option value={application.status}>
                 {' '}
-                {this.props.application.status}
+                {application.status}
               </option>
               <option value="In Progress">In Progress</option>
               <option value="Submitted">Submitted</option>
@@ -80,6 +128,7 @@ class ModalForm extends React.Component {
           <Icon name="right chevron" />
         </Button>
       </form>
+      </div>
     );
   }
 }
@@ -177,4 +226,15 @@ var event = {
     return nextweek;
 }
 
-  */
+
+{
+  company: 'Etsy'
+  start: '2017-12-15'
+  reminder: true
+  reminderTime: 1 (or 2 for weeks)
+}
+
+“Etsy application followup” || whatever user inputs
+
+
+*/
