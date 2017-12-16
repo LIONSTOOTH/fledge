@@ -36,7 +36,7 @@ class ApplicationModal extends React.Component {
         }
       >
         <Modal.Header>
-          <Header>{application.company}</Header>
+          <span><Header>{application.company}</Header>{application.companyPhotoUrl}</span>
           {application.position}
         </Modal.Header>
 

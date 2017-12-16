@@ -17,6 +17,8 @@ class ModalForm extends React.Component {
   }
 
   handleSearchChange(e, { searchQuery }) {
+    // trying to grab the clicked item from dropdown
+    console.log('e onSearchChange:', e.target)
     this.setState({ searchQuery })
     axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=:${this.state.searchQuery}`)
       .then((response) => {
@@ -59,7 +61,14 @@ class ModalForm extends React.Component {
     return (
       <div>
       <div>
-        <Dropdown
+
+        </div>
+
+      <form onSubmit={handleSubmit(this.editApplication.bind(this))}>
+        <div>
+          <label htmlFor="firstName">Company Name</label>
+
+          <Dropdown
             fluid
             selection
             multiple={false}
@@ -67,22 +76,12 @@ class ModalForm extends React.Component {
             options={this.state.businessList}
             value={this.state.searchQuery}
             placeholder={application.company}
-            onChange={this.handleSearchChange}
+            //onChange={this.handleSearchChange}
             onSearchChange={this.handleSearchChange}
             disabled={false}
             loading={false}
           />
-        </div>
 
-      <form onSubmit={handleSubmit(this.editApplication.bind(this))}>
-        <div>
-          <label htmlFor="firstName">Company Name</label>
-          <Field
-            name="company"
-            component="input"
-            type="text"
-            placeholder={application.company}
-          />
         </div>
         <br />
         <div>
@@ -123,7 +122,7 @@ class ModalForm extends React.Component {
         </div>
         <br />
         <br />
-        <Button type="submit" color="blue">
+        <Button type="submit" size="small" color="blue">
           Submit
           <Icon name="right chevron" />
         </Button>
