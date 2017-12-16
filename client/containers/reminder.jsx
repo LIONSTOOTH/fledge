@@ -1,129 +1,82 @@
-import React from "react";
-import axios from "axios";
-import thunk from "redux-thunk";
-import { connect } from "react-redux";
-import { Button, Icon } from "semantic-ui-react";
-import { Field, FieldArray, reduxForm, formValues } from "redux-form";
+import React from 'react';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import { connect } from 'react-redux';
+import { Button, Input, Form } from 'semantic-ui-react';
 
 class Reminder extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      reminderText: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.setReminder = this.setReminder.bind(this);
   }
 
-  editApplication(values) {
-    const context = this;
+  setReminder() {
+    const next = this.nextWeek();
+    const newReminder = {};
+    newReminder.summary = this.state.reminderText;
+    newReminder.start = next;
+    newReminder.reminder = true;
+    newReminder.reminderTime = 1;
+    this.props.addReminderToApp({ addReminder: newReminder });
+  }
 
-    if (this.props.application && this.props.application._id) {
-      for (const key in values) {
-        this.props.application[key] = values[key];
-      }
-      this.props.addOrUpdateApp({ edited: context.props.application });
-    } else {
-      this.props.addOrUpdateApp({ newApplication: values });
-    }
+  handleChange(e) {
+    this.setState({ reminderText: e.target.value });
+  }
+
+  nextWeek() {
+    const today = new Date();
+    const next = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 7,
+    );
+    return next;
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { application } = this.props;
     return (
-      <ul>
-        <li>
-          <button
-            type="button"
-            onClick={() => this.props.application.reminders.push({})}
-          >
-            Add a follow-up reminder!
-          </button>
-        </li>
-      </ul>
+      <Form onSubmit={this.setReminder}>
+        <Form.Field
+          control={Input}
+          onChange={this.handleChange}
+          label="Add a reminder"
+          type="text"
+          placeholder={`Follow up on ${application.company} application`}
+        />
+        <Button type="submit">Submit</Button>
+      </Form>
     );
   }
 }
 
-const addOrUpdateApp = valuesObject => {
-  return dispatch => {
-    const request = axios.post("/api/applications", valuesObject);
-
+const addReminderToApp = (valuesObject) => {
+  return (dispatch) => {
+    const request = axios.post('/api/reminders', valuesObject);
     return request
-      .then(response => {
+      .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 };
 
-const setReminder = () => {
-  return dispatch => {
-    const nextweek = () => {
-      var today = new Date();
-      var next = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() + 7
-      );
-      return next;
-    };
-
-    const request = axios.get("/api/reminders");
-
-    return request
-      .then(response => {
-        dispatch(fetchApplicationsSuccess(response.data.apps));
-      })
-      .catch(err => console.log(err));
-  };
-};
-
-const mapStateToProps = state => {
+const fetchApplicationsSuccess = (response) => {
   return {
-    applications: state.applicationReducer.applications
+    type: 'FETCH_SUCCESS',
+    payload: response,
   };
 };
 
-// ModalForm = reduxForm({
-//   form: "application"
-// })(ModalForm);
+const mapStateToProps = (state) => {
+  return {
+    applications: state.applicationReducer.applications,
+  };
+};
 
-export default connect(mapStateToProps, { setReminder, addOrUpdateApp })(
-  Reminder
-);
-
-/*
-var event = {
-  'summary': 'Google I/O 2015',
-  'location': '800 Howard St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2017-12-15T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'end': {
-    'dateTime': '2017-12-16T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'recurrence': [
-    'RRULE:FREQ=DAILY;COUNT=2'
-  ],
-  'attendees': [
-    {'email': 'lpage@example.com'},
-    {'email': 'sbrin@example.com'},
-  ],
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10},
-    ],
-  },
-
-
-
-  //create new date based on selection
-
-  function nextweek(){
-    var today = new Date();
-    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+7);
-    return nextweek;
-}
-
-  */
+export default connect(mapStateToProps, { addReminderToApp })(Reminder);
