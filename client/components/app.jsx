@@ -43,8 +43,7 @@ class App extends React.Component {
       <div>
         <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <div>
-          <Button onClick={this.toggleVisibility} icon="bars" secondary>
-          </Button>
+          <Button onClick={this.toggleVisibility} icon="bars" secondary />
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Menu}
@@ -67,9 +66,13 @@ class App extends React.Component {
                 <Icon name="line graph" />
                 Metrics
               </Menu.Item>
-              <Menu.Item name="Profile">
-                <Icon name="user" />
-                Profile
+              <Menu.Item name="Contacts">
+                <Icon name="address card outline" />
+                Contacts
+              </Menu.Item>
+              <Menu.Item name="Reminders">
+                <Icon name="bullhorn" />
+                Reminders
               </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
