@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { findDOMNode } from 'react-dom';
 import { DragSource } from 'react-dnd';
-import { getEmptyImage } from 'react-dnd-html5-backend';
 import ApplicationModal from '../containers/applicationModal.jsx';
 import { showModal } from '../actions/index.jsx';
 import ItemType from './ItemType.jsx';
@@ -12,83 +10,47 @@ const style = {
   cursor: 'move',
 };
 
-function getStyles(isDragging) {
-  return {
-    display: isDragging ? 0.5 : 1,
-  };
-}
-
-const applicationSource = {
-  beginDrag(props, monitor, component) {
-    // dispatch to redux store that drag is started
-
-    const applicationId = props._id;
-    const company = props.company;
-    const status = props.status;
-    const { clientWidth, clientHeight } = findDOMNode(component);
-
-    return { applicationId, company, status, clientWidth, clientHeight };
+const applicationSPEC = {
+  beginDrag(props) {
+    console.log(`BEGIN DRAG PROPS`, props);
+    return {
+      applicationId: props.id,
+    };
   },
-
   endDrag(props, monitor) {
-    let document = typeof document === 'undefined' ? '' : document;
-    document.getElementById(monitor.getItem().id).style.display = 'block';
-  },
-
-  isDragging(props, monitor) {
-    const isDragging = props.item && props.item.id === monitor.getItem().id;
-    return isDragging;
+    console.log(`END DRAG PROPS, MONITOR`, props, monitor);
+    return {
+      didDrop: monitor.didDrop(),
+      whatDropped: monitor.getDropResult(),
+      //if a chip drops i want to fire off a function
+    };
   },
 };
 
-// const OPTIONS = {
-//   arePropsEqual: function arePropsEqual(props, otherProps) {
-//     let isEqual = true;
-//     if (
-//       props.item.id === otherProps.item.id &&
-//       props.x === otherProps.x &&
-//       props.y === otherProps.y
-//     ) {
-//       isEqual = true;
-//     } else {
-//       isEqual = false;
-//     }
-//     return isEqual;
-//   },
-// };
-
-function collect(connect, monitor) {
+function applicationCOLLECT(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
     getItem: monitor.getItem(),
-    connectDragPreview: connect.dragPreview(),
+    getDropResult: monitor.getDropResult(),
   };
 }
 
 class ApplicationChip extends Component {
   constructor(props) {
     super(props);
-    console.log('APPLICATION_CHIP PROPS:', props);
-  }
-
-  componentDidMount() {
-    this.props.connectDragPreview(getEmptyImage(), {
-      captureDraggingState: true,
-    });
+    console.log('APPLICATION CHIP PROPS', props);
   }
 
   render() {
     const {
       connectDragSource,
-      isDragging,
       getItem,
       getDropResult,
     } = this.props;
-    console.log('APPLICATION_CHIP PROPS:', this.props);
     return connectDragSource(
-      <div style={style}>
-        <Card style={getStyles(this.props.isDraging)} item={this.props.application}>
+      <div style={style} application={this.props.application}>
+        <Card>
           <Card.Content>
             {/* <Image floated="right" size="mini" src="" /> */}
             <Card.Header>{this.props.application.company}</Card.Header>
@@ -114,7 +76,6 @@ class ApplicationChip extends Component {
 
 export default DragSource(
   ItemType.APPLICATION,
-  applicationSource,
-  collect,
-  // OPTIONS,
+  applicationSPEC,
+  applicationCOLLECT
 )(ApplicationChip);

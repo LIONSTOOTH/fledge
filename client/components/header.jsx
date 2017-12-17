@@ -1,15 +1,7 @@
 import React from 'react';
 import { Button, Segment, Header, Icon } from 'semantic-ui-react';
 
-const HeaderExamplePlugIcon = () => (
-  <Header as="h2">
-    <Icon name="plug" />
-    <Header.Content>Uptime Guarantee</Header.Content>
-  </Header>
-);
-
 export const Head = ({ isLoggedIn, toggleVisibility }) => {
-  console.log('HEADER PROPS:', toggleVisibility);
   return isLoggedIn ? (
     <div>
       <Segment size="large" color="black" clearing>
