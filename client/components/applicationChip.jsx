@@ -17,7 +17,7 @@ const applicationSPEC = {
       applicationId: props.id,
     };
   },
-  endDrag(props, monitor) {
+  endDrag(props, monitor, component) {
     console.log(`END DRAG PROPS, MONITOR`, props, monitor);
     return {
       didDrop: monitor.didDrop(),
@@ -30,7 +30,6 @@ const applicationSPEC = {
 function applicationCOLLECT(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
     getItem: monitor.getItem(),
     getDropResult: monitor.getDropResult(),
   };
