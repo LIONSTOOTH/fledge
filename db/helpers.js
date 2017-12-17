@@ -27,6 +27,7 @@ const saveApp = function(userId, app, callback) {
       date: app.date,
       position: app.position,
       company: app.company,
+      companyImg: app.companyImg,
       contact: {
         name: app.contact ? app.contact.name : null,
         position: app.contact ? app.contact.position : null,
@@ -60,6 +61,7 @@ const updateApp = (userId, app, callback) => {
     a.date = app.date;
     a.position = app.position;
     a.company = app.company;
+    a.companyImg = app.companyImg;
     a.contact = {
       name: app.contact.name,
       position: app.contact.position,
