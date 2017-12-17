@@ -10,22 +10,44 @@ class ModalForm extends React.Component {
     super(props);
     this.state = {
       businessList: [],
-      selectedOption: '',
       searchQuery: '',
+      currentCompany: this.props.application.company,
     }
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
   }
 
+  handleMouseDown(e, clickedResult) {
+    console.log('trying to find logo event target', e.target)
+    console.log('trying to find logo event target logo', e.target.logo)
+    this.setState({ currentCompany: e.target.innerText });
+    // set the selected company
+    this.props.application.company = e.target.innerText;
+
+  }
+
+  handleClose(e, result) {
+    console.log('handle close e:', e)
+    console.log('handle close result', result)
+    //post company name to server on close?
+
+    //console.log('trying to find logo event', e)
+
+    // set the selected company
+    //this.props.application.company = e.target.innerText;
+    // this.props.application.companyImg = clickedResult.img;
+    //this.props.addOrUpdateApp({ edited: this.props.application });
+  }
+
+
   handleSearchChange(e, { searchQuery }) {
-    // trying to grab the clicked item from dropdown
-    console.log('e onSearchChange:', e.target)
     this.setState({ searchQuery })
     axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=:${this.state.searchQuery}`)
       .then((response) => {
         //semantic renders dropdown by text property
         var mapped = response.data.map((b) => {
           b.text = b.name;
-          return b
+          return b;
         })
         console.log('RESPONSE', mapped)
         this.setState({ businessList: mapped })
@@ -45,7 +67,7 @@ class ModalForm extends React.Component {
 
   editApplication(values) {
     const context = this;
-
+    console.log('values are :', values)
     if (this.props.application && this.props.application._id) {
       for (const key in values) {
         this.props.application[key] = values[key];
@@ -74,10 +96,11 @@ class ModalForm extends React.Component {
             multiple={false}
             search={true}
             options={this.state.businessList}
-            value={this.state.searchQuery}
+            // value={application.company}
             placeholder={application.company}
-            //onChange={this.handleSearchChange}
             onSearchChange={this.handleSearchChange}
+            onClose={this.handleClose}
+            onMouseDown={this.handleMouseDown}
             disabled={false}
             loading={false}
           />
@@ -183,57 +206,4 @@ ModalForm = reduxForm({
   form: 'application'
 })(ModalForm);
 
-export default connect(mapStateToProps, { setReminder, addOrUpdateApp })(
-  ModalForm
-);
-
-/*
-var event = {
-  'summary': 'Google I/O 2015',
-  'location': '800 Howard St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2017-12-15T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'end': {
-    'dateTime': '2017-12-16T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'recurrence': [
-    'RRULE:FREQ=DAILY;COUNT=2'
-  ],
-  'attendees': [
-    {'email': 'lpage@example.com'},
-    {'email': 'sbrin@example.com'},
-  ],
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10},
-    ],
-  },
-
-
-
-  //create new date based on selection
-
-  function nextweek(){
-    var today = new Date();
-    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+7);
-    return nextweek;
-}
-
-
-{
-  company: 'Etsy'
-  start: '2017-12-15'
-  reminder: true
-  reminderTime: 1 (or 2 for weeks)
-}
-
-“Etsy application followup” || whatever user inputs
-
-
-*/
+export default connect(mapStateToProps, { setReminder, addOrUpdateApp })(ModalForm);
