@@ -27,6 +27,7 @@ const saveApp = function(userId, app, callback) {
       date: app.date,
       position: app.position,
       company: app.company,
+      companyImg: app.companyImg,
       contact: {
         name: app.contact ? app.contact.name : null,
         position: app.contact ? app.contact.position : null,
@@ -60,18 +61,19 @@ const updateApp = (userId, app, callback) => {
     a.date = app.date;
     a.position = app.position;
     a.company = app.company;
+    a.companyImg = app.companyImg;
     a.contact = {
-      name: app.contact.name,
-      position: app.contact.position,
-      email: app.contact.email,
-      phone: app.contact.phone,
+      name: app.contact ? app.contact.name : null,
+      position: app.contact ? app.contact.position : null,
+      email: app.contact ? app.contact.email : null,
+      phone: app.contact ? app.contact.phone : null,
       }
     a.contactDate = app.lastContactDate;
     a.checklist = {
-      researched: app.checklist.researched,
-      reachedOut: app.checklist.reachedOut,
-      sentNote: app.checklist.sentNote,
-      networked: app.checklist.networked,
+      researched: app.checklist ? app.checklist.researched : null,
+      reachedOut: app.checklist ? app.checklist.reachedOut : null,
+      sentNote: app.checklist ? app.checklist.sentNote : null,
+      networked: app.checklist ? app.checklist.networked : null,
       }
     a.status = app.status;
     data.save((err, saved) => {

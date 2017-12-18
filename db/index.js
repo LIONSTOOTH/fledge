@@ -13,6 +13,7 @@ const appSchema = new Schema({
   date: Date,
   position: String,
   company: String,
+  companyImg: String,
   contact: {
     name: String,
     position: String,
