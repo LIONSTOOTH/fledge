@@ -8,7 +8,6 @@ import ApplicationModal from '../containers/applicationModal.jsx';
 import { showModal } from '../actions/index.jsx';
 import ItemType from './ItemType.jsx';
 
-
 const style = {
   cursor: 'move',
 };
@@ -24,7 +23,9 @@ const applicationSPEC = {
     console.log(`END DRAG PROPS.APP`, props.application);
     console.log(`DROP RESULT!!!!:`, props.getDropResult);
     console.log('ID OF DROPPED APP!!!!:', props.id);
-    const edit = Object.assign(props.application, { status: props.getDropResult.component.title });
+    const edit = Object.assign(props.application, {
+      status: props.getDropResult.component.title,
+    });
     console.log('EDIT OBJECT!!!:', edit);
 
     addOrUpdateApp({ edited: edit });
