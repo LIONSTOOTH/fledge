@@ -18,25 +18,12 @@ class ModalForm extends React.Component {
   }
 
   handleMouseDown(e, clickedResult) {
-    console.log('trying to find logo event target', e.target)
-    console.log('trying to find logo event target logo', e.target.logo)
+    // console.log('trying to find logo event target', e.target)
+    // console.log('trying to find logo event target logo', e.target.logo)
     this.setState({ currentCompany: e.target.innerText });
-    // set the selected company
-    this.props.application.company = e.target.innerText;
 
-  }
-
-  handleClose(e, result) {
-    console.log('handle close e:', e)
-    console.log('handle close result', result)
-    //post company name to server on close?
-
-    //console.log('trying to find logo event', e)
-
-    // set the selected company
-    //this.props.application.company = e.target.innerText;
-    // this.props.application.companyImg = clickedResult.img;
-    //this.props.addOrUpdateApp({ edited: this.props.application });
+    // if the application already exists, set the selected company
+    this.props.application._id ? this.props.application.company = e.target.innerText : null;
   }
 
 
@@ -74,6 +61,7 @@ class ModalForm extends React.Component {
       }
       this.props.addOrUpdateApp({ edited: context.props.application });
     } else {
+      values.company = this.state.currentCompany;
       this.props.addOrUpdateApp({ newApplication: values });
     }
   }
@@ -96,8 +84,8 @@ class ModalForm extends React.Component {
             multiple={false}
             search={true}
             options={this.state.businessList}
-            // value={application.company}
-            placeholder={application.company}
+            //value={this.state.currentCompany}
+            placeholder={this.state.currentCompany}
             onSearchChange={this.handleSearchChange}
             onClose={this.handleClose}
             onMouseDown={this.handleMouseDown}
@@ -163,6 +151,7 @@ const fetchApplicationsSuccess = response => {
 };
 
 const addOrUpdateApp = valuesObject => {
+  console.log('calues object:', valuesObject)
   return dispatch => {
     const request = axios.post('/api/applications', valuesObject);
 
