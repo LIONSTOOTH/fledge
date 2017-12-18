@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react';
 import Landing from './landing.jsx';
-import { Header } from './header.jsx';
+import { Head } from './header.jsx';
 import Dashboard from './dashboard.jsx';
 
 class App extends React.Component {
@@ -36,16 +36,14 @@ class App extends React.Component {
     const { visible } = this.state;
     return !this.props.isLoggedIn ? (
       <div>
-        <Header isLoggedIn={this.props.isLoggedIn} logIn={handleLogin} />
+        <Head isLoggedIn={this.props.isLoggedIn} logIn={handleLogin} />
         <Landing />
       </div>
     ) : (
       <div>
-        <Header isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
+        <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <div>
-          <Button onClick={this.toggleVisibility} secondary>
-            Nav
-          </Button>
+          <Button onClick={this.toggleVisibility} icon="bars" secondary />
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Menu}
@@ -68,9 +66,13 @@ class App extends React.Component {
                 <Icon name="line graph" />
                 Metrics
               </Menu.Item>
-              <Menu.Item name="Profile">
-                <Icon name="user" />
-                Profile
+              <Menu.Item name="Contacts">
+                <Icon name="address card outline" />
+                Contacts
+              </Menu.Item>
+              <Menu.Item name="Reminders">
+                <Icon name="bullhorn" />
+                Reminders
               </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>

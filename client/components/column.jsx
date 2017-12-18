@@ -4,78 +4,63 @@ import { findDOMNode } from 'react-dom';
 import ApplicationChip from '../components/applicationChip.jsx';
 import ItemType from './ItemType.jsx';
 
-const columnTarget = {
+const columnSPEC = {
+  drop(component) {
+    return { component };
+  },
+
   hover(props, monitor, component) {
-    const dragIndex = monitor.getItem().index;
-    const hoverIndex = props.index;
-
-    // Don't replace items with themselves
-    if (dragIndex === hoverIndex) {
-      return;
-    }
-
-    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-
-    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-    const clientOffset = monitor.getClientOffset();
-
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-    // Dragging downwards
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-      return;
-    }
-
-    // Dragging upwards
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-      return;
-    }
-
-    // props.moveApp(dragIndex, hoverIndex);
-
-    monitor.getItem().index = hoverIndex;
+    // console.log('HOVER_PROPS, MONITOR, COMPONENT', props, monitor, component);
   },
 };
 
-function collect(connect, monitor) {
+function columnCOLLECT(connect, monitor, component) {
   return {
+    hovered: monitor.isOver(),
+    draggedApp: monitor.getItem(),
+    didDrop: monitor.didDrop(),
+    getDropResult: monitor.getDropResult(),
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    isOverCurrent: monitor.isOver({ shallow: true }),
   };
 }
 
 class Column extends Component {
   constructor(props) {
     super(props);
-    console.log('COLUMN PROPS!!', props);
   }
 
   render() {
     const {
       title,
       applications,
+      application,
+      hovered,
+      draggedApp,
+      didDrop,
+      getDropResult,
       connectDropTarget,
-      isOver,
-      isOverCurrent,
     } = this.props;
-    console.log('ALL COLUMN PROPS', this.props);
     return connectDropTarget(
-      <div>
-        <h1>{title}</h1>
-        <ul>
+      <div id={title}>
+        <h2>{title}</h2>
+        <span>
           {applications.map(application => (
             <ApplicationChip
               key={application._id}
               id={application._id}
               application={application}
+              status={application.status}
+              draggedApp={draggedApp}
+              getDropResult={getDropResult}
+              didDrop={didDrop}
             />
           ))}
-        </ul>
+        </span>
       </div>
     );
   }
 }
 
-export default DropTarget(ItemType.APPLICATION, columnTarget, collect)(Column);
+export default DropTarget(ItemType.APPLICATION, columnSPEC, columnCOLLECT)(
+  Column
+);

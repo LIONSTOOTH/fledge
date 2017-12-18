@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
+import axios from 'axios';
 import { connect } from 'react-redux';
+import thunk from 'redux-thunk';
 import { DragSource } from 'react-dnd';
 import ApplicationModal from '../containers/applicationModal.jsx';
 import { showModal } from '../actions/index.jsx';
@@ -10,42 +12,47 @@ const style = {
   cursor: 'move',
 };
 
-const applicationSource = {
+const applicationSPEC = {
   beginDrag(props) {
+    console.log(`BEGIN DRAG PROPS`, props);
     return {
-      applicationId: props._id,
-      company: props.company,
-      status: props.status,
+      applicationId: props.id,
     };
+  },
+  endDrag(props, monitor, component) {
+    console.log(`END DRAG PROPS.APP`, props.application);
+    console.log(`DROP RESULT!!!!:`, props.getDropResult);
+    console.log('ID OF DROPPED APP!!!!:', props.id);
+    const edit = Object.assign(props.application, {
+      status: props.getDropResult.component.title,
+    });
+    console.log('EDIT OBJECT!!!:', edit);
+
+    addOrUpdateApp({ edited: edit });
+    // return {
+    //   didDrop: monitor.didDrop(),
+    //   whatDropped: monitor.getDropResult(),
+    //   //if a chip drops i want to fire off a function
+    // };
   },
 };
 
-function collect(connect, monitor) {
+function applicationCOLLECT(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
     getItem: monitor.getItem(),
-    getDropResult: monitor.getDropResult(),
   };
 }
 
 class ApplicationChip extends Component {
   constructor(props) {
     super(props);
-    console.log('APPLICATION_CHIP PROPS:', props);
   }
 
   render() {
-    const {
-      connectDragSource,
-      isDragging,
-      getItem,
-      getDropResult,
-      ItemType,
-    } = this.props;
-    console.log('APPLICATION_CHIP PROPS:', this.props);
+    const { connectDragSource, getItem, getDropResult } = this.props;
     return connectDragSource(
-      <div style={style}>
+      <div style={style} application={this.props.application}>
         <Card>
           <Card.Content>
             {/* <Image floated="right" size="mini" src="" /> */}
@@ -70,6 +77,61 @@ class ApplicationChip extends Component {
   }
 }
 
-export default DragSource(ItemType.APPLICATION, applicationSource, collect)(
-  ApplicationChip
-);
+const getAllApplications = () => {
+  return dispatch => {
+    // dispatch a flag action to show waiting view
+    dispatch({ type: 'IS_FETCHING', payload: true });
+
+    const request = axios.get('/api/applications');
+
+    return request
+      .then(response => {
+        console.log('response from server:', response);
+        dispatch(fetchApplicationsSuccess(response.data.applications));
+      })
+      .then(dispatch({ type: 'IS_FETCHING', payload: false }))
+      .catch(err => console.log(err));
+  };
+};
+
+// dispatches an action
+const fetchApplicationsSuccess = response => {
+  console.log('FETCH_APPLICATION SUCCESS', response);
+  return {
+    type: 'FETCH_SUCCESS',
+    payload: response,
+  };
+};
+
+const addOrUpdateApp = valuesObject => {
+  console.log('GETTING CALLED!');
+  console.log('VALUES OBJ', valuesObject);
+  return dispatch => {
+    console.log(`DISPATCHING FROM ADDORUPDATE`);
+    const request = axios.post('/api/applications', valuesObject);
+
+    return request
+      .then(response => {
+        dispatch(fetchApplicationsSuccess(response.data.applications));
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    applications: state.applicationReducer.applications,
+    isFetching: state.fetchFlagReducer.isFetching,
+  };
+};
+
+ApplicationChip = DragSource(
+  ItemType.APPLICATION,
+  applicationSPEC,
+  applicationCOLLECT
+)(ApplicationChip);
+
+export default connect(mapStateToProps, {
+  fetchApplicationsSuccess,
+  getAllApplications,
+})(ApplicationChip);

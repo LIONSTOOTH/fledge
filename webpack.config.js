@@ -4,20 +4,21 @@ module.exports = {
   entry: './client/index.jsx',
   output: {
     path: path.resolve('dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
-    loaders : [
+    loaders: [
       {
-          loader : 'babel-loader',
-          exclude: /node_modules/,
-          query: {
-            presets: ['react', 'es2015', 'stage-0']
-          }
-      }
-    ]
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          plugins: ['transform-decorators-legacy'],
+          presets: ['react', 'es2015', 'stage-1'],
+        },
+      },
+    ],
   },
   resolveLoader: {
-    moduleExtensions: ['-loader']
+    moduleExtensions: ['-loader'],
   },
-}
+};
