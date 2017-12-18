@@ -5,11 +5,12 @@ import ApplicationChip from '../components/applicationChip.jsx';
 import ItemType from './ItemType.jsx';
 
 const columnSPEC = {
-  drop(props, monitor, component) {
-    console.log('DROP PROPS:', props, monitor, component);
+  drop(component) {
+    return { component };
   },
+
   hover(props, monitor, component) {
-    console.log(`HOVER_PROPS, MONITOR, COMPONENT`, props, monitor, component);
+    // console.log('HOVER_PROPS, MONITOR, COMPONENT', props, monitor, component);
   },
 };
 
@@ -18,6 +19,7 @@ function columnCOLLECT(connect, monitor, component) {
     hovered: monitor.isOver(),
     draggedApp: monitor.getItem(),
     didDrop: monitor.didDrop(),
+    getDropResult: monitor.getDropResult(),
     connectDropTarget: connect.dropTarget(),
   };
 }
@@ -35,9 +37,9 @@ class Column extends Component {
       hovered,
       draggedApp,
       didDrop,
+      getDropResult,
       connectDropTarget,
     } = this.props;
-    console.log(`COLUMN PROPS:`, this.props);
     return connectDropTarget(
       <div id={title}>
         <h2>{title}</h2>
@@ -48,6 +50,9 @@ class Column extends Component {
               id={application._id}
               application={application}
               status={application.status}
+              draggedApp={draggedApp}
+              getDropResult={getDropResult}
+              didDrop={didDrop}
             />
           ))}
         </span>
