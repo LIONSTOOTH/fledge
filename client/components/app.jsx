@@ -9,6 +9,10 @@ import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react';
 import Landing from './landing.jsx';
 import { Head } from './header.jsx';
 import Dashboard from './dashboard.jsx';
+import Materials from './materials.jsx';
+import Metrics from './metrics.jsx';
+import Contacts from './contacts.jsx';
+import Reminders from './reminders.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +20,7 @@ class App extends React.Component {
 
     this.state = {
       visible: false,
+      pusher: 1,
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -34,6 +39,19 @@ class App extends React.Component {
 
   render() {
     const { visible } = this.state;
+    let view = null;
+    if (this.state.pusher === 1) {
+      view = <Dashboard />;
+    } else if (this.state.pusher === 2) {
+      view = <Materials />;
+    } else if (this.state.pusher === 3) {
+      view = <Metrics />;
+    } else if (this.state.pusher === 4) {
+      view = <Contacts />;
+    } else if (this.state.pusher === 5) {
+      view = <Reminders />;
+    }
+
     return !this.props.isLoggedIn ? (
       <div>
         <Head isLoggedIn={this.props.isLoggedIn} logIn={handleLogin} />
@@ -54,31 +72,38 @@ class App extends React.Component {
               vertical
               inverted
             >
-              <Menu.Item name="Dashboard">
+              <Menu.Item
+                name="Dashboard"
+                onClick={(event) => this.setState({ pusher: 1 })}
+              >
                 <Icon name="rocket" />
                 Dashboard
               </Menu.Item>
-              <Menu.Item name="App Materials">
+              <Menu.Item
+                name="App Materials"
+                onClick={(event) => this.setState({ pusher: 2 })}
+              >
                 <Icon name="folder" />
                 App Materials
               </Menu.Item>
-              <Menu.Item name="Metrics">
+              <Menu.Item name="Metrics" onClick={(event) => this.setState({ pusher: 3 })}>
                 <Icon name="line graph" />
                 Metrics
               </Menu.Item>
-              <Menu.Item name="Contacts">
+              <Menu.Item name="Contacts" onClick={(event) => this.setState({ pusher: 4 })}>
                 <Icon name="address card outline" />
                 Contacts
               </Menu.Item>
-              <Menu.Item name="Reminders">
+              <Menu.Item
+                name="Reminders"
+                onClick={(event) => this.setState({ pusher: 5 })}
+              >
                 <Icon name="bullhorn" />
                 Reminders
               </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
-              <Segment basic>
-                <Dashboard />
-              </Segment>
+              <Segment basic>{view}</Segment>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </div>

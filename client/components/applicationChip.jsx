@@ -12,7 +12,6 @@ const style = {
   cursor: 'move',
 };
 
-
 class ApplicationChip extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +40,6 @@ class ApplicationChip extends Component {
   }
 }
 
-
 // dispatches an action
 const fetchApplicationsSuccess = response => {
   return {
@@ -51,7 +49,8 @@ const fetchApplicationsSuccess = response => {
 };
 
 const addOrUpdateApp = (valuesObject, func) => {
-  axios.post('/api/applications', valuesObject)
+  axios
+    .post('/api/applications', valuesObject)
     .then(response => func(response))
     .catch(err => console.log(err));
 };
@@ -88,9 +87,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log('dispatch in map to props:',dispatch)
+  console.log('dispatch in map to props:', dispatch);
   return {
-    dropItem: (response) => dispatch(fetchApplicationsSuccess(response.data.applications)),
+    dropItem: response =>
+      dispatch(fetchApplicationsSuccess(response.data.applications)),
   };
 };
 
