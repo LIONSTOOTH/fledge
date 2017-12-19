@@ -12,37 +12,6 @@ const style = {
   cursor: 'move',
 };
 
-const applicationSPEC = {
-  beginDrag(props) {
-    console.log(`BEGIN DRAG PROPS`, props);
-    return {
-      applicationId: props.id,
-    };
-  },
-  endDrag(props, monitor, component) {
-    console.log(`END DRAG PROPS.APP`, props.application);
-    console.log(`DROP RESULT!!!!:`, props.getDropResult);
-    console.log('ID OF DROPPED APP!!!!:', props.id);
-    const edit = Object.assign(props.application, {
-      status: props.getDropResult.component.title,
-    });
-    console.log('EDIT OBJECT!!!:', edit);
-
-    addOrUpdateApp({ edited: edit });
-    // return {
-    //   didDrop: monitor.didDrop(),
-    //   whatDropped: monitor.getDropResult(),
-    //   //if a chip drops i want to fire off a function
-    // };
-  },
-};
-
-function applicationCOLLECT(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    getItem: monitor.getItem(),
-  };
-}
 
 class ApplicationChip extends Component {
   constructor(props) {
@@ -77,22 +46,6 @@ class ApplicationChip extends Component {
   }
 }
 
-const getAllApplications = () => {
-  return dispatch => {
-    // dispatch a flag action to show waiting view
-    dispatch({ type: 'IS_FETCHING', payload: true });
-
-    const request = axios.get('/api/applications');
-
-    return request
-      .then(response => {
-        console.log('response from server:', response);
-        dispatch(fetchApplicationsSuccess(response.data.applications));
-      })
-      .then(dispatch({ type: 'IS_FETCHING', payload: false }))
-      .catch(err => console.log(err));
-  };
-};
 
 // dispatches an action
 const fetchApplicationsSuccess = response => {
@@ -103,25 +56,74 @@ const fetchApplicationsSuccess = response => {
   };
 };
 
-const addOrUpdateApp = valuesObject => {
-  console.log('GETTING CALLED!');
-  console.log('VALUES OBJ', valuesObject);
-  return dispatch => {
-    console.log(`DISPATCHING FROM ADDORUPDATE`);
-    const request = axios.post('/api/applications', valuesObject);
+const addOrUpdateApp = (valuesObject, func) => {
 
-    return request
-      .then(response => {
-        dispatch(fetchApplicationsSuccess(response.data.applications));
-      })
-      .catch(err => console.log(err));
-  };
+  console.log('GETTING CALLED with valuesObject', valuesObject);
+  console.log('func is :', func)
+  axios.post('/api/applications', valuesObject)
+    .then(response => func(response))
+    .catch(err => console.log(err));
+
+
+  // console.log('GETTING CALLED with valuesObject', valuesObject);
+  // console.log('func is :', func)
+  // return dispatch => {
+  //   console.log(`DISPATCHING FROM ADDORUPDATE`);
+  //   const request = axios.post('/api/applications', valuesObject);
+
+  //   return request
+  //     .then(response => func(apps))
+  //     .catch(err => console.log(err));
+  // };
 };
+
+const applicationSPEC = {
+  beginDrag(props) {
+    console.log(`BEGIN DRAG PROPS`, props);
+    return {
+      applicationId: props.id,
+    };
+  },
+  endDrag(props, monitor, component) {
+    console.log(`END DRAG PROPS.APP`, props.application);
+    console.log(`DROP RESULT!!!!:`, props.getDropResult);
+    console.log('ID OF DROPPED APP!!!!:', props.id);
+    const edit = Object.assign(props.application, {
+      status: props.getDropResult.component.title,
+    });
+    console.log('EDIT OBJECT!!!:', edit);
+
+    console.log(`END DRAG PROPS`, props);
+
+    //props.getDropResult.component.applications.push(edit);
+
+    addOrUpdateApp({ edited: edit }, props.dropItem);
+    // return {
+    //   didDrop: monitor.didDrop(),
+    //   whatDropped: monitor.getDropResult(),
+    //   //if a chip drops i want to fire off a function
+    // };
+  },
+};
+
+function applicationCOLLECT(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    getItem: monitor.getItem(),
+  };
+}
 
 const mapStateToProps = state => {
   return {
     applications: state.applicationReducer.applications,
     isFetching: state.fetchFlagReducer.isFetching,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  console.log('dispatch in map to props:',dispatch)
+  return {
+    dropItem: (response) => dispatch(fetchApplicationsSuccess(response.data.applications)),
   };
 };
 
@@ -131,7 +133,4 @@ ApplicationChip = DragSource(
   applicationCOLLECT
 )(ApplicationChip);
 
-export default connect(mapStateToProps, {
-  fetchApplicationsSuccess,
-  getAllApplications,
-})(ApplicationChip);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationChip);
