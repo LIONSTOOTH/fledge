@@ -1,11 +1,8 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Button, Segment, Header, Icon } from 'semantic-ui-react';
-=======
-import { Button, Segment } from 'semantic-ui-react';
 import GooglePicker from './react-google-picker.jsx';
 
->>>>>>> Added Google drive upload via google picker
+
 
 export const Head = ({ isLoggedIn, toggleVisibility }) => {
   return isLoggedIn ? (
