@@ -2,56 +2,73 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, Input, Form } from 'semantic-ui-react';
+import { Button, Input, Form, Dropdown } from 'semantic-ui-react';
 
 class Reminder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       reminderText: '',
+      numWeeks: '1',
     };
-    this.handleChange = this.handleChange.bind(this);
     this.setReminder = this.setReminder.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   setReminder() {
-    const next = this.nextWeek();
+    const next = this.nextWeek(this.state.numWeeks);
     const newReminder = {};
     newReminder.summary = this.state.reminderText;
     newReminder.start = next;
-    console.log(next)
-    newReminder.reminder = true;
-    newReminder.reminderTime = 1;
+    newReminder.applicationId = this.props.application._id;
     this.props.addReminderToApp({ addReminder: newReminder });
   }
 
-  handleChange(e) {
-    this.setState({ reminderText: e.target.value });
+  handleChange(e, value) {
+    let obj = {};
+    obj[value.id] = value.value;
+    this.setState(obj);
   }
 
-  nextWeek() {
-    const today = new Date();
-    const next = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() + 7,
-    );
-    return next;
+  nextWeek(weeks) {
+    var next = new Date();
+    return new Date(next.getFullYear(), next.getMonth(), next.getDate() + (7 * parseInt(weeks)));
   }
 
   render() {
-    const { application } = this.props;
+    const { application, company } = this.props;
+    const options = [{ key: 1, text: '1', value: '1' }, { key: 2, text: '2', value: '2' }];
     return (
+      <div>
       <Form onSubmit={this.setReminder}>
         <Form.Field
           control={Input}
           onChange={this.handleChange}
           label="Add a reminder"
           type="text"
-          placeholder={`Follow up on ${application.company} application`}
+          id="reminderText"
+          placeholder={`Follow up on ${company} application`}
         />
+          Set reminder for
+          <Dropdown
+          placeholder='1'
+          id="numWeeks"
+          compact
+          selection
+          options={options}
+          onChange={this.handleChange}
+          /> week(s)
+          <br/>
+          <br/>
         <Button type="submit">Submit</Button>
       </Form>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      </div>
     );
   }
 }

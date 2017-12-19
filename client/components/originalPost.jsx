@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Button, Form, Icon, Input, TextArea } from 'semantic-ui-react'
 
 const options = [
@@ -6,7 +6,7 @@ const options = [
   { key: 'f', text: 'Female', value: 'female' },
 ]
 
-class originalPost extends Component {
+class originalPost extends React.Component {
   constructor() {
     super();
     this.state = {}
@@ -20,14 +20,22 @@ class originalPost extends Component {
     const { value } = this.state;
     const theButton = () => (<Button type="submit" size="small" color="blue">Submit<Icon name="right chevron"/></Button>);
     return (
+      <div>
       <Form>
         <Form.Group widths='equal'>
-          <Form.Field control={Input} label='Link to original job posting:' placeholder='Add url' />
+          <Form.Field control={Input} type="url" label='Link to original job posting:' placeholder='Add url' />
         </Form.Group>
         <Form.Field control={TextArea} label='Post details:' placeholder='Copy and paste post details here...' />
         <Form.Field control={theButton}>
         </Form.Field>
       </Form>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      </div>
     )
   }
 }
