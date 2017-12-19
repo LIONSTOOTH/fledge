@@ -35,7 +35,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.LOCAL_GOOGLE_REDIRECT || 'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback',
-      proxy: true,
+
     },
     // lookup or create a new user using the googleId (no associated username or password)
     (accessToken, refreshToken, profile, done) => {
