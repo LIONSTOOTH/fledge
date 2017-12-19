@@ -11,6 +11,7 @@ const saveNewUser = (user, callback) => {
     email: user.email,
     password: user.password,
     apps: [],
+    reminders: [],
   });
   newUser.save((err, savedUser) => {
     if (err) {
@@ -19,6 +20,32 @@ const saveNewUser = (user, callback) => {
       callback(null, savedUser);
     }
   });
+};
+
+const saveReminder = function(userId, reminder, callback) {
+  console.log('saving reminder: ' + reminder + ' for userId: ' + userId)
+  db.User.findOne({ googleId: userId }).then(user => {
+    user.reminders.push(reminder);
+    user.save((err, reminder) => {
+      if (err) {
+        console.log('reminder db save error', err);
+        callback(err, null);
+      } else {
+        console.log('reminder db save success', reminder);
+        callback(null, reminder);
+      }
+    });
+  });
+}
+
+const getReminders = (userId, callback) => {
+  db.User.find({ googleId: userId })
+    .then(user => {
+      callback(null, user[0].reminders);
+    })
+    .catch(err => {
+      callback(err, null);
+    });
 };
 
 const saveApp = function(userId, app, callback) {
@@ -131,3 +158,5 @@ module.exports.saveUser = saveNewUser;
 module.exports.saveApp = saveApp;
 module.exports.updateApp = updateApp;
 module.exports.findOrCreateUser = findOrCreateUser;
+module.exports.saveReminder = saveReminder;
+module.exports.getReminders = getReminders;

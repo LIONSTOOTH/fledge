@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Segment, Header, Icon } from 'semantic-ui-react';
+import GooglePicker from './react-google-picker.jsx';
 
 export const Head = ({ isLoggedIn, toggleVisibility }) => {
   return isLoggedIn ? (

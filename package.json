@@ -29,6 +29,7 @@
     "express-session": "^1.15.6",
     "google-auth-library": "^0.12.0",
     "googleapis": "^23.0.0",
+    "load-script": "^1.0.0",
     "mongo": "^0.1.0",
     "mongodb": "^3.0.0-rc0",
     "mongoose": "^4.13.6",
@@ -38,6 +39,7 @@
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.2.0",
+    "react-google-picker": "0.0.7",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
@@ -53,6 +55,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
-    "node-mongo-seeds": "^2.3.2"
+    "node-mongo-seeds": "^2.3.2",
+    "prop-types": "^15.6.0"
   }
 }
