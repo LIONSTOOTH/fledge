@@ -33,15 +33,15 @@ class ModalForm extends React.Component {
   }
 
   render() {
-    const { handleMouseDown, handleChange, position, date, company, status } = this.props;
+    const { handleMouseDown, handleChange, handleStatusChange, position, date, company, status } = this.props;
     const { value } = this.state;
     const d = new Date(date);
     const options = [
-      { key: 1, text: 'In Progress', value: 'selectedStatus' },
-      { key: 2, text: 'Submitted', value: 'selectedStatus' },
-      { key: 3, text: 'Phone Screen', value: 'selectedStatus' },
-      { key: 4, text: 'Onsite Interview', value: 'selectedStatus' },
-      { key: 5, text: 'Offer', value: 'selectedStatus' },
+      { key: 1, text: 'In Progress', value: 'In Progress' },
+      { key: 2, text: 'Submitted', value: 'Submitted' },
+      { key: 3, text: 'Phone Screen', value: 'Phone Screen' },
+      { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
+      { key: 5, text: 'Offer', value: 'Offer' },
     ];
     console.log('COMPANY IN MODAL FORM: ', company)
     return (
@@ -83,13 +83,14 @@ class ModalForm extends React.Component {
           />
           <br />
           <Dropdown
-            onChange={handleMouseDown}
-            //onClose={handleMouseDown}
+            //onChange={handleMouseDown}
+            onChange={handleStatusChange}
             options={options}
             placeholder={status ? status : 'Choose an option'}
             selection
+            selectOnNavigation={false}
             //value={value}
-            // id="selectedStatus"
+            id="selectedStatus"
           />
         </Form>
       </div>

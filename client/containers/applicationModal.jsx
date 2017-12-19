@@ -29,9 +29,11 @@ class ApplicationModal extends React.Component {
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.sendData = this.sendData.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleStatusChange = this.handleStatusChange.bind(this);
   }
 
   handleMouseDown(e, { value }) {
+    //
     console.log('onmousedown:',e.target.innerText)
     console.log('onmousedown value:', value)
       if (e.target.innerText) {
@@ -45,12 +47,23 @@ class ApplicationModal extends React.Component {
   }
 
   handleItemClick(e, { name }) {
+    // to toggle component view for modal
     this.setState({ activeItem: name });
   }
 
-  handleChange(e) {
+  handleChange(e, { value }) {
+    console.log('handlechange value:', value)
+    console.log('handlechange e.target.value:', e.target.value)
+    console.log('handlechange e.target.id:', e.target.id)
+    // var obj = {};
+    // obj[e.target.id] = e.target.value;
+    // this.setState(obj);
+  }
+
+  handleStatusChange(e, value) {
+    // specifically for the status dropdown
     var obj = {};
-    obj[e.target.id] = e.target.value;
+    obj[value.id] = value.value;
     this.setState(obj);
   }
 
@@ -135,6 +148,7 @@ class ApplicationModal extends React.Component {
                   date={inputDate}
                   handleMouseDown={this.handleMouseDown}
                   handleChange={this.handleChange}
+                  handleStatusChange={this.handleStatusChange}
                 />
               </Grid.Column>
             </Grid>
