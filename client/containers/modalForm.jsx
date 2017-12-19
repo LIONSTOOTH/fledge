@@ -18,9 +18,12 @@ class ModalForm extends React.Component {
     axios.get(
       `https://autocomplete.clearbit.com/v1/companies/suggest?query=:${this.state.searchQuery}`)
       .then(response => {
+        var uniqueKey = 1;
         //semantic renders dropdown by text property
         var mapped = response.data.map(b => {
           b.text = b.name;
+          b.value = 'currentCompany'; //this allows the state in appModal to be updated
+          b.key = uniqueKey + 1; //having a problem with unique keys, company name won't render
           return b;
         });
         console.log('RESPONSE', mapped);
@@ -34,12 +37,13 @@ class ModalForm extends React.Component {
     const { value } = this.state;
     const d = new Date(date);
     const options = [
-      { key: 1, text: 'In Progress', value: 1 },
-      { key: 2, text: 'Submitted', value: 2 },
-      { key: 3, text: 'Phone Screen', value: 3 },
-      { key: 4, text: 'Onsite Interview', value: 4 },
-      { key: 5, text: 'Offer', value: 5 },
+      { key: 1, text: 'In Progress', value: 'selectedStatus' },
+      { key: 2, text: 'Submitted', value: 'selectedStatus' },
+      { key: 3, text: 'Phone Screen', value: 'selectedStatus' },
+      { key: 4, text: 'Onsite Interview', value: 'selectedStatus' },
+      { key: 5, text: 'Offer', value: 'selectedStatus' },
     ];
+    console.log('COMPANY IN MODAL FORM: ', company)
     return (
       <div>
         <Form>
@@ -51,9 +55,10 @@ class ModalForm extends React.Component {
               multiple={false}
               search={true}
               options={this.state.businessList}
+              value="currentCompany"
               placeholder={company}
               onSearchChange={this.handleSearchChange}
-              onMouseDown={handleMouseDown}
+              onChange={handleMouseDown}
               disabled={false}
               loading={false}
               id="currentCompany"
@@ -84,7 +89,7 @@ class ModalForm extends React.Component {
             placeholder={status ? status : 'Choose an option'}
             selection
             //value={value}
-            id="selectedStatus"
+            // id="selectedStatus"
           />
         </Form>
       </div>

@@ -31,14 +31,17 @@ class ApplicationModal extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleMouseDown(e) {
+  handleMouseDown(e, { value }) {
     console.log('onmousedown:',e.target.innerText)
-    console.log('onmousedown:',e.target.id)
-    var obj = {};
-    obj[e.target.id] = e.target.innerText;
-    this.setState(obj);
-    console.log(this.state.selectedStatus)
-    // this.setState({ currentCompany: e.target.innerText });
+    console.log('onmousedown value:', value)
+      if (e.target.innerText) {
+      var obj = {};
+      obj[value] = e.target.innerText;
+      this.setState(obj, () => {
+        console.log('selectedstatus:',this.state.selectedStatus)
+        console.log('currentco:',this.state.currentCompany)
+      });
+    }
   }
 
   handleItemClick(e, { name }) {
