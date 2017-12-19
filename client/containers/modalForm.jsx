@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Icon, Dropdown, Form, Field, Input } from 'semantic-ui-react';
-import { field, FieldArray, reduxForm, formValues } from 'redux-form';
+import { Dropdown, Form, Input } from 'semantic-ui-react';
 
 class ModalForm extends React.Component {
   constructor(props) {
@@ -9,6 +8,7 @@ class ModalForm extends React.Component {
     this.state = {
       businessList: [],
       searchQuery: '',
+      value: '',
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
@@ -31,6 +31,15 @@ class ModalForm extends React.Component {
 
   render() {
     const { handleMouseDown, handleChange, position, date, company, status } = this.props;
+    const { value } = this.state;
+    const d = new Date(date);
+    const options = [
+      { key: 1, text: 'In Progress', value: 1 },
+      { key: 2, text: 'Submitted', value: 2 },
+      { key: 3, text: 'Phone Screen', value: 3 },
+      { key: 4, text: 'Onsite Interview', value: 4 },
+      { key: 5, text: 'Offer', value: 5 },
+    ];
     return (
       <div>
         <Form>
@@ -42,13 +51,12 @@ class ModalForm extends React.Component {
               multiple={false}
               search={true}
               options={this.state.businessList}
-              //value={this.state.currentCompany}
               placeholder={company}
               onSearchChange={this.handleSearchChange}
-              //onClose={this.handleClose}
               onMouseDown={handleMouseDown}
               disabled={false}
               loading={false}
+              id="currentCompany"
             />
           </div>
           <br />
@@ -61,34 +69,23 @@ class ModalForm extends React.Component {
             placeholder={position}
           />
           <br />
-          <div>
-            <label htmlFor="date">Date Applied</label>
-            <field
-              name="date"
-              component="input"
-              type="text"
-              placeholder={date}
-            />
-          </div>
+          <Form.Field
+            control={Input}
+            onChange={handleChange}
+            label={`Date Applied: ${ isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}` }
+            type="date"
+            id="inputDate"
+          />
           <br />
-          <div>
-            <label>Status</label>
-            <span>
-              <field name="status" component="select" placeholder="">
-                <option value={status}>
-                  {' '}
-                  {status}
-                </option>
-                <option value="In Progress">In Progress</option>
-                <option value="Submitted">Submitted</option>
-                <option value="Phone Screen">Phone Screen</option>
-                <option value="Onsite Interview">Onsite Interview</option>
-                <option value="Offer">Offer</option>
-              </field>
-            </span>
-          </div>
-          <br />
-          <br />
+          <Dropdown
+            onChange={handleMouseDown}
+            //onClose={handleMouseDown}
+            options={options}
+            placeholder={status ? status : 'Choose an option'}
+            selection
+            //value={value}
+            id="selectedStatus"
+          />
         </Form>
       </div>
     );
