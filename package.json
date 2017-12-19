@@ -41,6 +41,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
     "redux-form": "^7.2.0",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.77.0",
@@ -52,7 +53,6 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
-    "node-mongo-seeds": "^2.3.2",
-    "redux-devtools-extension": "^2.13.2"
+    "node-mongo-seeds": "^2.3.2"
   }
 }
