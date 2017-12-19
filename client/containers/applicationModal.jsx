@@ -6,23 +6,92 @@ import {
   Menu,
   Segment,
   Modal,
+  Icon,
 } from 'semantic-ui-react';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import { connect } from 'react-redux';
 import ModalNavContainer from '../components/modalNavContainer.jsx';
 
 class ApplicationModal extends React.Component {
-  constructor() {
-    super();
-    this.state = { activeItem: 'Application Details' };
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeItem: 'Application Details',
+      currentCompany: this.props.application.company,
+      inputDate: this.props.application.date,
+      inputPosition: this.props.application.position,
+      selectedStatus: this.props.application.status,
+      reminderText: '',
+
+     };
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+   // this.editApplication = this.editApplication.bind(this);
+    this.sendData = this.sendData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleMouseDown(e, clickedResult) {
+    this.setState({ currentCompany: e.target.innerText });
+    // if the application already exists, set the selected company
+    // this.props.application._id
+      //? (this.props.application.company = e.target.innerText)
+      //: null;
   }
 
   handleItemClick(e, { name }) {
     this.setState({ activeItem: name });
   }
 
+  handleChange(e) {
+    console.log('handle change called:', e.target.value)
+    console.log('handle change called:', e.target.id)
+    var obj = {};
+    obj[e.target.id] = e.target.value;
+    this.setState(obj);
+  }
+
+  // editApplication(values) {
+  //   const context = this;
+  //   console.log('values are :', values);
+  //   if (this.props.application && this.props.application._id) {
+  //     for (const key in values) {
+  //       this.props.application[key] = values[key];
+  //     }
+  //     this.props.addOrUpdateApp({ edited: context.props.application });
+  //   } else {
+  //     values.company = this.state.currentCompany;
+  //     this.props.addOrUpdateApp({ newApplication: values });
+  //   }
+  // }
+
+  sendData() {
+    console.log('sendData called: ')
+    // if application exists update vals
+    if (this.props.application && this.props.application._id) {
+      this.props.application.company = this.state.currentCompany;
+      this.props.application.date = this.state.inputDate;
+      this.props.application.position = this.state.inputPosition;
+      this.props.application.status = this.state.selectedStatus;
+      // send as edited
+      this.props.addOrUpdateApp({ edited: this.props.application });
+    // otherwise create new application object with vals
+    } else {
+      const newApp = {};
+      newApp.company = this.state.currentCompany;
+      newApp.date = this.state.inputDate;
+      newApp.position = this.state.inputPosition;
+      newApp.status = this.state.selectedStatus;
+      // send as new
+      this.props.addOrUpdateApp({ newApplication: newApp });
+    }
+  // should also close the modal
+  }
+
   render() {
     const { application, trigger } = this.props;
-    const { activeItem } = this.state;
+    const { activeItem, currentCompany, inputDate, inputPosition, selectedStatus } = this.state;
     return (
       <Modal
         trigger={
@@ -71,15 +140,54 @@ class ApplicationModal extends React.Component {
               <Grid.Column stretched width={12}>
                 <ModalNavContainer
                   application={application}
-                  view={this.state.activeItem}
+                  view={activeItem}
+                  company={currentCompany}
+                  position={inputPosition}
+                  status={selectedStatus}
+                  date={inputDate}
+                  handleMouseDown={this.handleMouseDown}
+                  handleChange={this.handleChange}
+                  closeIcon={Button}
+                  //editApplication={this.editApplication}
                 />
               </Grid.Column>
             </Grid>
           </Segment>
+          <Button onClick={this.sendData} size="small" color="blue">
+            Submit
+            <Icon name="right chevron" />
+          </Button>
         </Modal.Content>
       </Modal>
     );
   }
 }
 
-export default ApplicationModal;
+const fetchApplicationsSuccess = response => {
+  return {
+    type: 'FETCH_SUCCESS',
+    payload: response,
+  };
+};
+
+const addOrUpdateApp = valuesObject => {
+  console.log('calues object:', valuesObject);
+  return dispatch => {
+    const request = axios.post('/api/applications', valuesObject);
+    return request
+      .then(response => {
+        dispatch(fetchApplicationsSuccess(response.data.applications));
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    applications: state.applicationReducer.applications,
+  };
+};
+
+
+export default connect(mapStateToProps, { addOrUpdateApp })(ApplicationModal);
+

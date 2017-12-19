@@ -4,15 +4,23 @@ import Reminder from '../containers/reminder.jsx';
 import OriginalPost from './originalPost.jsx';
 import Contacts from './modalContacts.jsx';
 
-const modalNavContainer = ({ view, application }) => {
+const modalNavContainer = ({ view, date, company, position, status, handleMouseDown, handleChange, editApplication }) => {
   if (view === 'Application Details') {
-    return (<ModalForm application={application} onSubmit={values => console.log(this.props)}/>);
+    return (<ModalForm
+      date={date}
+      company={company}
+      position={position}
+      status={status}
+      handleMouseDown={handleMouseDown}
+      handleChange={handleChange}
+      editApplication={editApplication}
+            />);
   } else if (view === 'Add A Reminder') {
-    return (<Reminder application={application}/>);
+    return (<Reminder />);
   } else if (view === 'Original Posting') {
-    return (<OriginalPost application={application}/>);
+    return (<OriginalPost />);
   } else if (view === 'Contacts') {
-    return (<Contacts application={application}/>);
+    return (<Contacts />);
   }
 };
 
