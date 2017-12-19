@@ -19,6 +19,7 @@ class ApplicationModal extends React.Component {
     this.state = {
       activeItem: 'Application Details',
       currentCompany: this.props.application.company,
+      companyImg: this.props.application.companyImg,
       inputDate: this.props.application.date,
       inputPosition: this.props.application.position,
       selectedStatus: this.props.application.status,
@@ -32,18 +33,15 @@ class ApplicationModal extends React.Component {
     this.handleStatusChange = this.handleStatusChange.bind(this);
   }
 
-  handleMouseDown(e, { value }) {
-    //
-    console.log('onmousedown:',e.target.innerText)
-    console.log('onmousedown value:', value)
-      if (e.target.innerText) {
-      var obj = {};
-      obj[value] = e.target.innerText;
-      this.setState(obj, () => {
-        console.log('selectedstatus:',this.state.selectedStatus)
-        console.log('currentco:',this.state.currentCompany)
-      });
-    }
+  handleMouseDown(e, value) {
+    // specifically for the company search bar
+    console.log('onmousedown id:',value.id)
+    console.log('onmousedown innerText:', e.target.innerText)
+    if (e.target.innerText) {
+    var obj = {};
+    obj[value.id] = e.target.innerText;
+    this.setState(obj)
+  }
   }
 
   handleItemClick(e, { name }) {
@@ -52,23 +50,23 @@ class ApplicationModal extends React.Component {
   }
 
   handleChange(e, { value }) {
+    // passed to position, reminder, url, job description fields
     console.log('handlechange value:', value)
     console.log('handlechange e.target.value:', e.target.value)
     console.log('handlechange e.target.id:', e.target.id)
-    // var obj = {};
-    // obj[e.target.id] = e.target.value;
-    // this.setState(obj);
+    var obj = {};
+    obj[e.target.id] = e.target.value;
+    this.setState(obj);
   }
 
   handleStatusChange(e, value) {
-    // specifically for the status dropdown
+    // specifically for the application status dropdown
     var obj = {};
     obj[value.id] = value.value;
     this.setState(obj);
   }
 
   sendData() {
-    console.log('sendData called: ')
     // if application exists update vals
     if (this.props.application && this.props.application._id) {
       this.props.application.company = this.state.currentCompany;
@@ -92,7 +90,7 @@ class ApplicationModal extends React.Component {
 
   render() {
     const { application, trigger } = this.props;
-    const { activeItem, currentCompany, inputDate, inputPosition, selectedStatus } = this.state;
+    const { activeItem, currentCompany, companyImg, inputDate, inputPosition, selectedStatus } = this.state;
     return (
       <Modal
         trigger={
@@ -106,8 +104,8 @@ class ApplicationModal extends React.Component {
         }
       >
         <Modal.Header>
-          <span><Header>{application.company}</Header>{application.companyPhotoUrl}</span>
-          {application.position}
+          <span><Header>{currentCompany}</Header>{companyImg}</span>
+          {inputPosition}
         </Modal.Header>
 
         <Modal.Content scrolling>

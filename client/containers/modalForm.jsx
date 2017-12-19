@@ -8,7 +8,6 @@ class ModalForm extends React.Component {
     this.state = {
       businessList: [],
       searchQuery: '',
-      value: '',
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
@@ -22,8 +21,6 @@ class ModalForm extends React.Component {
         //semantic renders dropdown by text property
         var mapped = response.data.map(b => {
           b.text = b.name;
-          b.value = 'currentCompany'; //this allows the state in appModal to be updated
-          b.key = uniqueKey + 1; //having a problem with unique keys, company name won't render
           return b;
         });
         console.log('RESPONSE', mapped);
@@ -55,10 +52,9 @@ class ModalForm extends React.Component {
               multiple={false}
               search={true}
               options={this.state.businessList}
-              value="currentCompany"
               placeholder={company}
               onSearchChange={this.handleSearchChange}
-              onChange={handleMouseDown}
+              onMouseDown={handleMouseDown}
               disabled={false}
               loading={false}
               id="currentCompany"
@@ -83,13 +79,11 @@ class ModalForm extends React.Component {
           />
           <br />
           <Dropdown
-            //onChange={handleMouseDown}
             onChange={handleStatusChange}
             options={options}
             placeholder={status ? status : 'Choose an option'}
             selection
             selectOnNavigation={false}
-            //value={value}
             id="selectedStatus"
           />
         </Form>
