@@ -30,6 +30,11 @@ const appSchema = new Schema({
   status: String,
 });
 
+const reminderSchema = new Schema({
+  summary: String,
+  start: String,
+});
+
 const userSchema = new Schema({
   username: String,
   photoUrl: String,
@@ -38,6 +43,7 @@ const userSchema = new Schema({
   email: String,
   password: String,
   apps: [appSchema], // array of _.id props of users apps
+  reminders: [reminderSchema],
 });
 
 const User = mongoose.model('User', userSchema);

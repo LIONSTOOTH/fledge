@@ -184,6 +184,14 @@ app.get('/logged', (req, res) => {
 app.post('/api/reminders', (req, res) => {
 
   console.log('setting google calendar reminder', req.body)
+  let userId = req.user.googleId;
+  helpers.saveReminder(userId, req.body.addReminder, (err) => {
+      if (err) {
+        console.log('Error saving reminder:', err);
+      } else {
+        console.log('Reminder Saved')
+      }
+    });
 
   let startDate = req.body.addReminder.start.split('').slice(0, 10).join('');
 
