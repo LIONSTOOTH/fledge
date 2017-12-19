@@ -19,6 +19,7 @@ class Reminder extends React.Component {
     const newReminder = {};
     newReminder.summary = this.state.reminderText;
     newReminder.start = next;
+    console.log(next)
     // newReminder.reminder = true;
     // newReminder.reminderTime = 1;
     this.props.addReminderToApp({ addReminder: newReminder });

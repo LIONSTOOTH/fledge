@@ -38,6 +38,16 @@ const saveReminder = function(userId, reminder, callback) {
   });
 }
 
+const getReminders = (userId, callback) => {
+  db.User.find({ googleId: userId })
+    .then(user => {
+      callback(null, user[0].reminders);
+    })
+    .catch(err => {
+      callback(err, null);
+    });
+};
+
 const saveApp = function(userId, app, callback) {
   db.User.findOne({ googleId: userId }).then(user => {
     user.apps.push({
@@ -149,3 +159,4 @@ module.exports.saveApp = saveApp;
 module.exports.updateApp = updateApp;
 module.exports.findOrCreateUser = findOrCreateUser;
 module.exports.saveReminder = saveReminder;
+module.exports.getReminders = getReminders;

@@ -127,52 +127,21 @@ app.get('/api/applications', (req, res) => {
   });
 });
 
+app.get('/api/reminders', (req, res) => {
+  console.log('getting reminders')
+  // get reminders for specific user
+  helpers.getReminders(req.user.googleId, (err, reminders) => {
+    console.log(reminders)
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(JSON.stringify(reminders));
+    }
+  });
+});
+
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
-
-
-//     console.log('setting google calendar reminder', req.body)
-
-//     var event = {
-//   'summary': 'Google I/O 2015',
-//   'description': 'A chance to hear more about Google\'s developer products.',
-//   'start': {
-//     'dateTime': '2017-12-15T06:00:00-08:00',
-//   },
-//   'end': {
-//     'dateTime': '2017-12-15T18:00:00-08:00',
-//   },
-//   'reminders': {
-//     'useDefault': false,
-//     'overrides': [
-//       {'method': 'email', 'minutes': 1},
-//       {'method': 'popup', 'minutes': 1},
-//     ],
-//   },
-// };
-
-// {
-//   company: 'Etsy'
-//   start: '2017-12-15'
-//   reminder: true
-//   reminderTime: 1 (or 2, for we)
-// }
-
-
-// var calendar = google.calendar('v3');
-// calendar.events.insert({
-//   auth: oauth2Client,
-//   calendarId: 'primary',
-//   resource: event,
-// }, function(err, event) {
-//   console.log('what the heck')
-//   if (err) {
-//     console.log('There was an error contacting the Calendar service: ' + err);
-//     return;
-//   }
-//   console.log('Event created: %s', event.htmlLink);
-// });
-
     res.send(req.isAuthenticated());
   } else {
     res.sendStatus(401);
