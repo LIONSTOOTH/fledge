@@ -48,9 +48,6 @@ class ApplicationModal extends React.Component {
 
   handleChange(e, { value }) {
     // passed to position, reminder, url, job description fields
-    console.log('handlechange value:', value)
-    console.log('handlechange e.target.value:', e.target.value)
-    console.log('handlechange e.target.id:', e.target.id)
     var obj = {};
     obj[e.target.id] = e.target.value;
     this.setState(obj);

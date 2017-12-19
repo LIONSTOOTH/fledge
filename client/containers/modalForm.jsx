@@ -17,7 +17,6 @@ class ModalForm extends React.Component {
     axios.get(
       `https://autocomplete.clearbit.com/v1/companies/suggest?query=:${this.state.searchQuery}`)
       .then(response => {
-        var uniqueKey = 1;
         //semantic renders dropdown by text property
         var mapped = response.data.map(b => {
           b.text = b.name;
