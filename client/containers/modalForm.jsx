@@ -50,6 +50,7 @@ class ModalForm extends React.Component {
               fluid
               selection
               multiple={false}
+              label="Company"
               search={true}
               options={this.state.businessList}
               placeholder={company}
@@ -87,6 +88,11 @@ class ModalForm extends React.Component {
             id="selectedStatus"
           />
         </Form>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     );
   }

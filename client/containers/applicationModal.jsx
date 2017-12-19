@@ -23,7 +23,6 @@ class ApplicationModal extends React.Component {
       inputDate: this.props.application.date,
       inputPosition: this.props.application.position,
       selectedStatus: this.props.application.status,
-      reminderText: '',
 
      };
     this.handleItemClick = this.handleItemClick.bind(this);
@@ -35,8 +34,6 @@ class ApplicationModal extends React.Component {
 
   handleMouseDown(e, value) {
     // specifically for the company search bar
-    console.log('onmousedown id:',value.id)
-    console.log('onmousedown innerText:', e.target.innerText)
     if (e.target.innerText) {
     var obj = {};
     obj[value.id] = e.target.innerText;
@@ -85,7 +82,7 @@ class ApplicationModal extends React.Component {
       // send as new
       this.props.addOrUpdateApp({ newApplication: newApp });
     }
-    // should also close the modal at this point
+    // should also close the modal at this point?
   }
 
   render() {
