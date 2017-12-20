@@ -87,7 +87,7 @@ app.get(
 
 app.get(
   '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/ckcktct' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
   }
@@ -136,26 +136,32 @@ app.get('/api/applications', (req, res) => {
 });
 
 app.post('/api/contacts', (req, res) => {
-  console.log('adding a contact')
-  helpers.saveContact(req.user.googleId, req.body.addContact, (err, allApps) => {
-    console.log('response from db contact:', allApps)
-    if (err) {
-      console.log('Error adding contact: ', err);
-    } else {
-      res.send(JSON.stringify({ applications: allApps.apps }));
-    }
-  });
+  console.log('adding a contact in server', req.body.addContact)
+  // if an app id has been provided
+  if (req.body.addContact.contact._id) {
+    helpers.saveContactToExistingApp(req.user.googleId, req.body.addContact, (err, user) => {
+      console.log('response from db contact:', user)
+      if (err) {
+        console.log('Error adding contact: ', err);
+      } else {
+        res.send(JSON.stringify({ contacts: user.contacts }));
+      }
+    });
+  } else {
+    //app has not been created yet, what to do?
+  }
 });
 
+//incomplete at the moment
 app.get('/api/contacts', (req, res) => {
   console.log('getting contacts')
   // get reminders for specific user
-  helpers.getContacts(req.user.googleId, (err, contacts) => {
+  helpers.getContacts(req.user.googleId, (err, allContacts) => {
     if (err) {
-      console.log(err);
+      console.log('Error getting contacts: ', err);
     } else {
-      console.log('contaccts from db', contacts)
-      res.send(JSON.stringify(contacts));
+      console.log('response:',allContacts)
+      res.send(JSON.stringify({ contacts: allContacts }));
     }
   });
 });

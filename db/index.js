@@ -59,5 +59,9 @@ const userSchema = new Schema({
 });
 
 const User = mongoose.model('User', userSchema);
+const Contact = mongoose.model('Contact', contactSchema);
+const App = mongoose.model('App', appSchema);
 
 module.exports.User = User;
+module.exports.Contact = Contact;
+module.exports.App = App;

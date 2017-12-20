@@ -49,10 +49,21 @@ const getReminders = (userId, callback) => {
     });
 };
 
-const saveContact = (userId, reminder, callback) => {
-  console.log('saving contact: ' + contact + ' for userId: ' + userId)
+const saveContactToExistingApp = (userId, appContact, callback) => {
+  console.log('saving contact in helpers: ',appContact)
+  // find user
   db.User.findOne({ googleId: userId }).then(user => {
-    user.contacts.push(contact);
+    // push new contact document to user contacts array
+    user.contacts.push(
+      new db.Contact({
+        position: appContact.contact.position,
+        company: appContact.contact.company,
+        email: appContact.contact.email,
+        name: appContact.contact.name,
+        phone: appContact.contact.phone,
+        applicationId: appContact.contact._id,
+      })
+    );
     user.save((err, contact) => {
       if (err) {
         console.log('contact db save error', err);
@@ -175,5 +186,5 @@ module.exports.updateApp = updateApp;
 module.exports.findOrCreateUser = findOrCreateUser;
 module.exports.saveReminder = saveReminder;
 module.exports.getReminders = getReminders;
-module.exports.saveContact = saveContact;
+module.exports.saveContactToExistingApp = saveContactToExistingApp;
 module.exports.getContacts = getContacts;
