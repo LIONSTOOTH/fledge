@@ -3,11 +3,10 @@ require('dotenv').config();
 
 // mongoose.connect('mongodb://localhost/fledge');
 mongoose.connect(
-  'mongodb://localhost/fledge' ||
     `mongodb://${process.env.DB_USER}:${
       process.env.DB_PASS
-    }@ds135486.mlab.com:35486/heroku_kgsk3z8c`,
-  { mongoUseClient: true }
+    }@ds135486.mlab.com:35486/heroku_kgsk3z8c` || 'mongodb://localhost/fledge',
+  { useMongoClient: true }
 );
 
 const db = mongoose.connection;
