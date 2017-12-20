@@ -158,7 +158,7 @@ app.get('/logged', (req, res) => {
 app.get('/logout', function(req, res) {
   console.log('LOGOUT REQUEST', req);
   req.logout();
-  res.redirect('/logged');
+  res.redirect('/');
 });
 
 app.post('/api/reminders', (req, res) => {

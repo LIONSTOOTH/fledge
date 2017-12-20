@@ -9,7 +9,7 @@ const Dashboard = props => (
       application=""
       trigger={
         <button class="circular ui icon green button" >
-          <i class="plus icon"></i>
+          <i class="plus icon" />
         </button>
       }
     />
