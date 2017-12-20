@@ -20,7 +20,7 @@ class Reminder extends React.Component {
     const newReminder = {};
     newReminder.summary = this.state.reminderText;
     newReminder.start = next;
-    newReminder.applicationId = this.props.application._id;
+    newReminder.application = this.props.application;
     this.props.addReminderToApp({ addReminder: newReminder });
   }
 

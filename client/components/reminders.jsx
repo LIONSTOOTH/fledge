@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ApplicationModal from '../containers/applicationModal.jsx';
 
 class Reminders extends React.Component {
   constructor(props) {
@@ -40,6 +41,8 @@ class Reminders extends React.Component {
         <h2>{
     dateDiffInDays(a, (new Date(reminder.start)))
           } days left</h2>
+          <ApplicationModal application={reminder.application} />
+
         </div>
 
         )}
