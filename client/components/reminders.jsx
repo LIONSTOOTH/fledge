@@ -10,11 +10,11 @@ class Reminders extends React.Component {
     this.state = {
       reminders: [],
     };
-
   }
 
   componentWillMount() {
     let context = this;
+
     console.log('getting reminders from client')
 
     axios.get('/api/reminders').then(res => {
@@ -84,4 +84,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { addOrUpdateApp })(Reminders);
+export default connect(mapStateToProps, { addOrUpdateApp })(Reminders)

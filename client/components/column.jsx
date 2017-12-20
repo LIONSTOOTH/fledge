@@ -5,6 +5,14 @@ import { Segment } from 'semantic-ui-react';
 import ApplicationChip from '../components/applicationChip.jsx';
 import ItemType from './ItemType.jsx';
 
+function getStyle(backgroundColor) {
+  return {
+    minHeight: '760px',
+    backgroundColor,
+    textAlign: 'center',
+  };
+}
+
 const columnSPEC = {
   drop(component) {
     return { component };
@@ -41,22 +49,30 @@ class Column extends Component {
       getDropResult,
       connectDropTarget,
     } = this.props;
+    let backgroundColor = 'rgba(0, 0, 0, .5)'
+    if (hovered) {
+      backgroundColor = 'darkgreen';
+    }
     return connectDropTarget(
-      <div id={title} class="ui center aligned tertiary inverted segment">
-          <h2>{title}</h2>
-          <span>
-            {applications.map(application => (
-              <ApplicationChip
-                key={application._id}
-                id={application._id}
-                application={application}
-                status={application.status}
-                draggedApp={draggedApp}
-                getDropResult={getDropResult}
-                didDrop={didDrop}
-              />
-            ))}
-          </span>
+      <div
+        id={title}
+        class="ui center aligned tertiary inverted segment"
+        style={getStyle(backgroundColor)}
+      >
+        <h2>{title}</h2>
+        <span>
+          {applications.map(application => (
+            <ApplicationChip
+              key={application._id}
+              id={application._id}
+              application={application}
+              status={application.status}
+              draggedApp={draggedApp}
+              getDropResult={getDropResult}
+              didDrop={didDrop}
+            />
+          ))}
+        </span>
       </div>
     );
   }

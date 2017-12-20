@@ -12,6 +12,7 @@ const saveNewUser = (user, callback) => {
     password: user.password,
     apps: [],
     reminders: [],
+    contacts: [],
   });
   newUser.save((err, savedUser) => {
     if (err) {
@@ -22,7 +23,7 @@ const saveNewUser = (user, callback) => {
   });
 };
 
-const saveReminder = function(userId, reminder, callback) {
+const saveReminder = (userId, reminder, callback) => {
   console.log('saving reminder: ' + reminder + ' for userId: ' + userId)
   db.User.findOne({ googleId: userId }).then(user => {
     user.reminders.push(reminder);
@@ -48,19 +49,50 @@ const getReminders = (userId, callback) => {
     });
 };
 
-const saveApp = function(userId, app, callback) {
+const saveContactToExistingApp = (userId, appContact, callback) => {
+  console.log('saving contact in helpers: ',appContact)
+  // find user
+  db.User.findOne({ googleId: userId }).then(user => {
+    // push new contact document to user contacts array
+    user.contacts.push(
+      new db.Contact({
+        position: appContact.contact.position,
+        company: appContact.contact.company,
+        email: appContact.contact.email,
+        name: appContact.contact.name,
+        phone: appContact.contact.phone,
+        applicationId: appContact.contact._id,
+      })
+    );
+    user.save((err, contact) => {
+      if (err) {
+        console.log('contact db save error', err);
+        callback(err, null);
+      } else {
+        console.log('contact db save success', contact);
+        callback(null, contact);
+      }
+    });
+  });
+}
+
+const getContacts = (userId, callback) => {
+  db.User.find({ googleId: userId })
+    .then(user => {
+      callback(null, user[0].contacts);
+    })
+    .catch(err => {
+      callback(err, null);
+    });
+};
+
+const saveApp = (userId, app, callback) => {
   db.User.findOne({ googleId: userId }).then(user => {
     user.apps.push({
       date: app.date,
       position: app.position,
       company: app.company,
       companyImg: app.companyImg,
-      contact: {
-        name: app.contact ? app.contact.name : null,
-        position: app.contact ? app.contact.position : null,
-        email: app.contact ? app.contact.email : null,
-        phone: app.contact ? app.contact.phone : null,
-      },
       contactDate: app.lastContactDate,
       checklist: {
         researched: app.checklist ? app.checklist.researched : null,
@@ -89,12 +121,6 @@ const updateApp = (userId, app, callback) => {
     a.position = app.position;
     a.company = app.company;
     a.companyImg = app.companyImg;
-    a.contact = {
-      name: app.contact ? app.contact.name : null,
-      position: app.contact ? app.contact.position : null,
-      email: app.contact ? app.contact.email : null,
-      phone: app.contact ? app.contact.phone : null,
-      }
     a.contactDate = app.lastContactDate;
     a.checklist = {
       researched: app.checklist ? app.checklist.researched : null,
@@ -160,3 +186,5 @@ module.exports.updateApp = updateApp;
 module.exports.findOrCreateUser = findOrCreateUser;
 module.exports.saveReminder = saveReminder;
 module.exports.getReminders = getReminders;
+module.exports.saveContactToExistingApp = saveContactToExistingApp;
+module.exports.getContacts = getContacts;
