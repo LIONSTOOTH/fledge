@@ -23,8 +23,7 @@ class ApplicationModal extends React.Component {
       inputDate: this.props.application.date,
       inputPosition: this.props.application.position,
       selectedStatus: this.props.application.status,
-
-     };
+    };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.sendData = this.sendData.bind(this);
@@ -35,10 +34,10 @@ class ApplicationModal extends React.Component {
   handleMouseDown(e, value) {
     // specifically for the company search bar
     if (e.target.innerText) {
-    var obj = {};
-    obj[value.id] = e.target.innerText;
-    this.setState(obj)
-  }
+      var obj = {};
+      obj[value.id] = e.target.innerText;
+      this.setState(obj);
+    }
   }
 
   handleItemClick(e, { name }) {
@@ -69,7 +68,7 @@ class ApplicationModal extends React.Component {
       this.props.application.status = this.state.selectedStatus;
       // send as edited
       this.props.addOrUpdateApp({ edited: this.props.application });
-    // otherwise create new application object with vals
+      // otherwise create new application object with vals
     } else {
       const newApp = {};
       newApp.company = this.state.currentCompany;
@@ -84,7 +83,14 @@ class ApplicationModal extends React.Component {
 
   render() {
     const { application, trigger } = this.props;
-    const { activeItem, currentCompany, companyImg, inputDate, inputPosition, selectedStatus } = this.state;
+    const {
+      activeItem,
+      currentCompany,
+      companyImg,
+      inputDate,
+      inputPosition,
+      selectedStatus,
+    } = this.state;
     return (
       <Modal
         trigger={
@@ -92,13 +98,16 @@ class ApplicationModal extends React.Component {
             trigger
           ) : (
             <Button basic color="blue">
-              Expand
+              <i class="expand icon" />
             </Button>
           )
         }
       >
         <Modal.Header>
-          <span><Header>{currentCompany}</Header>{companyImg}</span>
+          <span>
+            <Header>{currentCompany}</Header>
+            {companyImg}
+          </span>
           {inputPosition}
         </Modal.Header>
 
@@ -180,6 +189,4 @@ const mapStateToProps = state => {
   };
 };
 
-
 export default connect(mapStateToProps, { addOrUpdateApp })(ApplicationModal);
-

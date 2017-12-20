@@ -42,7 +42,7 @@ class Column extends Component {
       connectDropTarget,
     } = this.props;
     return connectDropTarget(
-      <div id={title} class="ui center aligned segment">
+      <div id={title} class="ui center aligned tertiary inverted segment">
           <h2>{title}</h2>
           <span>
             {applications.map(application => (

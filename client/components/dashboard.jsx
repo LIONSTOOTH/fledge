@@ -8,9 +8,9 @@ const Dashboard = props => (
     <ApplicationModal
       application=""
       trigger={
-        <Button basic color="blue">
-          Add application
-        </Button>
+        <button class="circular ui icon green button" >
+          <i class="plus icon"></i>
+        </button>
       }
     />
     <Kanban />

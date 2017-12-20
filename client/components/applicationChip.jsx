@@ -31,7 +31,7 @@ class ApplicationChip extends Component {
               <div className="ui two buttons">
                 <ApplicationModal application={this.props.application} />
                 <Button basic color="red">
-                  Delete
+                  <i class="trash icon"></i>
                 </Button>
               </div>
             </Card.Content>
