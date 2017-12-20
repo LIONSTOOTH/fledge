@@ -19,6 +19,7 @@ class Kanban extends React.Component {
   }
 
   render() {
+    console.log('applications in kanban: ', this.props.applications)
     if (this.props.isFetching) {
       return (
         <div>

@@ -1,10 +1,6 @@
 import React from 'react'
 import { Button, Form, Icon, Input, TextArea } from 'semantic-ui-react'
 
-const options = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-]
 
 class originalPost extends React.Component {
   constructor() {

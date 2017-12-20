@@ -39,7 +39,6 @@ class ModalForm extends React.Component {
       { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
-    console.log('COMPANY IN MODAL FORM: ', company)
     return (
       <div>
         <Form>
