@@ -28,7 +28,7 @@ class Kanban extends React.Component {
     } else {
       return (
         <div>
-          <Grid columns={5} divided>
+          <Grid columns={5} >
             <Grid.Row>
               <Grid.Column>
                 <Column

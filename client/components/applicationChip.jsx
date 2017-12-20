@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, Image } from 'semantic-ui-react';
+import { Button, Card, Image, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -20,21 +20,23 @@ class ApplicationChip extends Component {
   render() {
     const { connectDragSource, getItem, getDropResult } = this.props;
     return connectDragSource(
-      <div style={style} application={this.props.application}>
-        <Card>
-          <Card.Content>
-            <Card.Header>{this.props.application.company}</Card.Header>
-            <Card.Meta>{this.props.application.position}</Card.Meta>
-          </Card.Content>
-          <Card.Content extra>
-            <div className="ui two buttons">
-              <ApplicationModal application={this.props.application} />
-              <Button basic color="red">
-                Delete
-              </Button>
-            </div>
-          </Card.Content>
-        </Card>
+      <div>
+        <Segment style={style} application={this.props.application} basic>
+          <Card>
+            <Card.Content>
+              <Card.Header>{this.props.application.company}</Card.Header>
+              <Card.Meta>{this.props.application.position}</Card.Meta>
+            </Card.Content>
+            <Card.Content extra>
+              <div className="ui two buttons">
+                <ApplicationModal application={this.props.application} />
+                <Button basic color="red">
+                  <i class="trash icon"></i>
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        </Segment>
       </div>
     );
   }

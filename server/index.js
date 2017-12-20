@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const passport = require('passport');
+const logout = require('express-passport-logout');
 const expressSession = require('express-session');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const db = require('../db/index.js');
@@ -34,17 +35,20 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.LOCAL_GOOGLE_REDIRECT || 'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback',
-
+      callbackURL:
+        process.env.LOCAL_GOOGLE_REDIRECT ||
+        'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback',
     },
     // lookup or create a new user using the googleId (no associated username or password)
     (accessToken, refreshToken, profile, done) => {
       let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
       let clientId = process.env.GOOGLE_CLIENT_ID;
-      let redirectUrl = process.env.LOCAL_GOOGLE_REDIRECT || 'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback';
+      let redirectUrl =
+        process.env.LOCAL_GOOGLE_REDIRECT ||
+        'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback';
       let auth = new googleAuth();
       oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-      let tokenObj = { access_token: accessToken, refresh_token: refreshToken }
+      let tokenObj = { access_token: accessToken, refresh_token: refreshToken };
       oauth2Client.credentials = tokenObj;
 
       helpers.findOrCreateUser(
@@ -81,7 +85,6 @@ app.get(
   })
 );
 
-
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/ckcktct' }),
   (req, res) => {
@@ -96,7 +99,7 @@ app.get('/', (req, res) => {
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
 
-    // if request is for edit
+  // if request is for edit
   if (req.body.edited !== undefined) {
     console.log('edit application post request');
     helpers.updateApp(userId, req.body.edited, (err, updatedUser) => {
@@ -107,7 +110,7 @@ app.post('/api/applications', (req, res) => {
       }
     });
 
-  // if request is for adding new
+    // if request is for adding new
   } else if (req.body.newApplication !== undefined) {
     console.log('add application post request');
     helpers.saveApp(userId, req.body.newApplication, (err, user) => {
@@ -132,10 +135,10 @@ app.get('/api/applications', (req, res) => {
 });
 
 app.get('/api/reminders', (req, res) => {
-  console.log('getting reminders')
+  console.log('getting reminders');
   // get reminders for specific user
   helpers.getReminders(req.user.googleId, (err, reminders) => {
-    console.log(reminders)
+    console.log(reminders);
     if (err) {
       console.log(err);
     } else {
@@ -152,55 +155,64 @@ app.get('/logged', (req, res) => {
   }
 });
 
-
+app.get('/logout', function(req, res) {
+  console.log('LOGOUT REQUEST', req);
+  req.logout();
+  res.redirect('/');
+});
 
 app.post('/api/reminders', (req, res) => {
-
-  console.log('setting google calendar reminder', req.body)
+  console.log('setting google calendar reminder', req.body);
   let userId = req.user.googleId;
-  helpers.saveReminder(userId, req.body.addReminder, (err) => {
-      if (err) {
-        console.log('Error saving reminder:', err);
-      } else {
-        console.log('Reminder Saved')
-      }
-    });
+  helpers.saveReminder(userId, req.body.addReminder, err => {
+    if (err) {
+      console.log('Error saving reminder:', err);
+    } else {
+      console.log('Reminder Saved');
+    }
+  });
 
-  let startDate = req.body.addReminder.start.split('').slice(0, 10).join('');
-
-
+  let startDate = req.body.addReminder.start
+    .split('')
+    .slice(0, 10)
+    .join('');
 
   let event = {
-    'summary': req.body.addReminder.summary,
-    'description': 'https://murmuring-mesa-56363.herokuapp.com/',
-    'start': {
-      'dateTime': startDate + 'T06:00:00-08:00',
+    summary: req.body.addReminder.summary,
+    description: 'https://murmuring-mesa-56363.herokuapp.com/',
+    start: {
+      dateTime: startDate + 'T06:00:00-08:00',
     },
-    'end': {
-      'dateTime': startDate + 'T08:00:00-08:00',
+    end: {
+      dateTime: startDate + 'T08:00:00-08:00',
     },
-    'reminders': {
-      'useDefault': false,
-      'overrides': [
-        {'method': 'email', 'minutes': 1},
-        {'method': 'popup', 'minutes': 1},
+    reminders: {
+      useDefault: false,
+      overrides: [
+        { method: 'email', minutes: 1 },
+        { method: 'popup', minutes: 1 },
       ],
     },
-};
+  };
 
   let calendar = google.calendar('v3');
 
-  calendar.events.insert({
-    auth: oauth2Client,
-    calendarId: 'primary',
-    resource: event,
-  }, function(err, event) {
-    if (err) {
-      console.log('There was an error contacting the Calendar service: ' + err);
-      return;
+  calendar.events.insert(
+    {
+      auth: oauth2Client,
+      calendarId: 'primary',
+      resource: event,
+    },
+    function(err, event) {
+      if (err) {
+        console.log(
+          'There was an error contacting the Calendar service: ' + err
+        );
+        return;
+      }
+      console.log('Event created: %s', event.htmlLink);
     }
-    console.log('Event created: %s', event.htmlLink);
-  });
+  );
 
   helpers.getApplications(req.user.googleId, (err, apps) => {
     if (err) {
@@ -209,15 +221,11 @@ app.post('/api/reminders', (req, res) => {
       res.send(JSON.stringify({ applications: apps }));
     }
   });
-
-
 });
-
 
 app.listen(app.get('port'), () =>
   console.log('app running on port', app.get('port'))
 );
-
 
 /*
 // need to refactor client side logout

@@ -74,29 +74,35 @@ class App extends React.Component {
             >
               <Menu.Item
                 name="Dashboard"
-                onClick={(event) => this.setState({ pusher: 1 })}
+                onClick={event => this.setState({ pusher: 1 })}
               >
                 <Icon name="rocket" />
                 Dashboard
               </Menu.Item>
               <Menu.Item
                 name="App Materials"
-                onClick={(event) => this.setState({ pusher: 2 })}
+                onClick={event => this.setState({ pusher: 2 })}
               >
                 <Icon name="folder" />
                 App Materials
               </Menu.Item>
-              <Menu.Item name="Metrics" onClick={(event) => this.setState({ pusher: 3 })}>
+              <Menu.Item
+                name="Metrics"
+                onClick={event => this.setState({ pusher: 3 })}
+              >
                 <Icon name="line graph" />
                 Metrics
               </Menu.Item>
-              <Menu.Item name="Contacts" onClick={(event) => this.setState({ pusher: 4 })}>
+              <Menu.Item
+                name="Contacts"
+                onClick={event => this.setState({ pusher: 4 })}
+              >
                 <Icon name="address card outline" />
                 Contacts
               </Menu.Item>
               <Menu.Item
                 name="Reminders"
-                onClick={(event) => this.setState({ pusher: 5 })}
+                onClick={event => this.setState({ pusher: 5 })}
               >
                 <Icon name="bullhorn" />
                 Reminders
@@ -126,19 +132,6 @@ const handleLogin = () => {
   };
 };
 
-/*
-const handleLogout = () => {
-  console.log('handleLogout called');
-  return (dispatch) => {
-    let request = axios.get('/logout');
-
-    return request.then(
-      response => response.data ? dispatch(logOut()) : console.log('not logged out'))
-      .catch(err => console.log(err));
-  };
-}
-*/
-
 // action creator functions
 const logIn = () => {
   console.log('logIn action called');
@@ -147,16 +140,6 @@ const logIn = () => {
     payload: true,
   };
 };
-
-/*
-const logOut = () => {
-  console.log('logOut action called')
-  return {
-    type: 'LOG_OUT',
-    payload: false,
-  };
-}
-*/
 
 const mapStateToProps = state => {
   console.log('state in map props', state);
