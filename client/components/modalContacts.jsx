@@ -43,7 +43,7 @@ class ModalContacts extends React.Component {
       .post("/api/contacts", { addContact: newContact })
       .then(res => {
         console.log("response from server", res);
-        this.setState({ contacts: res.data });
+        this.setState({ contacts: res.data.contacts });
       })
       .catch(err => console.log(err));
   }
