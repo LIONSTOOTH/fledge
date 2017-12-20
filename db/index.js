@@ -21,13 +21,6 @@ const appSchema = new Schema({
   position: String,
   company: String,
   companyImg: String,
-  contact: {
-    name: String,
-    position: String,
-    email: String,
-    phone: String,
-    company: String,
-  },
   contactDate: Date,
   checklist: {
     researched: Boolean,
@@ -36,6 +29,15 @@ const appSchema = new Schema({
     networked: Boolean,
   },
   status: String,
+});
+
+const contactSchema = new Schema({
+  name: String,
+  position: String,
+  email: String,
+  phone: String,
+  company: String,
+  applicationId: String,
 });
 
 const reminderSchema = new Schema({
@@ -53,6 +55,7 @@ const userSchema = new Schema({
   password: String,
   apps: [appSchema], // array of _.id props of users apps
   reminders: [reminderSchema],
+  contacts: [contactSchema],
 });
 
 const User = mongoose.model('User', userSchema);

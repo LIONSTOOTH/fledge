@@ -135,6 +135,31 @@ app.get('/api/applications', (req, res) => {
   });
 });
 
+app.post('/api/contacts', (req, res) => {
+  console.log('adding a contact')
+  helpers.saveContact(req.user.googleId, req.body.addContact, (err, allApps) => {
+    console.log('response from db contact:', allApps)
+    if (err) {
+      console.log('Error adding contact: ', err);
+    } else {
+      res.send(JSON.stringify({ applications: allApps.apps }));
+    }
+  });
+});
+
+app.get('/api/contacts', (req, res) => {
+  console.log('getting contacts')
+  // get reminders for specific user
+  helpers.getContacts(req.user.googleId, (err, contacts) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('contaccts from db', contacts)
+      res.send(JSON.stringify(contacts));
+    }
+  });
+});
+
 app.get('/api/reminders', (req, res) => {
   console.log('getting reminders');
   // get reminders for specific user

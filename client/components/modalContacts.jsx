@@ -63,6 +63,19 @@ class ModalContacts extends React.Component {
       <br />
       <br />
       <br />
+       <span>
+          {applications.map(application => (
+            <ApplicationChip
+              key={application._id}
+              id={application._id}
+              application={application}
+              status={application.status}
+              draggedApp={draggedApp}
+              getDropResult={getDropResult}
+              didDrop={didDrop}
+            />
+          ))}
+        </span>
       </div>
     )
   }
