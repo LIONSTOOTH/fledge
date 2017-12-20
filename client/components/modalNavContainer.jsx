@@ -24,7 +24,7 @@ const modalNavContainer = ({ view, date, company, position, status, application,
   } else if (view === 'Original Posting') {
     return (<OriginalPost />);
   } else if (view === 'Contacts') {
-    return (<Contacts />);
+    return (<Contacts application={application}/>);
   }
 };
 
