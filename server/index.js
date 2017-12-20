@@ -85,7 +85,7 @@ app.get(
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/ckcktct' }),
   (req, res) => {
-    res.redirect('/');
+    res.redirect('/logged');
   }
 );
 
@@ -148,7 +148,7 @@ app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
     res.send(req.isAuthenticated());
   } else {
-    res.sendStatus(401);
+    res.send(req.isAuthenticated());
   }
 });
 
