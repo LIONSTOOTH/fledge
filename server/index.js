@@ -89,7 +89,7 @@ app.get('/auth/google/callback',
 );
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/dist/index.html');
+  res.sendFile(__dirname + '../dist/index.html');
 });
 
 app.post('/api/applications', (req, res) => {
