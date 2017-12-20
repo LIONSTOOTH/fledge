@@ -40,7 +40,7 @@ const appSchema = new Schema({
 const reminderSchema = new Schema({
   summary: String,
   start: String,
-  application: appSchema,
+  applicationId: String,
 });
 
 const userSchema = new Schema({
