@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
+import { Segment } from 'semantic-ui-react';
 import ApplicationChip from '../components/applicationChip.jsx';
 import ItemType from './ItemType.jsx';
 
@@ -41,21 +42,21 @@ class Column extends Component {
       connectDropTarget,
     } = this.props;
     return connectDropTarget(
-      <div id={title}>
-        <h2>{title}</h2>
-        <span>
-          {applications.map(application => (
-            <ApplicationChip
-              key={application._id}
-              id={application._id}
-              application={application}
-              status={application.status}
-              draggedApp={draggedApp}
-              getDropResult={getDropResult}
-              didDrop={didDrop}
-            />
-          ))}
-        </span>
+      <div id={title} class="ui center aligned segment">
+          <h2>{title}</h2>
+          <span>
+            {applications.map(application => (
+              <ApplicationChip
+                key={application._id}
+                id={application._id}
+                application={application}
+                status={application.status}
+                draggedApp={draggedApp}
+                getDropResult={getDropResult}
+                didDrop={didDrop}
+              />
+            ))}
+          </span>
       </div>
     );
   }

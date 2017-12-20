@@ -35,7 +35,9 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.LOCAL_GOOGLE_REDIRECT || 'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback'
+      callbackURL:
+        process.env.LOCAL_GOOGLE_REDIRECT ||
+        'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback',
     },
     // lookup or create a new user using the googleId (no associated username or password)
     (accessToken, refreshToken, profile, done) => {
@@ -82,7 +84,6 @@ app.get(
     ],
   })
 );
-
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/ckcktct' }),
@@ -157,7 +158,7 @@ app.get('/logged', (req, res) => {
 app.get('/logout', function(req, res) {
   console.log('LOGOUT REQUEST', req);
   req.logout();
-  res.redirect('/');
+  res.redirect('/logged');
 });
 
 app.post('/api/reminders', (req, res) => {

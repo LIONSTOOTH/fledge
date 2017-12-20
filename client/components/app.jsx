@@ -132,19 +132,6 @@ const handleLogin = () => {
   };
 };
 
-/*
-const handleLogout = () => {
-  console.log('handleLogout called');
-  return (dispatch) => {
-    let request = axios.get('/logout');
-
-    return request.then(
-      response => response.data ? dispatch(logOut()) : console.log('not logged out'))
-      .catch(err => console.log(err));
-  };
-}
-*/
-
 // action creator functions
 const logIn = () => {
   console.log('logIn action called');
@@ -153,16 +140,6 @@ const logIn = () => {
     payload: true,
   };
 };
-
-/*
-const logOut = () => {
-  console.log('logOut action called')
-  return {
-    type: 'LOG_OUT',
-    payload: false,
-  };
-}
-*/
 
 const mapStateToProps = state => {
   console.log('state in map props', state);
