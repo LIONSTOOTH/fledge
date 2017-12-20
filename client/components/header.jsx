@@ -1,6 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Segment, Header, Icon } from 'semantic-ui-react';
 import GooglePicker from './react-google-picker.jsx';
+
+function logOut() {
+  axios
+    .get('/logout')
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
 
 export const Head = ({ isLoggedIn, toggleVisibility }) => {
   return isLoggedIn ? (
@@ -10,11 +22,8 @@ export const Head = ({ isLoggedIn, toggleVisibility }) => {
           <Icon name="certificate" />
           Fledge
         </Header>
-        <Button color="orange" floated="right">
-          <a
-            href="https://mail.google.com/mail/u/0/?logout&hl=en"
-            style={{ color: 'white' }}
-          >
+        <Button color="orange" floated="right" onClick={(event) => logOut()}>
+          <a style={{ color: 'white' }}>
             Log out
           </a>
         </Button>
