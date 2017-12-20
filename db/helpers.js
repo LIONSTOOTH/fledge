@@ -60,6 +60,7 @@ const saveApp = function(userId, app, callback) {
         position: app.contact ? app.contact.position : null,
         email: app.contact ? app.contact.email : null,
         phone: app.contact ? app.contact.phone : null,
+        company: app.contact ? app.contact.company : null,
       },
       contactDate: app.lastContactDate,
       checklist: {
@@ -94,6 +95,7 @@ const updateApp = (userId, app, callback) => {
       position: app.contact ? app.contact.position : null,
       email: app.contact ? app.contact.email : null,
       phone: app.contact ? app.contact.phone : null,
+      company: app.contact ? app.contact.company : null,
       }
     a.contactDate = app.lastContactDate;
     a.checklist = {

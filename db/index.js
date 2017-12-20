@@ -26,6 +26,7 @@ const appSchema = new Schema({
     position: String,
     email: String,
     phone: String,
+    company: String,
   },
   contactDate: Date,
   checklist: {
