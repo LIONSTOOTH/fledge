@@ -81,13 +81,16 @@ app.get(
   })
 );
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/auth/google', successRedirect:'/' }),
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/auth/google' }),
   (req, res) => {
     res.redirect('/');
   }
 );
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/dist/index.html');
+});
 
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
