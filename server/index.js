@@ -170,7 +170,6 @@ app.get('/api/reminders', (req, res) => {
   console.log('getting reminders');
   // get reminders for specific user
   helpers.getReminders(req.user.googleId, (err, reminders) => {
-    console.log(reminders);
     if (err) {
       res.sendStatus(500)
     } else {
@@ -180,8 +179,6 @@ app.get('/api/reminders', (req, res) => {
 });
 
 app.post('/api/appReminders', (req, res) => {
-  console.log('in /appReminders', req.user.reminders)
-  console.log('query', req.body)
   let allReminders = req.user.reminders;
   let id = req.body.appId;
   filteredReminders = allReminders.filter(function(reminder) {
@@ -189,6 +186,32 @@ app.post('/api/appReminders', (req, res) => {
   })
 
   res.send(filteredReminders);
+})
+
+app.post('/api/deleteReminder', (req, res) => {
+  console.log('delete reminders data ', req.body.id)
+  // var params = {
+  //       auth: oauth2Client,
+  //       calendarId: 'primary',
+  //       eventId: req.body.id,
+  //     };
+  // let calendar = google.calendar('v3');
+  // calendar.events.delete(params, function(err) {
+  //   if (err) {
+  //     console.log('The API returned an error: ' + params);
+  //     return;
+  //   }
+  //   console.log('Event deleted in calendar');
+  // });
+
+  helpers.deleteReminder(req.user.googleId, req.body.id, (err, todo) => {
+    let response = {
+        message: "Todo successfully deleted",
+        id: req.body.id
+    };
+    res.status(200).send(response);
+  })
+  res.sendStatus(200)
 })
 
 app.get('/logged', (req, res) => {

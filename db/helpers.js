@@ -49,6 +49,34 @@ const getReminders = (userId, callback) => {
     });
 };
 
+const deleteReminder = (userId, reminderId, callback) => {
+
+  db.User.find({ googleId: userId })
+    .then(user => {
+      for (let i = 0; i < user[0].reminders.length; i ++) {
+        console.log(user[0].reminders[i]._id + ' uhh ' + reminderId)
+        if (user[0].reminders[i]._id == reminderId) {
+          console.log('MATCHED!!!!!!!!!')
+          user[0].reminders.splice(i, 1);
+          user[0].save((err) => {
+            if (err) {
+              console.log('reminder db save error', err);
+
+            } else {
+              console.log('reminder db save success');
+
+            }
+          });
+  // db.Reminder.findByIdAndRemove(reminderId, function(){console.log('done')});
+        }
+      }
+      // console.log(user[0].reminders)
+    })
+    .catch(err => {
+      callback(err, null);
+    });
+}
+
 const saveContactToExistingApp = (userId, appContact, callback) => {
   console.log('saving contact in helpers: ',appContact)
   // find user
@@ -188,3 +216,4 @@ module.exports.saveReminder = saveReminder;
 module.exports.getReminders = getReminders;
 module.exports.saveContactToExistingApp = saveContactToExistingApp;
 module.exports.getContacts = getContacts;
+module.exports.deleteReminder = deleteReminder;

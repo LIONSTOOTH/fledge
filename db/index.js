@@ -59,7 +59,9 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 const Contact = mongoose.model('Contact', contactSchema);
 const App = mongoose.model('App', appSchema);
+const Reminder = mongoose.model('Reminder', reminderSchema);
 
 module.exports.User = User;
 module.exports.Contact = Contact;
 module.exports.App = App;
+module.exports.Reminder = Reminder;
