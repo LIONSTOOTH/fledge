@@ -1,30 +1,30 @@
-import React from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import thunk from "redux-thunk";
-import { Button, Form, Input, Segment, Card } from "semantic-ui-react";
+import React from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import { Button, Form, Input, Segment, Card } from 'semantic-ui-react';
 
 class ModalContacts extends React.Component {
   constructor() {
     super();
     this.state = {
-      contactName: "",
-      contactEmail: "",
-      contactPhone: "",
-      contactCompany: "",
-      contactPosition: "",
-      contacts: []
+      contactName: '',
+      contactEmail: '',
+      contactPhone: '',
+      contactCompany: '',
+      contactPosition: '',
+      contacts: [],
     };
     this.saveContact = this.saveContact.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
-    console.log("getting contacts from db");
-    axios.get("/api/contacts").then(res => {
-      console.log("response from server", res);
+    console.log('getting contacts from db');
+    axios.get('/api/contacts').then(res => {
+      console.log('response from server', res);
       this.setState({ contacts: res.data.contacts }, () => {
-        console.log("state:", this.state.contacts);
+        console.log('state:', this.state.contacts);
       });
     });
   }
@@ -40,9 +40,9 @@ class ModalContacts extends React.Component {
     newContact.contact._id = this.props.application._id;
 
     axios
-      .post("/api/contacts", { addContact: newContact })
+      .post('/api/contacts', { addContact: newContact })
       .then(res => {
-        console.log("response from server", res);
+        console.log('response from server', res);
         this.setState({ contacts: res.data.contacts });
       })
       .catch(err => console.log(err));
@@ -52,14 +52,14 @@ class ModalContacts extends React.Component {
     let obj = {};
     obj[value.id] = value.value;
     this.setState(obj, () => {
-      console.log("state after onChange: ", this.state[value.id]);
+      console.log('state after onChange: ', this.state[value.id]);
     });
   }
 
   render() {
     const { application } = this.props;
     const { contacts } = this.state;
-    console.log("application", application);
+    console.log('application', application);
     return (
       <div>
         <Form onSubmit={this.saveContact}>
@@ -113,25 +113,28 @@ class ModalContacts extends React.Component {
         </Form>
         <br />
         <br />
-          <div>
-          {this.state.contacts.filter(allContacts => allContacts.applicationId === application._id)
+        <div>
+          {this.state.contacts
+            .filter(
+              allContacts => allContacts.applicationId === application._id
+            )
             .map(contact => (
-            <Segment basic>
-              <Card>
-                <Card.Content>
-                  <Card.Header>{contact.company}</Card.Header>
-                  <Card.Meta>{contact.position}</Card.Meta>
-                  <br />
-                  Name: {contact.name}
-                  <br />
-                  Email: {contact.email}
-                  <br />
-                  Phone: {contact.phone}
-                  <br />
-                </Card.Content>
-              </Card>
-            </Segment>
-          ))}
+              <Segment basic>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>{contact.company}</Card.Header>
+                    <Card.Meta>{contact.position}</Card.Meta>
+                    <br />
+                    Name: {contact.name}
+                    <br />
+                    Email: {contact.email}
+                    <br />
+                    Phone: {contact.phone}
+                    <br />
+                  </Card.Content>
+                </Card>
+              </Segment>
+            ))}
         </div>
         <br />
         <br />
