@@ -3,6 +3,7 @@ import axios from 'axios';
 import ApplicationModal from '../containers/applicationModal.jsx';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
+import { Button, Input, Form, Dropdown, Segment } from 'semantic-ui-react';
 
 class Reminders extends React.Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Reminders extends React.Component {
       <div>
       <h1>Current Reminders</h1>
       <div>{this.state.reminders.map((reminder) =>
-        <div>
+        <Segment>
         <br></br>
         {console.log(reminder.start)}
         <h2>{reminder.summary}</h2>
@@ -56,8 +57,10 @@ class Reminders extends React.Component {
     dateDiffInDays(a, (new Date(reminder.start)))
           } days left</h2>
       <ApplicationModal application={reminder.application} />
-
-        </div>
+        <Button basic color="red">
+                  <i class="trash icon"></i>
+                </Button>
+        </Segment>
 
         )}
       </div>
