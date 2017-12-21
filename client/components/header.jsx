@@ -33,7 +33,7 @@ export const Head = ({ isLoggedIn, toggleVisibility }) => {
     <div>
       <Segment size="big" color="black" clearing>
         <Header as="h1" textAlign="center">
-          <Icon name="certificate" />
+          <i class="certificate loading icon"></i>
           <Header.Content>Fledge</Header.Content>
         </Header>
         <Button color="orange">

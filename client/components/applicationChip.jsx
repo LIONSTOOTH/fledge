@@ -64,12 +64,11 @@ const applicationSPEC = {
       applicationId: props.id,
     };
   },
+
   endDrag(props, monitor, component) {
     const edit = Object.assign(props.application, {
       status: props.getDropResult.component.title,
     });
-    //props.getDropResult.component.applications.push(edit);
-
     addOrUpdateApp({ edited: edit }, props.dropItem);
   },
 };
