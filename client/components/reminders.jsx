@@ -70,7 +70,7 @@ class Reminders extends React.Component {
   }
 
     return (
-      <div>
+      <div style={{ minHeight: 600 }}>
       <h1>Current Reminders</h1>
       <div>{this.state.reminders.map((reminder) =>
         <Segment>
