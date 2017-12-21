@@ -23,12 +23,13 @@ class Reminder extends React.Component {
     newReminder.description = this.state.reminderText;
     newReminder.start = next;
     newReminder.applicationId = this.props.application._id
-    this.props.addReminderToApp({ addReminder: newReminder });
+    this.props.addReminderToApp({ addReminder: newReminder }).then(this.getReminders.bind(this));
+
   }
 
   getReminders() {
     let context = this;
-    console.log(context.props.application)
+    // console.log(context.props.application)
     let id = context.props.application._id
     axios.post('/api/appReminders', {appId: id}).then(res => {
       console.log('response data: ', res.data)
@@ -51,6 +52,10 @@ class Reminder extends React.Component {
   nextWeek(weeks) {
     var next = new Date();
     return new Date(next.getFullYear(), next.getMonth(), next.getDate() + (7 * parseInt(weeks)));
+  }
+
+  deleteReminder() {
+
   }
 
   render() {
@@ -96,7 +101,7 @@ class Reminder extends React.Component {
               <h4>{reminder.summary}</h4>
               <h4>{reminder.description}</h4>
               <h4>{dateDiffInDays(a, (new Date(reminder.start)))} days left</h4>
-              <Button basic color="red">
+              <Button basic color="red" onClick={this.deleteReminder.bind(this)}>
                   <i class="trash icon"></i>
                 </Button>
             </Segment>
@@ -116,6 +121,7 @@ const addReminderToApp = (valuesObject) => {
     return request
       .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
+
       })
       .catch((err) => console.log(err));
   };
