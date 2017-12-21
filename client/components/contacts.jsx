@@ -1,21 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Card } from 'semantic-ui-react';
 
 class Contacts extends React.Component {
   constructor() {
     super();
     this.state = {
       contacts: [],
-    }
+    };
   }
 
   componentWillMount() {
-    console.log("getting contacts from db");
-    axios.get("/api/contacts").then(res => {
-      console.log("response from server", res);
+    console.log('getting contacts from db');
+    axios.get('/api/contacts').then(res => {
+      console.log('response from server', res);
       this.setState({ contacts: res.data.contacts }, () => {
-        console.log("state:", this.state.contacts);
+        console.log('state:', this.state.contacts);
       });
     });
   }
@@ -26,12 +26,20 @@ class Contacts extends React.Component {
         <h1>Contact List</h1>
         <div>
           {this.state.contacts.map(contact => (
-            <Segment>
-              <h4>{contact.name}</h4>
-              <h4>{contact.company}</h4>
-              <h4>{contact.position}</h4>
-              <h4>{contact.email}</h4>
-              <h4>{contact.phone}</h4>
+            <Segment basic>
+              <Card>
+                <Card.Content>
+                  <Card.Header>{contact.company}</Card.Header>
+                  <Card.Meta>{contact.position}</Card.Meta>
+                  <br />
+                  Name: {contact.name}
+                  <br />
+                  Email: {contact.email}
+                  <br />
+                  Phone: {contact.phone}
+                  <br />
+                </Card.Content>
+              </Card>
             </Segment>
           ))}
         </div>

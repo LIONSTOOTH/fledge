@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import loadScript from 'load-script';
+import { Button } from 'semantic-ui-react';
 
 const GOOGLE_SDK_URL = 'https://apis.google.com/js/api.js';
 
@@ -148,7 +149,9 @@ export default class GoogleChooser extends React.Component {
         {
           this.props.children ?
             this.props.children :
-            <button>Upload to Google Drive</button>
+            <button class="positive ui button">
+              Google Drive
+            </button>
         }
       </div>
     );

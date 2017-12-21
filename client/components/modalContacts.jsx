@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import thunk from "redux-thunk";
-import { Button, Form, Input, Segment } from "semantic-ui-react";
+import { Button, Form, Input, Segment, Card } from "semantic-ui-react";
 
 class ModalContacts extends React.Component {
   constructor() {
@@ -116,12 +116,20 @@ class ModalContacts extends React.Component {
           <div>
           {this.state.contacts.filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
-            <Segment>
-              <h4>{contact.name}</h4>
-              <h4>{contact.company}</h4>
-              <h4>{contact.position}</h4>
-              <h4>{contact.email}</h4>
-              <h4>{contact.phone}</h4>
+            <Segment basic>
+              <Card>
+                <Card.Content>
+                  <Card.Header>{contact.company}</Card.Header>
+                  <Card.Meta>{contact.position}</Card.Meta>
+                  <br />
+                  Name: {contact.name}
+                  <br />
+                  Email: {contact.email}
+                  <br />
+                  Phone: {contact.phone}
+                  <br />
+                </Card.Content>
+              </Card>
             </Segment>
           ))}
         </div>
