@@ -1,26 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-import { Segment, Card } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Segment, Card, Image } from 'semantic-ui-react';
+import ApplicationModal from '../containers/applicationModal.jsx';
 
 class Contacts extends React.Component {
   constructor() {
     super();
     this.state = {
       contacts: [],
+      applicationsObj: {},
     };
   }
 
   componentWillMount() {
-    console.log('getting contacts from db');
-    axios.get('/api/contacts').then(res => {
-      console.log('response from server', res);
-      this.setState({ contacts: res.data.contacts }, () => {
-        console.log('state:', this.state.contacts);
-      });
+    axios.get("/api/contacts").then((res) => {
+      this.setState({ contacts: res.data.contacts });
     });
+    // map applications prop to object indexable by app id
+    const a = this.props.applications.reduce((obj, app) => {
+      obj[app._id] = app;
+      return obj;
+    },{});
+    this.setState({ applicationsObj: a });
   }
 
   render() {
+    const { applicationsObj } = this.state;
     return (
       <div style={{ minHeight: 600 }}>
         <h1>Contact List</h1>
@@ -38,6 +44,19 @@ class Contacts extends React.Component {
                   <br />
                   Phone: {contact.phone}
                   <br />
+                  <br />
+                  <ApplicationModal
+
+                  application={applicationsObj[contact.applicationId]}
+                  key={contact.applicationId}
+                  label="See associated application"
+                  trigger={
+                    <button class="ui icon blue button" >
+                      <i class="external" />
+                      View Linked Application
+                    </button>
+                  }
+                  />
                 </Card.Content>
               </Card>
             </Segment>
@@ -48,4 +67,10 @@ class Contacts extends React.Component {
   }
 }
 
-export default Contacts;
+const mapStateToProps = state => {
+  return {
+    applications: state.applicationReducer.applications,
+  };
+};
+
+export default connect(mapStateToProps)(Contacts);
