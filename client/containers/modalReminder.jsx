@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, Input, Form, Dropdown } from 'semantic-ui-react';
+import { Button, Input, Form, Dropdown, Segment } from 'semantic-ui-react';
 
 class Reminder extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class Reminder extends React.Component {
     this.state = {
       reminderText: '',
       numWeeks: '1',
+      reminders: [],
     };
     this.setReminder = this.setReminder.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -18,10 +19,28 @@ class Reminder extends React.Component {
   setReminder() {
     const next = this.nextWeek(this.state.numWeeks);
     const newReminder = {};
-    newReminder.summary = this.state.reminderText;
+    newReminder.summary = 'Follow up with ' + this.props.company
+    newReminder.description = this.state.reminderText;
     newReminder.start = next;
     newReminder.applicationId = this.props.application._id
-    this.props.addReminderToApp({ addReminder: newReminder });
+    this.props.addReminderToApp({ addReminder: newReminder }).then(this.getReminders.bind(this));
+
+  }
+
+  getReminders() {
+    let context = this;
+    // console.log(context.props.application)
+    let id = context.props.application._id
+    axios.post('/api/appReminders', {appId: id}).then(res => {
+      console.log('response data: ', res.data)
+      context.setState({reminders: res.data}, () => {
+        console.log('reminders in state: ' + this.state.reminders);
+      });
+    })
+  }
+
+  componentWillMount() {
+    this.getReminders();
   }
 
   handleChange(e, value) {
@@ -35,11 +54,24 @@ class Reminder extends React.Component {
     return new Date(next.getFullYear(), next.getMonth(), next.getDate() + (7 * parseInt(weeks)));
   }
 
+  deleteReminder() {
+
+  }
+
   render() {
+    console.log('state during render', this.state.reminders)
     const { application, company } = this.props;
     const options = [{ key: 1, text: '1', value: '1' }, { key: 2, text: '2', value: '2' }];
+    var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    var a    = new Date();
+    function dateDiffInDays(a, b) {
+      var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+      return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+    }
     return (
       <div>
+      <h1>Follow up with {this.props.company}</h1>
       <Form onSubmit={this.setReminder}>
         <Form.Field
           control={Input}
@@ -47,7 +79,7 @@ class Reminder extends React.Component {
           label="Add a reminder"
           type="text"
           id="reminderText"
-          placeholder={`Follow up on ${company} application`}
+          placeholder='Optional: Add a Description'
         />
           Set reminder for
           <Dropdown
@@ -62,9 +94,19 @@ class Reminder extends React.Component {
           <br/>
         <Button type="submit">Submit</Button>
       </Form>
-      <br />
-      <br />
-      <br />
+      <h2>Current reminders</h2>
+        <div>
+          {this.state.reminders.map(reminder => (
+            <Segment>
+              <h4>{reminder.summary}</h4>
+              <h4>{reminder.description}</h4>
+              <h4>{dateDiffInDays(a, (new Date(reminder.start)))} days left</h4>
+              <Button basic color="red" onClick={this.deleteReminder.bind(this)}>
+                  <i class="trash icon"></i>
+                </Button>
+            </Segment>
+          ))}
+        </div>
       <br />
       <br />
       <br />
@@ -79,6 +121,7 @@ const addReminderToApp = (valuesObject) => {
     return request
       .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
+
       })
       .catch((err) => console.log(err));
   };

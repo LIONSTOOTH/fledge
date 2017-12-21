@@ -170,14 +170,49 @@ app.get('/api/reminders', (req, res) => {
   console.log('getting reminders');
   // get reminders for specific user
   helpers.getReminders(req.user.googleId, (err, reminders) => {
-    console.log(reminders);
     if (err) {
-      console.log(err);
+      res.sendStatus(500)
     } else {
       res.send(JSON.stringify(reminders));
     }
   });
 });
+
+app.post('/api/appReminders', (req, res) => {
+  let allReminders = req.user.reminders;
+  let id = req.body.appId;
+  filteredReminders = allReminders.filter(function(reminder) {
+    return reminder.applicationId === id
+  })
+
+  res.send(filteredReminders);
+})
+
+app.post('/api/deleteReminder', (req, res) => {
+  console.log('delete reminders data ', req.body.id)
+  // var params = {
+  //       auth: oauth2Client,
+  //       calendarId: 'primary',
+  //       eventId: req.body.id,
+  //     };
+  // let calendar = google.calendar('v3');
+  // calendar.events.delete(params, function(err) {
+  //   if (err) {
+  //     console.log('The API returned an error: ' + params);
+  //     return;
+  //   }
+  //   console.log('Event deleted in calendar');
+  // });
+
+  helpers.deleteReminder(req.user.googleId, req.body.id, (err, todo) => {
+    let response = {
+        message: "Todo successfully deleted",
+        id: req.body.id
+    };
+    res.status(200).send(response);
+  })
+  res.sendStatus(200)
+})
 
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
@@ -211,7 +246,7 @@ app.post('/api/reminders', (req, res) => {
 
   let event = {
     summary: req.body.addReminder.summary,
-    description: 'https://murmuring-mesa-56363.herokuapp.com/',
+    description: req.body.addReminder.description + ' https://murmuring-mesa-56363.herokuapp.com/',
     start: {
       dateTime: startDate + 'T06:00:00-08:00',
     },
@@ -242,7 +277,7 @@ app.post('/api/reminders', (req, res) => {
         );
         return;
       }
-      console.log('Event created: %s', event.htmlLink);
+      console.log('Event created: %s', event.htmlLink + ' event' + event);
     }
   );
 

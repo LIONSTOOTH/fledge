@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect('mongodb://localhost/fledge');
-// mongoose.connect(
-//     `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds135486.mlab.com:35486/heroku_kgsk3z8c`,
-//   { useMongoClient: true }
-// );
+// mongoose.connect('mongodb://localhost/fledge');
+mongoose.connect('mongodb://localhost/fledge' ||
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds135486.mlab.com:35486/heroku_kgsk3z8c`,
+  { useMongoClient: true }
+);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'db connection error: '));
@@ -39,6 +39,7 @@ const contactSchema = new Schema({
 
 const reminderSchema = new Schema({
   summary: String,
+  description: String,
   start: String,
   applicationId: String,
 });
@@ -58,7 +59,9 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 const Contact = mongoose.model('Contact', contactSchema);
 const App = mongoose.model('App', appSchema);
+const Reminder = mongoose.model('Reminder', reminderSchema);
 
 module.exports.User = User;
 module.exports.Contact = Contact;
 module.exports.App = App;
+module.exports.Reminder = Reminder;

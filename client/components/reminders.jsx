@@ -3,6 +3,7 @@ import axios from 'axios';
 import ApplicationModal from '../containers/applicationModal.jsx';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
+import { Button, Input, Form, Dropdown, Segment } from 'semantic-ui-react';
 
 class Reminders extends React.Component {
   constructor(props) {
@@ -13,15 +14,12 @@ class Reminders extends React.Component {
   }
 
   componentWillMount() {
-    let context = this;
-
     console.log('getting reminders from client')
-
+    let context = this;
     axios.get('/api/reminders').then(res => {
       let reminders = res.data
       reminders.map(reminder => {
         for (let i = 0; i < context.props.applications.length; i++) {
-          console.log('reminderID: ' + reminder.applicationId + ' applicationID ' + context.props.applications[i]._id)
           if (reminder.applicationId === context.props.applications[i]._id) {
             reminder.application = context.props.applications[i];
           }
@@ -31,8 +29,35 @@ class Reminders extends React.Component {
         console.log('final state ', context.state);
       })
     })
+
   }
 
+  populateState() {
+    let context = this;
+    axios.get('/api/reminders').then(res => {
+      let reminders = res.data
+      reminders.map(reminder => {
+        for (let i = 0; i < context.props.applications.length; i++) {
+          if (reminder.applicationId === context.props.applications[i]._id) {
+            reminder.application = context.props.applications[i];
+          }
+        }
+      })
+      context.setState({reminders: reminders}, function(){
+        console.log('final state ', context.state);
+      })
+    })
+
+  }
+
+  deleteReminder(reminderId) {
+    let context = this;
+    console.log('HELLOOOO', reminderId)
+    axios.post('/api/deleteReminder', {id:reminderId}).then(() => {
+      console.log('deleted')
+      context.populateState();
+    })
+  }
 
   render() {
 
@@ -45,19 +70,22 @@ class Reminders extends React.Component {
   }
 
     return (
-      <div>
+      <div style={{ minHeight: 600 }}>
       <h1>Current Reminders</h1>
       <div>{this.state.reminders.map((reminder) =>
-        <div>
+        <Segment>
         <br></br>
         {console.log(reminder.start)}
         <h2>{reminder.summary}</h2>
+        <h2>{reminder.description}</h2>
         <h2>{
     dateDiffInDays(a, (new Date(reminder.start)))
           } days left</h2>
       <ApplicationModal application={reminder.application} />
-
-        </div>
+        <Button basic color="red" onClick={this.deleteReminder.bind(this, reminder._id)}>
+                  <i class="trash icon"></i>
+                </Button>
+        </Segment>
 
         )}
       </div>
