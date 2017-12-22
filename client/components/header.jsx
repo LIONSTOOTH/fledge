@@ -20,32 +20,28 @@ class Head extends Component {
     console.log(`PROPS IN HEAD`, this.props);
     return this.props.isLoggedIn ? (
       <div>
-        <Segment size="large" color="black" clearing>
-          <Header as="h1" textAlign="left">
-            <Icon name="certificate" />
-            Fledge
-          </Header>
+        <Segment color="black" basic clearing>
           <Button
             color="orange"
             floated="right"
             onClick={event => this.onLogout()}
           >
-            <a style={{ color: 'white' }}>Log out</a>
+            Log out
           </Button>
+          <Header as="h1" textAlign="left">
+            <Icon name="certificate" />
+            Fledge
+          </Header>
         </Segment>
       </div>
     ) : (
       <div>
-        <Segment size="big" color="black" clearing>
-          <Header as="h1" textAlign="center">
-            <Icon name="certificate" />
-            <Header.Content>Fledge</Header.Content>
-          </Header>
-          <Button color="orange">
-            <a href="/auth/google" style={{ color: 'white' }}>
-              Sign in with Google
-            </a>
-          </Button>
+        <Segment color="black" basic clearing>
+          <Button
+            floated="left"
+            href="/auth/google"
+            content="Sign in with Google"
+          />
         </Segment>
       </div>
     );
