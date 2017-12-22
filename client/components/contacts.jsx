@@ -11,6 +11,7 @@ class Contacts extends React.Component {
       contacts: [],
       applicationsObj: {},
     };
+    this.deleteContact = this.deleteContact.bind(this);
   }
 
   componentWillMount() {
@@ -23,6 +24,12 @@ class Contacts extends React.Component {
       return obj;
     },{});
     this.setState({ applicationsObj: a });
+  }
+
+  deleteContact(contactId) {
+    console.log('ContactId', contactId);
+    axios.delete('/api/contacts', { id: contactId })
+    .then(() => console.log('deleted'));
   }
 
   render() {

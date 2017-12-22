@@ -162,10 +162,9 @@ app.post('/api/contacts', (req, res) => {
   }
 });
 
-//incomplete at the moment
 app.get('/api/contacts', (req, res) => {
   console.log('getting contacts')
-  // get reminders for specific user
+  // get contacts for specific user
   helpers.getContacts(req.user.googleId, (err, allContacts) => {
     if (err) {
       console.log('Error getting contacts: ', err);
@@ -175,6 +174,21 @@ app.get('/api/contacts', (req, res) => {
     }
   });
 });
+
+app.delete('api/contacts', (req, res) => {
+  console.log('deleting contact', req.body.deleteContact)
+  // delete contact for specific user
+  helpers.deleteContact(req.user.googleId, req.body.deleteContact._id, (err, allContacts) => {
+    if (err) {
+      console.log('Error deleting contact: ', err);
+      res.sendStatus(500);
+    } else {
+      console.log('response after deleting:',allContacts)
+      res.send(JSON.stringify({ contacts: allContacts }));
+    }
+  });
+});
+
 
 app.get('/api/reminders', (req, res) => {
   console.log('getting reminders');

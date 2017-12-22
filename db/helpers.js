@@ -114,6 +114,17 @@ const getContacts = (userId, callback) => {
     });
 };
 
+
+const deleteContact = (userId, contactId, callback) => {
+  db.User.find({ googleId: userId }, (err, data) => {
+    var c = data.contacts.id(contactId);
+    console.log('contact found:', data);
+    // delete c
+    // save user
+  })
+
+};
+
 const saveApp = (userId, app, callback) => {
   db.User.findOne({ googleId: userId }).then(user => {
     user.apps.push({
@@ -250,3 +261,4 @@ module.exports.saveContactToExistingApp = saveContactToExistingApp;
 module.exports.getContacts = getContacts;
 module.exports.deleteReminder = deleteReminder;
 module.exports.deleteApp = deleteApp;
+module.exports.deleteContact = deleteContact;
