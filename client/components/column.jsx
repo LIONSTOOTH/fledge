@@ -51,7 +51,7 @@ class Column extends Component {
     } = this.props;
     let backgroundColor = 'rgba(0, 0, 0, .5)'
     if (hovered) {
-      backgroundColor = 'darkslategray';
+      backgroundColor = 'darkgreen';
     }
     return connectDropTarget(
       <div
@@ -59,7 +59,7 @@ class Column extends Component {
         class="ui center aligned tertiary inverted segment"
         style={getStyle(backgroundColor)}
       >
-        <h2>{title}</h2>
+        <h3>{title}</h3>
         <span>
           {applications.map(application => (
             <ApplicationChip

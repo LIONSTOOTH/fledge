@@ -93,10 +93,10 @@ class Reminders extends React.Component {
                   <ApplicationModal application={reminder.application} />
                   <Button
                     basic
-                    color="red"
+                    color="green"
                     onClick={this.deleteReminder.bind(this, reminder._id)}
                   >
-                    <i class="trash icon" />
+                    <i class="checkmark box icon"></i>
                   </Button>
                 </Card.Content>
               </Card>

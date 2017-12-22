@@ -113,7 +113,7 @@ class App extends React.Component {
               </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
-              <Segment basic>{view}</Segment>
+              <Segment centered basic>{view}</Segment>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </div>
