@@ -22,13 +22,12 @@ class originalPost extends React.Component {
               onChange={handleChange}
               value={postUrl}
             />
-
+            <label>Post details:</label>
           <TextArea
             autoHeight={true}
             onChange={handleChange}
             id="postDescription"
-            label="Post details:"
-            placeholder={"Copy and paste post details here..."}
+            placeholder={"Save post details here for reference in case the original post becomes unavailable..."}
             value={postDescription}
           />
         </Form>
