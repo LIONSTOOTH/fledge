@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { Button, Form, Input, Segment, Card } from 'semantic-ui-react';
@@ -20,12 +19,9 @@ class ModalContacts extends React.Component {
   }
 
   componentWillMount() {
-    axios.get('/api/contacts').then(res => {
-      console.log('response from server', res);
-      this.setState({ contacts: res.data.contacts }, () => {
-        console.log('state:', this.state.contacts);
-      });
-    });
+    axios.get('/api/contacts')
+      .then(res => this.setState({ contacts: res.data.contacts }))
+      .catch(err => console.log(err));
   }
 
   saveContact() {
@@ -38,16 +34,13 @@ class ModalContacts extends React.Component {
     // if app id is undefined, saveContact should save the entire application from parent state
     newContact.contact._id = this.props.application._id;
 
-    axios
-      .post('/api/contacts', { addContact: newContact })
-      .then(res => {
-        this.setState({ contacts: res.data.contacts });
-      })
+    axios.post('/api/contacts', { addContact: newContact })
+      .then(res => this.setState({ contacts: res.data.contacts }))
       .catch(err => console.log(err));
   }
 
   handleChange(e, value) {
-    let obj = {};
+    const obj = {};
     obj[value.id] = value.value;
     this.setState(obj);
   }
@@ -58,9 +51,7 @@ class ModalContacts extends React.Component {
     return (
       <div>
         <Form onSubmit={this.saveContact}>
-          <label>Add a contact</label>
-          <br />
-          <br />
+          <h3>Add a contact:</h3>
           <Form.Group width="equal">
             <Form.Field
               control={Input}
@@ -109,10 +100,8 @@ class ModalContacts extends React.Component {
         <br />
         <br />
         <div>
-          {this.state.contacts
-            .filter(
-              allContacts => allContacts.applicationId === application._id
-            )
+          {contacts
+            .filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
               <Segment basic>
                 <Card>

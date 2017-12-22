@@ -42,13 +42,11 @@ class ModalForm extends React.Component {
     return (
       <div>
         <Form>
-          <div>
-            <label>Company Name</label>
+          <div style={{ fontSize: 13, fontWeight: 'bold' }}>Company</div>
             <Dropdown
               fluid
               selection
               multiple={false}
-              label="Company"
               search={true}
               options={this.state.businessList}
               placeholder={company}
@@ -58,7 +56,6 @@ class ModalForm extends React.Component {
               loading={false}
               id="currentCompany"
             />
-          </div>
           <br />
           <Form.Field
             control={Input}
@@ -67,6 +64,7 @@ class ModalForm extends React.Component {
             type="text"
             id="inputPosition"
             placeholder={position}
+            value={position}
           />
           <br />
           <Form.Field
@@ -76,7 +74,7 @@ class ModalForm extends React.Component {
             type="date"
             id="inputDate"
           />
-          <br />
+          <div style={{ fontSize: 13, fontWeight: 'bold' }}>Application Status<span style={{ color: 'red' }}> *</span></div>
           <Dropdown
             onChange={handleStatusChange}
             options={options}
