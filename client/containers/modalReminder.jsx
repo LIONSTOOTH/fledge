@@ -109,13 +109,8 @@ class Reminder extends React.Component {
               <h4>{reminder.summary}</h4>
               <h4>{reminder.description}</h4>
               <h4>{dateDiffInDays(a, (new Date(reminder.start)))} days left</h4>
-<<<<<<< HEAD
-              <Button basic color="green" onClick={this.deleteReminder.bind(this)}>
+              <Button basic color="green" onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}>
                   <i class="checkmark box icon"></i>
-=======
-              <Button basic color="red" onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}>
-                  <i class="trash icon"></i>
->>>>>>> Reminder can be deleted from modal nav tab.
                 </Button>
             </Segment>
           ))}

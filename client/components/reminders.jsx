@@ -94,8 +94,6 @@ class Reminders extends React.Component {
                   <Button
                     basic
                     color="green"
-                    onClick={this.deleteReminder.bind(this, reminder._id)}
-                    color="red"
                     onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
                   >
                     <i class="checkmark box icon"></i>
