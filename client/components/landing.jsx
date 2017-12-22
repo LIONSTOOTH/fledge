@@ -7,6 +7,10 @@ import img4 from '../../images/pic04.jpg';
 import img5 from '../../images/pic05.jpg';
 import img6 from '../../images/pic06.jpg';
 import img7 from '../../images/pic07.jpg';
+// import grace from '../../images/grace.jpg';
+// // import krista from '../../images/krista.jpg';
+// import arthur from '../../images/arthur.jpg';
+// import ben from '../../images/ben.jpg';
 
 const Landing = props => (
     <div>
@@ -67,11 +71,11 @@ const Landing = props => (
         <div className="container 75%">
 
           <ul className="icons">
-            <li><a href="#" className="icon fa-twitter"><span className="label">Twitter</span></a></li>
-            <li><a href="#" className="icon fa-facebook"><span className="label">Facebook</span></a></li>
-            <li><a href="#" className="icon fa-instagram"><span className="label">Instagram</span></a></li>
-            <li><a href="#" className="icon fa-github"><span className="label">Github</span></a></li>
-            <li><a href="#" className="icon fa-dribbble"><span className="label">Dribbble</span></a></li>
+            <li><a href="www.linkedin.com/in/ArthurLee144" className="icon arthur"><span className="label">Arthur Lee</span></a></li>
+            <li><a href="www.linkedin.com/in/b-j-p" className="icon ben"><span className="label">Benjamin Polansky</span></a></li>
+            <li><a href="www.linkedin.com/in/kristaabraham" className="icon krista"><span className="label">Krista Abraham</span></a></li>
+            <li><a href="www.linkedin.com/in/iamgraceko" className="icon grace" ><span className="label">Grace Ko</span></a></li>
+
           </ul>
 
           <ul className="copyright">

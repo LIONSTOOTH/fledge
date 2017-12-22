@@ -2187,9 +2187,27 @@
 			text-transform: none !important;
 		}
 
-		.icon > .label {
-			display: none;
+		.icon.label:onHover{
+			display: show;
+
 		}
+
+		.icon.arthur {
+			background-image: url("../../images/arthur.jpg")
+		}
+
+		.icon.ben {
+			background-image: url("../../images/ben.jpg")
+		}
+
+		.icon.krista {
+			background-image: url("../../images/krista.jpg")
+		}
+
+		.icon.grace {
+			background-image: url("../../images/grace.jpg")
+		}
+
 
 /* List */
 
@@ -2234,10 +2252,10 @@
 				border-radius: 100%;
 				border: solid 1px rgba(224, 224, 224, 0.75);
 				display: inline-block;
-				height: 2em;
+				height: 6em;
 				line-height: 2em;
 				text-align: center;
-				width: 2em;
+				width: 6em;
 			}
 
 				ul.icons li a:hover, ul.icons li span:hover {
