@@ -93,13 +93,10 @@ class Reminders extends React.Component {
                   <ApplicationModal application={reminder.application} />
                   <Button
                     basic
-<<<<<<< HEAD
                     color="green"
                     onClick={this.deleteReminder.bind(this, reminder._id)}
-=======
                     color="red"
                     onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
->>>>>>> Delete events from GCal, fixed async issue when creating reminders
                   >
                     <i class="checkmark box icon"></i>
                   </Button>
