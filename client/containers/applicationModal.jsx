@@ -7,7 +7,7 @@ import {
   Segment,
   Modal,
   Icon,
-  Image
+  Image,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -24,6 +24,9 @@ class ApplicationModal extends React.Component {
       inputDate: this.props.application.date,
       inputPosition: this.props.application.position,
       selectedStatus: this.props.application.status,
+      postUrl: this.props.application.postUrl,
+      postDescription: this.props.application.postDescription,
+      notes: this.props.application.notes,
     };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -35,9 +38,10 @@ class ApplicationModal extends React.Component {
   handleMouseDown(e, value) {
     // specifically for the company search bar
     if (e.target.innerText) {
-      var obj = {};
+      const obj = {};
       obj[value.id] = e.target.innerText;
-      obj.companyImg = e.target.getAttribute('src') || e.target.getAttribute('logo');
+      obj.companyImg =
+        e.target.getAttribute('src') || e.target.getAttribute('logo');
       this.setState(obj);
     }
   }
@@ -47,16 +51,16 @@ class ApplicationModal extends React.Component {
     this.setState({ activeItem: name });
   }
 
-  handleChange(e, { value }) {
-    // passed to position, reminder, url, job description fields
-    var obj = {};
+  handleChange(e) {
+    // passed to position, notes, reminder, url, job description fields
+    const obj = {};
     obj[e.target.id] = e.target.value;
     this.setState(obj);
   }
 
   handleStatusChange(e, value) {
     // specifically for the application status dropdown
-    var obj = {};
+    const obj = {};
     obj[value.id] = value.value;
     this.setState(obj);
   }
@@ -69,6 +73,9 @@ class ApplicationModal extends React.Component {
       this.props.application.position = this.state.inputPosition;
       this.props.application.status = this.state.selectedStatus;
       this.props.application.companyImg = this.state.companyImg;
+      this.props.application.postUrl = this.state.postUrl;
+      this.props.application.postDescription = this.state.postDescription;
+      this.props.application.notes = this.state.notes;
       // send as edited
       this.props.addOrUpdateApp({ edited: this.props.application });
       // otherwise create new application object with vals
@@ -79,6 +86,9 @@ class ApplicationModal extends React.Component {
       newApp.position = this.state.inputPosition;
       newApp.status = this.state.selectedStatus;
       newApp.companyImg = this.state.companyImg;
+      newApp.postUrl = this.state.postUrl;
+      newApp.postDescription = this.state.postDescription;
+      newApp.notes = this.state.notes;
       // send as new
       this.props.addOrUpdateApp({ newApplication: newApp });
     }
@@ -94,6 +104,9 @@ class ApplicationModal extends React.Component {
       inputDate,
       inputPosition,
       selectedStatus,
+      postUrl,
+      postDescription,
+      notes,
     } = this.state;
     return (
       <Modal
@@ -108,7 +121,7 @@ class ApplicationModal extends React.Component {
         }
       >
         <Modal.Header>
-          <Image floated='left' rounded={true} size='tiny' src={companyImg} />
+          <Image floated="left" rounded={true} size="tiny" src={companyImg} />
           <Header>{currentCompany}</Header>
           {inputPosition}
         </Modal.Header>
@@ -148,6 +161,9 @@ class ApplicationModal extends React.Component {
                   company={currentCompany}
                   position={inputPosition}
                   status={selectedStatus}
+                  postUrl={postUrl}
+                  notes={notes}
+                  postDescription={postDescription}
                   date={inputDate}
                   handleMouseDown={this.handleMouseDown}
                   handleChange={this.handleChange}
@@ -166,26 +182,25 @@ class ApplicationModal extends React.Component {
   }
 }
 
-const fetchApplicationsSuccess = response => {
+const fetchApplicationsSuccess = (response) => {
   return {
     type: 'FETCH_SUCCESS',
     payload: response,
   };
 };
 
-const addOrUpdateApp = valuesObject => {
-  console.log('calues object:', valuesObject);
-  return dispatch => {
+const addOrUpdateApp = (valuesObject) => {
+  return (dispatch) => {
     const request = axios.post('/api/applications', valuesObject);
     return request
-      .then(response => {
+      .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .catch(err => console.log(err));
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
   };

@@ -4,27 +4,29 @@ import Reminder from '../containers/modalReminder.jsx';
 import OriginalPost from './originalPost.jsx';
 import Contacts from './modalContacts.jsx';
 
-const modalNavContainer = ({ view, date, company, position, status, application, handleMouseDown, handleChange, handleStatusChange }) => {
+const modalNavContainer = ({ view, date, company, position, status, notes, application, postUrl, postDescription, handleMouseDown, handleChange, handleStatusChange }) => {
   if (view === 'Application Details') {
-    return (<ModalForm
-      date={date}
-      company={company}
-      position={position}
-      status={status}
-      handleMouseDown={handleMouseDown}
-      handleChange={handleChange}
-      handleStatusChange={handleStatusChange}
-            />);
+    return (
+      <ModalForm
+        date={date}
+        company={company}
+        position={position}
+        status={status}
+        notes={notes}
+        handleMouseDown={handleMouseDown}
+        handleChange={handleChange}
+        handleStatusChange={handleStatusChange}
+      />
+    );
   } else if (view === 'Add A Reminder') {
-    return (<Reminder
-      application={application}
-      company={company}
-
-            />);
+    return <Reminder application={application} company={company} />;
   } else if (view === 'Original Posting') {
-    return (<OriginalPost />);
+    return (<OriginalPost
+      handleChange={handleChange}
+      postUrl={postUrl}
+      postDescription={postDescription}/>);
   } else if (view === 'Contacts') {
-    return (<Contacts application={application}/>);
+    return <Contacts application={application} />;
   }
 };
 
