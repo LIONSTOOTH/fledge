@@ -2187,8 +2187,15 @@
 			text-transform: none !important;
 		}
 
+		.icon.label{
+			display: none;
+
+		}
+
+
 		.icon.label:onHover{
 			display: show;
+			font-size:
 
 		}
 

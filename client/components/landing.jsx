@@ -71,10 +71,10 @@ const Landing = props => (
         <div className="container 75%">
 
           <ul className="icons">
-            <li><a href="www.linkedin.com/in/ArthurLee144" className="icon arthur"><span className="label">Arthur Lee</span></a></li>
-            <li><a href="www.linkedin.com/in/b-j-p" className="icon ben"><span className="label">Benjamin Polansky</span></a></li>
-            <li><a href="www.linkedin.com/in/kristaabraham" className="icon krista"><span className="label">Krista Abraham</span></a></li>
-            <li><a href="www.linkedin.com/in/iamgraceko" className="icon grace" ><span className="label">Grace Ko</span></a></li>
+            <li><a href="www.linkedin.com/in/ArthurLee144" className="icon arthur"><span className="label"></span></a></li>
+            <li><a href="www.linkedin.com/in/b-j-p" className="icon ben"><span className="label"></span></a></li>
+            <li><a href="www.linkedin.com/in/kristaabraham" className="icon krista"><span className="label"></span></a></li>
+            <li><a href="www.linkedin.com/in/iamgraceko" className="icon grace" ><span className="label"></span></a></li>
 
           </ul>
 
