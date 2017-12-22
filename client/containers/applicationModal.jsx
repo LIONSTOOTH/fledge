@@ -24,6 +24,8 @@ class ApplicationModal extends React.Component {
       inputDate: this.props.application.date,
       inputPosition: this.props.application.position,
       selectedStatus: this.props.application.status,
+      postUrl: this.props.application.postUrl,
+      postDescription: this.props.application.postDescription,
     };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -69,6 +71,8 @@ class ApplicationModal extends React.Component {
       this.props.application.position = this.state.inputPosition;
       this.props.application.status = this.state.selectedStatus;
       this.props.application.companyImg = this.state.companyImg;
+      this.props.application.postUrl = this.state.postUrl;
+      this.props.application.postDescription = this.state.postDescription;
       // send as edited
       this.props.addOrUpdateApp({ edited: this.props.application });
       // otherwise create new application object with vals
@@ -79,6 +83,8 @@ class ApplicationModal extends React.Component {
       newApp.position = this.state.inputPosition;
       newApp.status = this.state.selectedStatus;
       newApp.companyImg = this.state.companyImg;
+      newApp.postUrl = this.state.postUrl;
+      newApp.postDescription = this.state.postDescription;
       // send as new
       this.props.addOrUpdateApp({ newApplication: newApp });
     }
@@ -94,6 +100,8 @@ class ApplicationModal extends React.Component {
       inputDate,
       inputPosition,
       selectedStatus,
+      postUrl,
+      postDescription,
     } = this.state;
     return (
       <Modal
@@ -148,6 +156,8 @@ class ApplicationModal extends React.Component {
                   company={currentCompany}
                   position={inputPosition}
                   status={selectedStatus}
+                  postUrl={postUrl}
+                  postDescription={postDescription}
                   date={inputDate}
                   handleMouseDown={this.handleMouseDown}
                   handleChange={this.handleChange}

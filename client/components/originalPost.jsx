@@ -1,40 +1,46 @@
-import React from 'react'
-import { Button, Form, Icon, Input, TextArea } from 'semantic-ui-react'
-
+import React from "react";
+import { Form, Input, TextArea } from "semantic-ui-react";
 
 class originalPost extends React.Component {
   constructor() {
     super();
-    this.state = {}
-  }
-
-  handleChange(e, { value }) {
-    this.setState({ value })
+    this.state = {};
   }
 
   render() {
     const { value } = this.state;
-    const theButton = () => (<Button type="submit" size="small" color="blue">Submit<Icon name="right chevron"/></Button>);
+    const { postUrl, postDescription, handleChange } = this.props;
     return (
       <div>
-      <Form>
-        <Form.Group widths='equal'>
-          <Form.Field control={Input} type="url" label='Link to original job posting:' placeholder='Add url' />
-        </Form.Group>
-        <Form.Field control={TextArea} label='Post details:' placeholder='Copy and paste post details here...' />
-        <Form.Field control={theButton}>
-        </Form.Field>
-      </Form>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+        <Form widths="equal">
+            <Form.Field
+              control={Input}
+              type="url"
+              id="postUrl"
+              label="Link to original job posting:"
+              placeholder={"Add url"}
+              onChange={handleChange}
+              value={postUrl}
+            />
+
+          <TextArea
+            autoHeight={true}
+            onChange={handleChange}
+            id="postDescription"
+            label="Post details:"
+            placeholder={"Copy and paste post details here..."}
+            value={postDescription}
+          />
+        </Form>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
-    )
+    );
   }
 }
-
 
 export default originalPost;
