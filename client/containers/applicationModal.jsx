@@ -7,6 +7,7 @@ import {
   Segment,
   Modal,
   Icon,
+  Image
 } from 'semantic-ui-react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -36,6 +37,7 @@ class ApplicationModal extends React.Component {
     if (e.target.innerText) {
       var obj = {};
       obj[value.id] = e.target.innerText;
+      obj.companyImg = e.target.getAttribute('src') || e.target.getAttribute('logo');
       this.setState(obj);
     }
   }
@@ -66,6 +68,7 @@ class ApplicationModal extends React.Component {
       this.props.application.date = this.state.inputDate;
       this.props.application.position = this.state.inputPosition;
       this.props.application.status = this.state.selectedStatus;
+      this.props.application.companyImg = this.state.companyImg;
       // send as edited
       this.props.addOrUpdateApp({ edited: this.props.application });
       // otherwise create new application object with vals
@@ -75,6 +78,7 @@ class ApplicationModal extends React.Component {
       newApp.date = this.state.inputDate;
       newApp.position = this.state.inputPosition;
       newApp.status = this.state.selectedStatus;
+      newApp.companyImg = this.state.companyImg;
       // send as new
       this.props.addOrUpdateApp({ newApplication: newApp });
     }
@@ -104,10 +108,8 @@ class ApplicationModal extends React.Component {
         }
       >
         <Modal.Header>
-          <span>
-            <Header>{currentCompany}</Header>
-            {companyImg}
-          </span>
+          <Image floated='left' rounded={true} size='tiny' src={companyImg} />
+          <Header>{currentCompany}</Header>
           {inputPosition}
         </Modal.Header>
 
