@@ -18,7 +18,7 @@ class originalPost extends React.Component {
               type="url"
               id="postUrl"
               label="Link to original job posting:"
-              placeholder={"Add url"}
+              placeholder={"Save url"}
               onChange={handleChange}
               value={postUrl}
             />
@@ -27,7 +27,7 @@ class originalPost extends React.Component {
             autoHeight={true}
             onChange={handleChange}
             id="postDescription"
-            placeholder={"Save post details here for reference in case the original post becomes unavailable..."}
+            placeholder={"Save post details here in case the original post becomes unavailable..."}
             value={postDescription}
           />
         </Form>
