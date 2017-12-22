@@ -7,7 +7,7 @@ import {
   Segment,
   Modal,
   Icon,
-  Image
+  Image,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -38,9 +38,10 @@ class ApplicationModal extends React.Component {
   handleMouseDown(e, value) {
     // specifically for the company search bar
     if (e.target.innerText) {
-      var obj = {};
+      const obj = {};
       obj[value.id] = e.target.innerText;
-      obj.companyImg = e.target.getAttribute('src') || e.target.getAttribute('logo');
+      obj.companyImg =
+        e.target.getAttribute('src') || e.target.getAttribute('logo');
       this.setState(obj);
     }
   }
@@ -50,7 +51,7 @@ class ApplicationModal extends React.Component {
     this.setState({ activeItem: name });
   }
 
-  handleChange(e, { value }) {
+  handleChange(e) {
     // passed to position, notes, reminder, url, job description fields
     const obj = {};
     obj[e.target.id] = e.target.value;
@@ -59,7 +60,7 @@ class ApplicationModal extends React.Component {
 
   handleStatusChange(e, value) {
     // specifically for the application status dropdown
-    var obj = {};
+    const obj = {};
     obj[value.id] = value.value;
     this.setState(obj);
   }
@@ -120,7 +121,7 @@ class ApplicationModal extends React.Component {
         }
       >
         <Modal.Header>
-          <Image floated='left' rounded={true} size='tiny' src={companyImg} />
+          <Image floated="left" rounded={true} size="tiny" src={companyImg} />
           <Header>{currentCompany}</Header>
           {inputPosition}
         </Modal.Header>
@@ -181,26 +182,25 @@ class ApplicationModal extends React.Component {
   }
 }
 
-const fetchApplicationsSuccess = response => {
+const fetchApplicationsSuccess = (response) => {
   return {
     type: 'FETCH_SUCCESS',
     payload: response,
   };
 };
 
-const addOrUpdateApp = valuesObject => {
-  console.log('calues object:', valuesObject);
-  return dispatch => {
+const addOrUpdateApp = (valuesObject) => {
+  return (dispatch) => {
     const request = axios.post('/api/applications', valuesObject);
     return request
-      .then(response => {
+      .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .catch(err => console.log(err));
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
   };

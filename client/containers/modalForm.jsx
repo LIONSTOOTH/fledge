@@ -16,21 +16,29 @@ class ModalForm extends React.Component {
     this.setState({ searchQuery });
     axios.get(
       `https://autocomplete.clearbit.com/v1/companies/suggest?query=:${this.state.searchQuery}`)
-      .then(response => {
-        //semantic renders dropdown by text property
-        var mapped = response.data.map(b => {
+      .then((response) => {
+        // semantic renders dropdown by text property
+        const mapped = response.data.map((b) => {
           b.text = b.name;
           b.image = { avatar: true, src: b.logo };
           return b;
         });
         this.setState({ businessList: mapped });
-        console.log('mapped',mapped)
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    const { handleMouseDown, handleChange, handleStatusChange, position, date, company, status, notes } = this.props;
+    const {
+      handleMouseDown,
+      handleChange,
+      handleStatusChange,
+      position,
+      date,
+      company,
+      status,
+      notes,
+    } = this.props;
     const d = new Date(date);
     const options = [
       { key: 1, text: 'In Progress', value: 'In Progress' },
@@ -43,19 +51,19 @@ class ModalForm extends React.Component {
       <div>
         <Form>
           <div style={{ fontSize: 13, fontWeight: 'bold' }}>Company</div>
-            <Dropdown
-              fluid
-              selection
-              multiple={false}
-              search={true}
-              options={this.state.businessList}
-              placeholder={company}
-              onSearchChange={this.handleSearchChange}
-              onMouseDown={handleMouseDown}
-              disabled={false}
-              loading={false}
-              id="currentCompany"
-            />
+          <Dropdown
+            fluid
+            selection
+            multiple={false}
+            search={true}
+            options={this.state.businessList}
+            placeholder={company}
+            onSearchChange={this.handleSearchChange}
+            onMouseDown={handleMouseDown}
+            disabled={false}
+            loading={false}
+            id="currentCompany"
+          />
           <br />
           <Form.Field
             control={Input}
@@ -69,11 +77,15 @@ class ModalForm extends React.Component {
           <Form.Field
             control={Input}
             onChange={handleChange}
-            label={`Date Applied: ${ isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}` }
+            label={`Date Applied: ${
+              isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}`
+            }
             type="date"
             id="inputDate"
           />
-          <div style={{ fontSize: 13, fontWeight: 'bold' }}>Application Status<span style={{ color: 'red' }}> *</span></div>
+          <div style={{ fontSize: 13, fontWeight: 'bold' }}>
+            Application Status<span style={{ color: 'red' }}> *</span>
+          </div>
           <Dropdown
             onChange={handleStatusChange}
             options={options}
@@ -82,16 +94,16 @@ class ModalForm extends React.Component {
             selectOnNavigation={false}
             id="selectedStatus"
           />
-        <br />
-        <br />
-         <div style={{ fontSize: 13, fontWeight: 'bold' }}>Notes:</div>
-        <TextArea
-          onChange={handleChange}
-          id="notes"
-          placeholder="Save additional notes (who you met with, what you talked about, how your interview went, etc.)"
-          value={notes}
-          autoHeight={true}
-        />
+          <br />
+          <br />
+          <div style={{ fontSize: 13, fontWeight: 'bold' }}>Notes:</div>
+          <TextArea
+            onChange={handleChange}
+            id="notes"
+            placeholder="Save additional notes (who you met with, what you talked about, how your interview went, etc.)"
+            value={notes}
+            autoHeight={true}
+          />
         </Form>
       </div>
     );
