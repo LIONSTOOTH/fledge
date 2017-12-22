@@ -1,134 +1,117 @@
 import React from 'react';
 import '../../assets/css/main.css';
+import img1 from '../../images/pic01.jpg';
+import img2 from '../../images/pic02.jpg';
+import img3 from '../../images/pic03.jpg';
+import img4 from '../../images/pic04.jpg';
+import img5 from '../../images/pic05.jpg';
+import img6 from '../../images/pic06.jpg';
+import img7 from '../../images/pic07.jpg';
 
 const Landing = props => (
-    <div id="page-wrapper">
+    <div>
+      <div id="header">
+        <span className="logo icon fa-paper-plane-o"></span>
+        <h1>This is Fledge</h1>
+        <p>An intuitive job application tracker for the fledgling professional
+        <br />
+        </p>
+      </div>
 
-        {/*<!-- Header -->*/}
-          <header id="header" className="alt">
-            <h1><a href="index.html">Fledge</a></h1>
-            <nav>
-              <a href="#menu">Menu</a>
-            </nav>
+      <div id="main">
+
+        <header className="major container 75%">
+          <h2>Finding a job is hard enough.
+          <br />
+          Fledge does the legwork for you
+          <br />
+          so you can focus on landing your dream job. </h2>
+
+          <p>We should totally add something awesome<br />
+            here in this little blurb.</p>
+
+        </header>
+
+        <div className="box alt container">
+          <section className="feature left">
+            <a href="#" className="image icon fa-signal"><img src={img1} alt="" /></a>
+            <div className="content">
+              <h3>Interactive Kanban</h3>
+              <p>Our kanban design helps you organize your applications in a visual and intuitive away, allowing you to keep track at a glance.</p>
+            </div>
+          </section>
+          <section className="feature right">
+            <a href="#" className="image icon fa-code"><img src={img2} alt="" /></a>
+            <div className="content">
+              <h3>Proactive Reminders</h3>
+              <p>The application process doesn't end once the application is submitted. Fledge seamelessly integrates with your Google calendar to help you stay on top of all your applications.</p>
+            </div>
+          </section>
+          <section className="feature left">
+            <a href="#" className="image icon fa-mobile"><img src={img3} alt="" /></a>
+            <div className="content">
+              <h3>Insightful Metrics</h3>
+              <p>We gather information from your applications to provide charts to help you understand various data points, including total application counts and status conversion rates.</p>
+            </div>
+          </section>
+        </div>
+
+        <footer className="major container 75%">
+          <h3>Get shady with science</h3>
+          <p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
+          <ul className="actions">
+            <li><a href="#" className="button">Join our crew</a></li>
+          </ul>
+        </footer>
+
+      </div>
+      <div id="footer">
+        <div className="container 75%">
+
+          <header className="major last">
+            <h2>Questions or comments?</h2>
           </header>
 
-        {/*<!-- Menu -->*/}
-          <nav id="menu">
-            <div className="inner">
-              <h2>Menu</h2>
-              <ul className="links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="generic.html">Generic</a></li>
-                <li><a href="elements.html">Elements</a></li>
-                <li><a href="#">Log In</a></li>
-                <li><a href="#">Sign Up</a></li>
-              </ul>
-              <a href="#" className="close">Close</a>
+          <p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor
+          orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
+
+          <form method="post" action="#">
+            <div className="row">
+              <div className="6u 12u(mobilep)">
+                <input type="text" name="name" placeholder="Name" />
+              </div>
+              <div className="6u 12u(mobilep)">
+                <input type="email" name="email" placeholder="Email" />
+              </div>
             </div>
-          </nav>
-
-        {/*<!-- Banner -->*/}
-          <section id="banner">
-            <div className="inner">
-              <div className="logo"><span className="icon fa-diamond"></span></div>
-              <h2>This is Fledge</h2>
-              <p>An intuitive job tracker for the fledgling professional</p>
+            <div className="row">
+              <div className="12u">
+                <textarea name="message" placeholder="Message" rows="6"></textarea>
+              </div>
             </div>
-          </section>
-
-        {/*<!-- Wrapper -->*/}
-          <section id="wrapper">
-
-            {/*<!-- One -->*/}
-              <section id="one" className="wrapper spotlight style1">
-                <div className="inner">
-                  <a href="#" className="image"><img src="../../images/pic01.jpg" alt="" /></a>
-                  <div className="content">
-                    <h2 className="major">Magna arcu feugiat</h2>
-                    <p>Lorem ipsum dolor sit amet, etiam lorem adipiscing elit. Cras turpis ante, nullam sit amet turpis non, sollicitudin posuere urna. Mauris id tellus arcu. Nunc vehicula id nulla dignissim dapibus. Nullam ultrices, neque et faucibus viverra, ex nulla cursus.</p>
-                    <a href="#" className="special">Learn more</a>
-                  </div>
-                </div>
-              </section>
-
-            {/*<!-- Two -->*/}
-              <section id="two" className="wrapper alt spotlight style2">
-                <div className="inner">
-                  <a href="#" className="image"><img src="../../images/pic02.jpg" alt="" /></a>
-                  <div className="content">
-                    <h2 className="major">Tempus adipiscing</h2>
-                    <p>Lorem ipsum dolor sit amet, etiam lorem adipiscing elit. Cras turpis ante, nullam sit amet turpis non, sollicitudin posuere urna. Mauris id tellus arcu. Nunc vehicula id nulla dignissim dapibus. Nullam ultrices, neque et faucibus viverra, ex nulla cursus.</p>
-                    <a href="#" className="special">Learn more</a>
-                  </div>
-                </div>
-              </section>
-
-            {/*<!-- Three -->*/}
-              <section id="three" className="wrapper spotlight style3">
-                <div className="inner">
-                  <a href="#" className="image"><img src="../../images/pic03.jpg" alt="" /></a>
-                  <div className="content">
-                    <h2 className="major">Nullam dignissim</h2>
-                    <p>Lorem ipsum dolor sit amet, etiam lorem adipiscing elit. Cras turpis ante, nullam sit amet turpis non, sollicitudin posuere urna. Mauris id tellus arcu. Nunc vehicula id nulla dignissim dapibus. Nullam ultrices, neque et faucibus viverra, ex nulla cursus.</p>
-                    <a href="#" className="special">Learn more</a>
-                  </div>
-                </div>
-              </section>
-
-            {/*<!-- Four -->*/}
-              <section id="four" className="wrapper alt style1">
-                <div className="inner">
-                  <h2 className="major">Vitae phasellus</h2>
-                  <p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
-                  <section className="features">
-                    <article>
-                      <a href="#" className="image"><img src="../../images/pic04.jpg" alt="" /></a>
-                      <h3 className="major">Sed feugiat lorem</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-                      <a href="#" className="special">Learn more</a>
-                    </article>
-                    <article>
-                      <a href="#" className="image"><img src="../../images/pic05.jpg" alt="" /></a>
-                      <h3 className="major">Nisl placerat</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-                      <a href="#" className="special">Learn more</a>
-                    </article>
-                    <article>
-                      <a href="#" className="image"><img src="../../images/pic06.jpg" alt="" /></a>
-                      <h3 className="major">Ante fermentum</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-                      <a href="#" className="special">Learn more</a>
-                    </article>
-                    <article>
-                      <a href="#" className="image"><img src="../../images/pic07.jpg" alt="" /></a>
-                      <h3 className="major">Fusce consequat</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-                      <a href="#" className="special">Learn more</a>
-                    </article>
-                  </section>
-                  <ul className="actions">
-                    <li><a href="#" className="button">Browse All</a></li>
-                  </ul>
-                </div>
-              </section>
-
-          </section>
-
-        {/*<!-- Footer -->*/}
-          <section id="footer">
-            <div className="inner">
-              <ul className="contact">
-                <li className="fa-envelope"><a href="#">information@untitled.tld</a></li>
-                <li className="fa-twitter"><a href="#">twitter.com/untitled-tld</a></li>
-                <li className="fa-facebook"><a href="#">facebook.com/untitled-tld</a></li>
-                <li className="fa-instagram"><a href="#">instagram.com/untitled-tld</a></li>
-              </ul>
-              <ul className="copyright">
-                <li>&copy; Untitled Inc. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-              </ul>
+            <div className="row">
+              <div className="12u">
+                <ul className="actions">
+                  <li><input type="submit" value="Send Message" /></li>
+                </ul>
+              </div>
             </div>
-          </section>
+          </form>
+
+          <ul className="icons">
+            <li><a href="#" className="icon fa-twitter"><span className="label">Twitter</span></a></li>
+            <li><a href="#" className="icon fa-facebook"><span className="label">Facebook</span></a></li>
+            <li><a href="#" className="icon fa-instagram"><span className="label">Instagram</span></a></li>
+            <li><a href="#" className="icon fa-github"><span className="label">Github</span></a></li>
+            <li><a href="#" className="icon fa-dribbble"><span className="label">Dribbble</span></a></li>
+          </ul>
+
+          <ul className="copyright">
+            <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+          </ul>
+
+        </div>
       </div>
+    </div>
 );
-
 export default Landing;
