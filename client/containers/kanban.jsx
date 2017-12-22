@@ -19,7 +19,7 @@ class Kanban extends React.Component {
   }
 
   render() {
-    console.log('applications in kanban: ', this.props.applications)
+    console.log('applications in kanban: ', this.props.applications);
     if (this.props.isFetching) {
       return (
         <div>
@@ -29,7 +29,7 @@ class Kanban extends React.Component {
     } else {
       return (
         <div>
-          <Grid columns={5} >
+          <Grid columns={5}>
             <Grid.Row>
               <Grid.Column>
                 <Column
