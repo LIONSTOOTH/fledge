@@ -23,9 +23,7 @@ const Landing = props => (
         <header className="major container 75%">
           <h2>Finding a job is hard enough.
           <br />
-          Fledge does the legwork for you
-          <br />
-          so you can focus on landing your dream job. </h2>
+          Fledge does the legwork for you.</h2>
 
           <p>We should totally add something awesome<br />
             here in this little blurb.</p>
@@ -68,36 +66,6 @@ const Landing = props => (
       <div id="footer">
         <div className="container 75%">
 
-          <header className="major last">
-            <h2>Questions or comments?</h2>
-          </header>
-
-          <p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor
-          orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
-
-          <form method="post" action="#">
-            <div className="row">
-              <div className="6u 12u(mobilep)">
-                <input type="text" name="name" placeholder="Name" />
-              </div>
-              <div className="6u 12u(mobilep)">
-                <input type="email" name="email" placeholder="Email" />
-              </div>
-            </div>
-            <div className="row">
-              <div className="12u">
-                <textarea name="message" placeholder="Message" rows="6"></textarea>
-              </div>
-            </div>
-            <div className="row">
-              <div className="12u">
-                <ul className="actions">
-                  <li><input type="submit" value="Send Message" /></li>
-                </ul>
-              </div>
-            </div>
-          </form>
-
           <ul className="icons">
             <li><a href="#" className="icon fa-twitter"><span className="label">Twitter</span></a></li>
             <li><a href="#" className="icon fa-facebook"><span className="label">Facebook</span></a></li>
@@ -107,7 +75,7 @@ const Landing = props => (
           </ul>
 
           <ul className="copyright">
-            <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            <li>&copy; Fledge. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
           </ul>
 
         </div>
