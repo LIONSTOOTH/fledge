@@ -20,7 +20,6 @@ class ModalContacts extends React.Component {
   }
 
   componentWillMount() {
-    console.log('getting contacts from db');
     axios.get('/api/contacts').then(res => {
       console.log('response from server', res);
       this.setState({ contacts: res.data.contacts }, () => {
@@ -42,7 +41,6 @@ class ModalContacts extends React.Component {
     axios
       .post('/api/contacts', { addContact: newContact })
       .then(res => {
-        console.log('response from server', res);
         this.setState({ contacts: res.data.contacts });
       })
       .catch(err => console.log(err));
@@ -51,15 +49,12 @@ class ModalContacts extends React.Component {
   handleChange(e, value) {
     let obj = {};
     obj[value.id] = value.value;
-    this.setState(obj, () => {
-      console.log('state after onChange: ', this.state[value.id]);
-    });
+    this.setState(obj);
   }
 
   render() {
     const { application } = this.props;
     const { contacts } = this.state;
-    console.log('application', application);
     return (
       <div>
         <Form onSubmit={this.saveContact}>
