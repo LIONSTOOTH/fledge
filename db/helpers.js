@@ -124,6 +124,7 @@ const saveApp = (userId, app, callback) => {
       contactDate: app.lastContactDate,
       postUrl: app.postUrl,
       postDescription: app.postDescription,
+      notes: app.notes,
       checklist: {
         researched: app.checklist ? app.checklist.researched : null,
         reachedOut: app.checklist ? app.checklist.reachedOut : null,
@@ -154,6 +155,7 @@ const updateApp = (userId, app, callback) => {
     a.contactDate = app.lastContactDate;
     a.postUrl = app.postUrl;
     a.postDescription = app.postDescription;
+    a.notes = app.notes;
     a.checklist = {
       researched: app.checklist ? app.checklist.researched : null,
       reachedOut: app.checklist ? app.checklist.reachedOut : null,

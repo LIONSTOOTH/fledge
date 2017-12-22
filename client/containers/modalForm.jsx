@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Dropdown, Form, Input } from 'semantic-ui-react';
+import { Dropdown, Form, Input, TextArea } from 'semantic-ui-react';
 
 class ModalForm extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class ModalForm extends React.Component {
   }
 
   render() {
-    const { handleMouseDown, handleChange, handleStatusChange, position, date, company, status } = this.props;
+    const { handleMouseDown, handleChange, handleStatusChange, position, date, company, status, notes } = this.props;
     const d = new Date(date);
     const options = [
       { key: 1, text: 'In Progress', value: 'In Progress' },
@@ -66,7 +66,6 @@ class ModalForm extends React.Component {
             placeholder={position}
             value={position}
           />
-          <br />
           <Form.Field
             control={Input}
             onChange={handleChange}
@@ -83,12 +82,17 @@ class ModalForm extends React.Component {
             selectOnNavigation={false}
             id="selectedStatus"
           />
+        <br />
+        <br />
+         <div style={{ fontSize: 13, fontWeight: 'bold' }}>Notes:</div>
+        <TextArea
+          onChange={handleChange}
+          id="notes"
+          placeholder="Save additional notes (who you met with, what you talked about, how your interview went, etc.)"
+          value={notes}
+          autoHeight={true}
+        />
         </Form>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     );
   }

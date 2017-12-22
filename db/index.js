@@ -21,6 +21,7 @@ const appSchema = new Schema({
   contactDate: Date,
   postUrl: String,
   postDescription: String,
+  notes: String,
   checklist: {
     researched: Boolean,
     reachedOut: Boolean,
