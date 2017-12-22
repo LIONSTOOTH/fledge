@@ -152,7 +152,8 @@ const updateApp = (userId, app, callback) => {
     a.company = app.company;
     a.companyImg = app.companyImg;
     a.contactDate = app.lastContactDate;
-    a.postUrl = app.postDescription;
+    a.postUrl = app.postUrl;
+    a.postDescription = app.postDescription;
     a.checklist = {
       researched: app.checklist ? app.checklist.researched : null,
       reachedOut: app.checklist ? app.checklist.reachedOut : null,
