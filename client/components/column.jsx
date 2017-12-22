@@ -59,7 +59,7 @@ class Column extends Component {
         class="ui center aligned tertiary inverted segment"
         style={getStyle(backgroundColor)}
       >
-        <h3>{title}</h3>
+        <h4>{title}</h4>
         <span>
           {applications.map(application => (
             <ApplicationChip
