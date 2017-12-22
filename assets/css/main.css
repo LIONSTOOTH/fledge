@@ -2172,7 +2172,7 @@
 
 /* Icon */
 
-	.icon {
+/*	.icon {
 		text-decoration: none;
 		border-bottom: none;
 		position: relative;
@@ -2191,13 +2191,7 @@
 			display: none;
 
 		}
-
-
-		.icon.label:onHover{
-			display: show;
-			font-size:
-
-		}
+*/
 
 		.icon.arthur {
 			background-image: url("../../images/arthur.jpg")
@@ -2340,7 +2334,7 @@
 
 /* Button */
 
-	input[type="submit"],
+/*	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
 	.button {
@@ -2419,7 +2413,7 @@
 		.button.small {
 			font-size: 0.8em;
 		}
-
+*/
 /* Box */
 
 	.box {
