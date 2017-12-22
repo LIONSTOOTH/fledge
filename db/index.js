@@ -51,6 +51,7 @@ const reminderSchema = new Schema({
   description: String,
   start: String,
   applicationId: String,
+  eventId: String
 });
 
 const userSchema = new Schema({

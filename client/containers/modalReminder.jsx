@@ -14,16 +14,21 @@ class Reminder extends React.Component {
     };
     this.setReminder = this.setReminder.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.getReminders = this.getReminders.bind(this)
   }
 
   setReminder() {
+    let context = this;
     const next = this.nextWeek(this.state.numWeeks);
     const newReminder = {};
     newReminder.summary = 'Follow up with ' + this.props.company
     newReminder.description = this.state.reminderText;
     newReminder.start = next;
     newReminder.applicationId = this.props.application._id
-    this.props.addReminderToApp({ addReminder: newReminder }).then(this.getReminders.bind(this));
+    // this.props.addReminderToApp({ addReminder: newReminder }, context.getReminders);
+    axios.post('/api/reminders', { addReminder: newReminder }).then(function() {
+      context.getReminders();
+    })
 
   }
 
@@ -32,7 +37,7 @@ class Reminder extends React.Component {
     // console.log(context.props.application)
     let id = context.props.application._id
     axios.post('/api/appReminders', {appId: id}).then(res => {
-      console.log('response data: ', res.data)
+      console.log('GETTING REMINDERS ' + res.data)
       context.setState({reminders: res.data}, () => {
         console.log('reminders in state: ' + this.state.reminders);
       });
@@ -54,8 +59,11 @@ class Reminder extends React.Component {
     return new Date(next.getFullYear(), next.getMonth(), next.getDate() + (7 * parseInt(weeks)));
   }
 
-  deleteReminder() {
-
+  deleteReminder(eventId, reminderId) {
+    let context = this;
+    axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId }).then(() => {
+      context.getReminders();
+    })
   }
 
   render() {
@@ -101,7 +109,7 @@ class Reminder extends React.Component {
               <h4>{reminder.summary}</h4>
               <h4>{reminder.description}</h4>
               <h4>{dateDiffInDays(a, (new Date(reminder.start)))} days left</h4>
-              <Button basic color="green" onClick={this.deleteReminder.bind(this)}>
+              <Button basic color="green" onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}>
                   <i class="checkmark box icon"></i>
                 </Button>
             </Segment>
@@ -115,17 +123,17 @@ class Reminder extends React.Component {
   }
 }
 
-const addReminderToApp = (valuesObject) => {
-  return (dispatch) => {
-    const request = axios.post('/api/reminders', valuesObject);
-    return request
-      .then((response) => {
-        dispatch(fetchApplicationsSuccess(response.data.applications));
-
-      })
-      .catch((err) => console.log(err));
-  };
-};
+// const addReminderToApp = (valuesObject, callback) => {
+//   return (dispatch) => {
+//     const request = axios.post('/api/reminders', valuesObject);
+//     return request
+//       .then((response) => {
+//         dispatch(fetchApplicationsSuccess(response.data.applications));
+//         callback();
+//       })
+//       .catch((err) => console.log(err));
+//   };
+// };
 
 const fetchApplicationsSuccess = (response) => {
   return {
@@ -140,4 +148,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addReminderToApp })(Reminder);
+export default connect(mapStateToProps)(Reminder);
