@@ -108,7 +108,7 @@ class ApplicationModal extends React.Component {
         }
       >
         <Modal.Header>
-          <Image floated='left' size='tiny' src={companyImg} />
+          <Image floated='left' rounded={true} size='tiny' src={companyImg} />
           <Header>{currentCompany}</Header>
           {inputPosition}
         </Modal.Header>
