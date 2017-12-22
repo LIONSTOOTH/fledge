@@ -179,6 +179,7 @@ app.get('/api/reminders', (req, res) => {
 });
 
 app.post('/api/appReminders', (req, res) => {
+  console.log('wtf ' + req.user)
   let allReminders = req.user.reminders;
   let id = req.body.appId;
   filteredReminders = allReminders.filter(function(reminder) {
@@ -190,24 +191,24 @@ app.post('/api/appReminders', (req, res) => {
 
 app.post('/api/deleteReminder', (req, res) => {
   console.log('delete reminders data ', req.body.id)
-  // var params = {
-  //       auth: oauth2Client,
-  //       calendarId: 'primary',
-  //       eventId: req.body.id,
-  //     };
-  // let calendar = google.calendar('v3');
-  // calendar.events.delete(params, function(err) {
-  //   if (err) {
-  //     console.log('The API returned an error: ' + params);
-  //     return;
-  //   }
-  //   console.log('Event deleted in calendar');
-  // });
+  var params = {
+        auth: oauth2Client,
+        calendarId: 'primary',
+        eventId: req.body.eventId,
+      };
+  let calendar = google.calendar('v3');
+  calendar.events.delete(params, function(err) {
+    if (err) {
+      console.log('The API returned an error: ' + params);
+    } else {
+    console.log('Event deleted in calendar');
+    }
+  });
 
-  helpers.deleteReminder(req.user.googleId, req.body.id, (err, todo) => {
+  helpers.deleteReminder(req.user.googleId, req.body.reminderId, (err, todo) => {
     let response = {
         message: "Todo successfully deleted",
-        id: req.body.id
+        id: req.body.reminderId
     };
     res.status(200).send(response);
   })
@@ -231,13 +232,6 @@ app.get('/logout', function(req, res) {
 app.post('/api/reminders', (req, res) => {
   console.log('setting google calendar reminder', req.body);
   let userId = req.user.googleId;
-  helpers.saveReminder(userId, req.body.addReminder, err => {
-    if (err) {
-      console.log('Error saving reminder:', err);
-    } else {
-      console.log('Reminder Saved');
-    }
-  });
 
   let startDate = req.body.addReminder.start
     .split('')
@@ -277,17 +271,25 @@ app.post('/api/reminders', (req, res) => {
         );
         return;
       }
-      console.log('Event created: %s', event.htmlLink + ' event' + event);
+      req.body.addReminder.eventId = event.id;
+      helpers.saveReminder(userId, req.body.addReminder, err => {
+        if (err) {
+          console.log('Error saving reminder:', err);
+        } else {
+          console.log('Reminder Saved Event ID: ' + req.body.addReminder.eventId);
+          helpers.getApplications(req.user.googleId, (err, apps) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.send(JSON.stringify({ applications: apps }));
+            }
+          });
+        }
+      });
+      console.log('Event created: %s', event.htmlLink + ' event' + event + '' + req.body.addReminder);
     }
   );
 
-  helpers.getApplications(req.user.googleId, (err, apps) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(JSON.stringify({ applications: apps }));
-    }
-  });
 });
 
 app.listen(app.get('port'), () =>

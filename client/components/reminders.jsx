@@ -56,10 +56,10 @@ class Reminders extends React.Component {
     });
   }
 
-  deleteReminder(reminderId) {
+  deleteReminder(eventId, reminderId) {
     let context = this;
     console.log('HELLOOOO', reminderId);
-    axios.post('/api/deleteReminder', { id: reminderId }).then(() => {
+    axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId }).then(() => {
       console.log('deleted');
       context.populateState();
     });
@@ -93,8 +93,13 @@ class Reminders extends React.Component {
                   <ApplicationModal application={reminder.application} />
                   <Button
                     basic
+<<<<<<< HEAD
                     color="green"
                     onClick={this.deleteReminder.bind(this, reminder._id)}
+=======
+                    color="red"
+                    onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
+>>>>>>> Delete events from GCal, fixed async issue when creating reminders
                   >
                     <i class="checkmark box icon"></i>
                   </Button>
