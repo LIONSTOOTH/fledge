@@ -122,6 +122,8 @@ const saveApp = (userId, app, callback) => {
       company: app.company,
       companyImg: app.companyImg,
       contactDate: app.lastContactDate,
+      postUrl: app.postUrl,
+      postDescription: app.postDescription,
       checklist: {
         researched: app.checklist ? app.checklist.researched : null,
         reachedOut: app.checklist ? app.checklist.reachedOut : null,
@@ -150,6 +152,7 @@ const updateApp = (userId, app, callback) => {
     a.company = app.company;
     a.companyImg = app.companyImg;
     a.contactDate = app.lastContactDate;
+    a.postUrl = app.postDescription;
     a.checklist = {
       researched: app.checklist ? app.checklist.researched : null,
       reachedOut: app.checklist ? app.checklist.reachedOut : null,
