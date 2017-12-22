@@ -24,6 +24,7 @@ class ApplicationChip extends Component {
         <Segment style={style} application={this.props.application} basic>
           <Card>
             <Card.Content>
+              <Image floated='right' size='mini' rounded={true} src={this.props.application.companyImg} />
               <Card.Header>{this.props.application.company}</Card.Header>
               <Card.Meta>{this.props.application.position}</Card.Meta>
             </Card.Content>
@@ -68,8 +69,6 @@ const applicationSPEC = {
     const edit = Object.assign(props.application, {
       status: props.getDropResult.component.title,
     });
-    //props.getDropResult.component.applications.push(edit);
-
     addOrUpdateApp({ edited: edit }, props.dropItem);
   },
 };

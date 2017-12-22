@@ -20,17 +20,17 @@ class ModalForm extends React.Component {
         //semantic renders dropdown by text property
         var mapped = response.data.map(b => {
           b.text = b.name;
+          b.image = { avatar: true, src: b.logo };
           return b;
         });
-        console.log('RESPONSE', mapped);
         this.setState({ businessList: mapped });
+        console.log('mapped',mapped)
       })
       .catch(err => console.log(err));
   }
 
   render() {
     const { handleMouseDown, handleChange, handleStatusChange, position, date, company, status } = this.props;
-    const { value } = this.state;
     const d = new Date(date);
     const options = [
       { key: 1, text: 'In Progress', value: 'In Progress' },
