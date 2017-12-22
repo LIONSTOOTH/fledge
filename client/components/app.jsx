@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react';
 import Landing from './landing.jsx';
-import { Head } from './header.jsx';
+import Head from './header.jsx';
 import Dashboard from './dashboard.jsx';
 import Materials from './materials.jsx';
 import Metrics from './metrics.jsx';

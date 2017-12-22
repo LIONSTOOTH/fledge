@@ -7,7 +7,7 @@ import ItemType from './ItemType.jsx';
 
 function getStyle(backgroundColor) {
   return {
-    minHeight: '760px',
+    minHeight: '1200px',
     backgroundColor,
     textAlign: 'center',
   };
@@ -51,7 +51,7 @@ class Column extends Component {
     } = this.props;
     let backgroundColor = 'rgba(0, 0, 0, .5)'
     if (hovered) {
-      backgroundColor = 'darkgreen';
+      backgroundColor = 'darkslategray';
     }
     return connectDropTarget(
       <div

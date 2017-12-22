@@ -223,7 +223,7 @@ app.get('/logged', (req, res) => {
 });
 
 app.get('/logout', function(req, res) {
-  console.log('LOGOUT REQUEST', req);
+  console.log('LOGOUT REQUEST RECEIVED', req);
   req.logout();
   res.redirect('/');
 });

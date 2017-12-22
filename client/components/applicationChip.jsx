@@ -32,7 +32,7 @@ class ApplicationChip extends Component {
               <div className="ui two buttons">
                 <ApplicationModal application={this.props.application} />
                 <Button basic color="red">
-                  <i class="trash icon" />
+                  <i class="lightning icon" />
                 </Button>
               </div>
             </Card.Content>
@@ -65,6 +65,7 @@ const applicationSPEC = {
       applicationId: props.id,
     };
   },
+
   endDrag(props, monitor, component) {
     const edit = Object.assign(props.application, {
       status: props.getDropResult.component.title,
