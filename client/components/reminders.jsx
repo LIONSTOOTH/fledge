@@ -56,10 +56,10 @@ class Reminders extends React.Component {
     });
   }
 
-  deleteReminder(reminderId) {
+  deleteReminder(eventId, reminderId) {
     let context = this;
     console.log('HELLOOOO', reminderId);
-    axios.post('/api/deleteReminder', { id: reminderId }).then(() => {
+    axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId }).then(() => {
       console.log('deleted');
       context.populateState();
     });
@@ -95,6 +95,8 @@ class Reminders extends React.Component {
                     basic
                     color="green"
                     onClick={this.deleteReminder.bind(this, reminder._id)}
+                    color="red"
+                    onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
                   >
                     <i class="checkmark box icon"></i>
                   </Button>
