@@ -44,7 +44,6 @@ class Contacts extends React.Component {
                   <br />
                   Phone: {contact.phone}
                   <br />
-                  <br />
                   <ApplicationModal
 
                   application={applicationsObj[contact.applicationId]}
