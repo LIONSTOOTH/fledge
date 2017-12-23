@@ -21,7 +21,7 @@ class Reminder extends React.Component {
     let context = this;
     const next = this.nextWeek(this.state.numWeeks);
     const newReminder = {};
-    newReminder.summary = 'Follow up with ' + this.props.company
+    newReminder.summary = 'Follow up with ' + this.props.company;
     newReminder.description = this.state.reminderText;
     newReminder.start = next;
     newReminder.applicationId = this.props.application._id
@@ -29,7 +29,6 @@ class Reminder extends React.Component {
     axios.post('/api/reminders', { addReminder: newReminder }).then(function() {
       context.getReminders();
     })
-
   }
 
   getReminders() {
@@ -41,7 +40,7 @@ class Reminder extends React.Component {
       context.setState({reminders: res.data}, () => {
         console.log('reminders in state: ' + this.state.reminders);
       });
-    })
+    });
   }
 
   componentWillMount() {
@@ -56,7 +55,11 @@ class Reminder extends React.Component {
 
   nextWeek(weeks) {
     var next = new Date();
-    return new Date(next.getFullYear(), next.getMonth(), next.getDate() + (7 * parseInt(weeks)));
+    return new Date(
+      next.getFullYear(),
+      next.getMonth(),
+      next.getDate() + 7 * parseInt(weeks)
+    );
   }
 
   deleteReminder(eventId, reminderId) {
@@ -67,11 +70,14 @@ class Reminder extends React.Component {
   }
 
   render() {
-    console.log('state during render', this.state.reminders)
+    console.log('state during render', this.state.reminders);
     const { application, company } = this.props;
-    const options = [{ key: 1, text: '1', value: '1' }, { key: 2, text: '2', value: '2' }];
+    const options = [
+      { key: 1, text: '1', value: '1' },
+      { key: 2, text: '2', value: '2' },
+    ];
     var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    var a    = new Date();
+    var a = new Date();
     function dateDiffInDays(a, b) {
       var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
       var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
@@ -79,45 +85,51 @@ class Reminder extends React.Component {
     }
     return (
       <div>
-      <h1>Follow up with {this.props.company}</h1>
-      <Form onSubmit={this.setReminder}>
-        <Form.Field
-          control={Input}
-          onChange={this.handleChange}
-          label="Add a reminder"
-          type="text"
-          id="reminderText"
-          placeholder='Optional: Add a Description'
-        />
+        <h1>Follow up with {this.props.company}</h1>
+        <Form onSubmit={this.setReminder}>
+          <Form.Field
+            control={Input}
+            onChange={this.handleChange}
+            label="Add a reminder"
+            type="text"
+            id="reminderText"
+            placeholder="Optional: Add a Description"
+          />
           Set reminder for
           <Dropdown
-          placeholder='1'
-          id="numWeeks"
-          compact
-          selection
-          options={options}
-          onChange={this.handleChange}
-          /> week(s)
-          <br/>
-          <br/>
-        <Button type="submit">Submit</Button>
-      </Form>
-      <h2>Current reminders</h2>
-        <div>
+            placeholder="1"
+            id="numWeeks"
+            compact
+            selection
+            options={options}
+            onChange={this.handleChange}
+          />{' '}
+          week(s)
+          <br />
+          <br />
+          <Button type="submit">Submit</Button>
+        </Form>
+        <h4>Current reminders</h4>
+        <Segment basic>
           {this.state.reminders.map(reminder => (
-            <Segment>
-              <h4>{reminder.summary}</h4>
-              <h4>{reminder.description}</h4>
-              <h4>{dateDiffInDays(a, (new Date(reminder.start)))} days left</h4>
-              <Button basic color="green" onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}>
-                  <i class="checkmark box icon"></i>
-                </Button>
+            <Segment clearing>
+              {reminder.summary}
+              <br />
+              {reminder.description}
+              <br />
+              days left: {dateDiffInDays(a, new Date(reminder.start))}
+              <Button
+                basic
+                color="green"
+                floated="right"
+                onClick={this.deleteReminder.bind(this)}
+                icon="checkmark" />
             </Segment>
           ))}
-        </div>
-      <br />
-      <br />
-      <br />
+        </Segment>
+        <br />
+        <br />
+        <br />
       </div>
     );
   }
@@ -135,14 +147,15 @@ class Reminder extends React.Component {
 //   };
 // };
 
-const fetchApplicationsSuccess = (response) => {
+
+const fetchApplicationsSuccess = response => {
   return {
     type: 'FETCH_SUCCESS',
     payload: response,
   };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     applications: state.applicationReducer.applications,
   };
