@@ -147,7 +147,6 @@ class Reminder extends React.Component {
 //   };
 // };
 
-
 const fetchApplicationsSuccess = response => {
   return {
     type: 'FETCH_SUCCESS',
