@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Segment, Card, Image } from 'semantic-ui-react';
+import { Segment, Card, Image, Button } from 'semantic-ui-react';
 import ApplicationModal from '../containers/applicationModal.jsx';
 
 class Contacts extends React.Component {
@@ -63,6 +63,9 @@ class Contacts extends React.Component {
                     </button>
                   }
                   />
+                    <button class="ui icon red button" >
+                      Delete
+                    </button>
                 </Card.Content>
               </Card>
             </Segment>
