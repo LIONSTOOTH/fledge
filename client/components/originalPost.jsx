@@ -6,16 +6,17 @@ const originalPost = (props) => {
   return (
     <div>
       <Form widths="equal">
+      <div style={{ fontSize: 14, fontWeight: 'bold' }}>Link to original job posting:</div>
         <Form.Field
           control={Input}
           type="url"
           id="postUrl"
-          label="Link to original job posting:"
+          // label="Link to original job posting:"
           placeholder="Save url"
           onChange={handleChange}
           value={postUrl}
         />
-        <div style={{ fontSize: 13, fontWeight: 'bold' }}>Post details:</div>
+        <div style={{ fontSize: 14, fontWeight: 'bold' }}>Post details:</div>
         <TextArea
           onChange={handleChange}
           id="postDescription"
