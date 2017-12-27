@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, Image, Segment } from 'semantic-ui-react';
+import { Button, Card, Image, Segment, Modal } from 'semantic-ui-react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -7,6 +7,7 @@ import { DragSource } from 'react-dnd';
 import ApplicationModal from '../containers/applicationModal.jsx';
 import { showModal } from '../actions/index.jsx';
 import ItemType from './ItemType.jsx';
+import MiniModal from './miniModal.jsx';
 
 const style = {
   cursor: 'move',
@@ -31,9 +32,9 @@ class ApplicationChip extends Component {
             <Card.Content extra>
               <div className="ui two buttons">
                 <ApplicationModal application={this.props.application} />
-                <Button basic color="red">
-                  <i class="lightning icon" />
-                </Button>
+
+                <MiniModal application={this.props.application}/>
+
               </div>
             </Card.Content>
           </Card>
