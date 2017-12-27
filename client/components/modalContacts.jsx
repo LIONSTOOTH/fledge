@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import { Button, Form, Input, Segment, Card } from 'semantic-ui-react';
+import { Button, Form, Input, Segment, Card, Header } from 'semantic-ui-react';
 
 class ModalContacts extends React.Component {
   constructor() {
@@ -51,7 +51,11 @@ class ModalContacts extends React.Component {
     return (
       <div>
         <Form onSubmit={this.saveContact}>
-          <h3>Add a contact:</h3>
+          <Header as="div">
+            <Header.Content>
+              Add A Contact:
+            </Header.Content>
+          </Header>
           <Form.Group width="equal">
             <Form.Field
               control={Input}
@@ -81,7 +85,7 @@ class ModalContacts extends React.Component {
               control={Input}
               onChange={this.handleChange}
               id="contactPhone"
-              type="phone"
+              // type="phone"
               label="Phone"
               placeholder={this.state.contactPhone}
             />
@@ -95,10 +99,11 @@ class ModalContacts extends React.Component {
               placeholder={this.state.contactCompany}
             />
           </Form.Group>
-          <Button type="submit">Submit</Button>
+          <Button size="tiny" type="submit">Submit</Button>
         </Form>
-        <br />
-        <br />
+        <Header as="span">
+          Related Contacts:
+        </Header>
         <div>
           {contacts
             .filter(allContacts => allContacts.applicationId === application._id)

@@ -50,7 +50,7 @@ class ModalForm extends React.Component {
     return (
       <div>
         <Form>
-          <div style={{ fontSize: 14, fontWeight: 'bold' }}>Company</div>
+          <div style={{ fontSize: 15, fontWeight: 'bold', color: 'black', paddingBottom: 5 }}>Company</div>
           <Dropdown
             fluid
             selection
@@ -65,29 +65,25 @@ class ModalForm extends React.Component {
             id="currentCompany"
           />
           <br />
-          <div style={{ fontSize: 14, fontWeight: 'bold' }}>Position</div>
           <Form.Field
             control={Input}
             onChange={handleChange}
-            // label="Position"
+            label="Position"
             type="text"
             id="inputPosition"
             placeholder={position}
             value={position}
           />
-          <div style={{ fontSize: 14, fontWeight: 'bold' }}>{`Date Applied: ${
-              isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}`
-            }</div>
           <Form.Field
             control={Input}
             onChange={handleChange}
-            // label={`Date Applied: ${
-              // isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}`
-            // }
+            label={`Date Applied: ${
+              isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}`
+            }
             type="date"
             id="inputDate"
           />
-          <div style={{ fontSize: 14, fontWeight: 'bold' }}>
+          <div style={{ fontSize: 15, fontWeight: 'bold', color: 'black', paddingBottom: 5 }}>
             Application Status<span style={{ color: 'red' }}> *</span>
           </div>
           <Dropdown
@@ -100,13 +96,13 @@ class ModalForm extends React.Component {
           />
           <br />
           <br />
-          <div style={{ fontSize: 14, fontWeight: 'bold' }}>Notes:</div>
-          <TextArea
+          <Form.TextArea
             onChange={handleChange}
             id="notes"
             placeholder="Save additional notes (who you met with, what you talked about, how your interview went, etc.)"
             value={notes}
             autoHeight={true}
+            label="Notes"
           />
         </Form>
       </div>

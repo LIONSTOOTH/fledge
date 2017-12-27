@@ -91,11 +91,10 @@ class Reminder extends React.Component {
         </Header.Content>
       </Header>
         <Form onSubmit={this.setReminder}>
-        <div style={{ fontSize: 14, fontWeight: 'bold' }}>Follow up with {this.props.company}</div>
           <Form.Field
             control={Input}
             onChange={this.handleChange}
-            //label="Add a reminder"
+            label={`Follow up with ${this.props.company}`}
             type="text"
             id="reminderText"
             placeholder="Optional: Add a description"
@@ -113,11 +112,8 @@ class Reminder extends React.Component {
           <br />
           <Button size="tiny" type="submit">Submit</Button>
         </Form>
-        <br/>
         <Header as='span'>
-          <Header.Content>
             Current Reminders:
-          </Header.Content>
         </Header>
         <Segment basic>
           {this.state.reminders.map(reminder => (
