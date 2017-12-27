@@ -1,7 +1,7 @@
-import React from 'react';
+  import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Segment, Card, Image } from 'semantic-ui-react';
+import { Segment, Card, Image, Button } from 'semantic-ui-react';
 import ApplicationModal from '../containers/applicationModal.jsx';
 
 class Contacts extends React.Component {
@@ -11,6 +11,7 @@ class Contacts extends React.Component {
       contacts: [],
       applicationsObj: {},
     };
+    this.deleteContact = this.deleteContact.bind(this);
   }
 
   componentWillMount() {
@@ -25,6 +26,12 @@ class Contacts extends React.Component {
     this.setState({ applicationsObj: a });
   }
 
+  deleteContact(e) {
+    axios.delete('/api/contacts', { params: { id: e.target.value }})
+    .then((res) => this.setState({ contacts: res.data.contacts }))
+    .catch((err) => console.log(err));
+  }
+
   render() {
     const { applicationsObj } = this.state;
     return (
@@ -32,7 +39,7 @@ class Contacts extends React.Component {
         <h1>Contact List</h1>
         <div>
           {this.state.contacts.map(contact => (
-            <Segment basic>
+            <Segment key={contact._id} basic>
               <Card>
                 <Card.Content>
                   <Card.Header>{contact.company}</Card.Header>
@@ -56,6 +63,9 @@ class Contacts extends React.Component {
                     </button>
                   }
                   />
+                    <button class="ui icon red button" value={contact._id} onClick={this.deleteContact}>
+                      Delete
+                    </button>
                 </Card.Content>
               </Card>
             </Segment>

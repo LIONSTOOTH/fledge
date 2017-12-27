@@ -10,18 +10,18 @@ const originalPost = (props) => {
           control={Input}
           type="url"
           id="postUrl"
-          label="Link to original job posting:"
+          label="Link to original job posting"
           placeholder="Save url"
           onChange={handleChange}
           value={postUrl}
         />
-        <div style={{ fontSize: 13, fontWeight: 'bold' }}>Post details:</div>
-        <TextArea
+        <Form.TextArea
           onChange={handleChange}
           id="postDescription"
           placeholder="Save post details here in case the original post becomes unavailable..."
           value={postDescription}
           autoHeight={true}
+          label="Post details"
         />
       </Form>
       <br />

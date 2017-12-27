@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, Input, Form, Dropdown, Segment } from 'semantic-ui-react';
+import { Button, Input, Form, Dropdown, Segment, Header, Icon } from 'semantic-ui-react';
 
 class Reminder extends React.Component {
   constructor(props) {
@@ -85,15 +85,19 @@ class Reminder extends React.Component {
     }
     return (
       <div>
-        <h1>Follow up with {this.props.company}</h1>
+      <Header as='div'>
+        <Header.Content>
+          Add A Reminder:
+        </Header.Content>
+      </Header>
         <Form onSubmit={this.setReminder}>
           <Form.Field
             control={Input}
             onChange={this.handleChange}
-            label="Add a reminder"
+            label={`Follow up with ${this.props.company}`}
             type="text"
             id="reminderText"
-            placeholder="Optional: Add a Description"
+            placeholder="Optional: Add a description"
           />
           Set reminder for
           <Dropdown
@@ -106,10 +110,11 @@ class Reminder extends React.Component {
           />{' '}
           week(s)
           <br />
-          <br />
-          <Button type="submit">Submit</Button>
+          <Button size="tiny" type="submit">Submit</Button>
         </Form>
-        <h4>Current reminders</h4>
+        <Header as='span'>
+            Current Reminders:
+        </Header>
         <Segment basic>
           {this.state.reminders.map(reminder => (
             <Segment clearing>
@@ -117,7 +122,7 @@ class Reminder extends React.Component {
               <br />
               {reminder.description}
               <br />
-              days left: {dateDiffInDays(a, new Date(reminder.start))}
+              Days left: {dateDiffInDays(a, new Date(reminder.start))}
               <Button
                 basic
                 color="green"

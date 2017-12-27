@@ -50,7 +50,7 @@ class ModalForm extends React.Component {
     return (
       <div>
         <Form>
-          <div style={{ fontSize: 13, fontWeight: 'bold' }}>Company</div>
+          <div style={{ fontSize: 15, fontWeight: 'bold', color: 'black', paddingBottom: 5 }}>Company</div>
           <Dropdown
             fluid
             selection
@@ -83,7 +83,7 @@ class ModalForm extends React.Component {
             type="date"
             id="inputDate"
           />
-          <div style={{ fontSize: 13, fontWeight: 'bold' }}>
+          <div style={{ fontSize: 15, fontWeight: 'bold', color: 'black', paddingBottom: 5 }}>
             Application Status<span style={{ color: 'red' }}> *</span>
           </div>
           <Dropdown
@@ -96,13 +96,13 @@ class ModalForm extends React.Component {
           />
           <br />
           <br />
-          <div style={{ fontSize: 13, fontWeight: 'bold' }}>Notes:</div>
-          <TextArea
+          <Form.TextArea
             onChange={handleChange}
             id="notes"
             placeholder="Save additional notes (who you met with, what you talked about, how your interview went, etc.)"
             value={notes}
             autoHeight={true}
+            label="Notes"
           />
         </Form>
       </div>
