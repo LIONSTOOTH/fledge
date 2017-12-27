@@ -16,12 +16,19 @@ class ModalContacts extends React.Component {
     };
     this.saveContact = this.saveContact.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.deleteContact = this.deleteContact.bind(this);
   }
 
   componentWillMount() {
     axios.get('/api/contacts')
       .then(res => this.setState({ contacts: res.data.contacts }))
       .catch(err => console.log(err));
+  }
+
+  deleteContact(e) {
+    axios.delete('/api/contacts', { params: { id: e.target.value }})
+    .then((res) => this.setState({ contacts: res.data.contacts }))
+    .catch((err) => console.log(err));
   }
 
   saveContact() {
@@ -120,6 +127,9 @@ class ModalContacts extends React.Component {
                     <br />
                     Phone: {contact.phone}
                     <br />
+               <button class="ui icon red button" value={contact._id} onClick={this.deleteContact}>
+                Delete
+              </button>
                   </Card.Content>
                 </Card>
               </Segment>
