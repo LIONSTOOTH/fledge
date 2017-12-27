@@ -116,13 +116,17 @@ const getContacts = (userId, callback) => {
 
 
 const deleteContact = (userId, contactId, callback) => {
-  db.User.find({ googleId: userId }, (err, data) => {
+  db.User.findOne({ googleId: userId }, (err, data) => {
     var c = data.contacts.id(contactId);
-    console.log('contact found:', data);
-    // delete c
-    // save user
-  })
-
+    c.remove();
+    data.save((err, saved) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, data)
+      }
+    });
+  });
 };
 
 const saveApp = (userId, app, callback) => {

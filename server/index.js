@@ -175,16 +175,15 @@ app.get('/api/contacts', (req, res) => {
   });
 });
 
-app.delete('api/contacts', (req, res) => {
-  console.log('deleting contact', req.body.deleteContact)
+app.delete('/api/contacts', (req, res) => {
   // delete contact for specific user
-  helpers.deleteContact(req.user.googleId, req.body.deleteContact._id, (err, allContacts) => {
+  helpers.deleteContact(req.user.googleId, req.query.id, (err, allContacts) => {
     if (err) {
       console.log('Error deleting contact: ', err);
       res.sendStatus(500);
     } else {
-      console.log('response after deleting:',allContacts)
-      res.send(JSON.stringify({ contacts: allContacts }));
+      console.log('response after deleting:', allContacts);
+      res.send(JSON.stringify({ contacts: allContacts.contacts }));
     }
   });
 });
