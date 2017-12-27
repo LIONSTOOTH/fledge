@@ -173,6 +173,32 @@ const updateApp = (userId, app, callback) => {
   });
 };
 
+const deleteApp = (userId, appId, callback) => {
+
+  db.User.find({ googleId: userId })
+    .then(user => {
+      for (let i = 0; i < user[0].apps.length; i ++) {
+        console.log(user[0].apps[i]._id + ' uhh ' + appId)
+        if (user[0].apps[i]._id == appId) {
+          user[0].apps.splice(i, 1);
+          user[0].save((err, app) => {
+            if (err) {
+              console.log('delete application error', err);
+
+            } else {
+              console.log('delete application success');
+              callback(null, app);
+
+            }
+          });
+        }
+      }
+    })
+    .catch(err => {
+      callback(err);
+    });
+}
+
 
 const getApplications = (userId, callback) => {
   db.User.find({ googleId: userId })
@@ -223,3 +249,4 @@ module.exports.getReminders = getReminders;
 module.exports.saveContactToExistingApp = saveContactToExistingApp;
 module.exports.getContacts = getContacts;
 module.exports.deleteReminder = deleteReminder;
+module.exports.deleteApp = deleteApp;

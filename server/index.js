@@ -121,6 +121,16 @@ app.post('/api/applications', (req, res) => {
         res.send(JSON.stringify({ applications: user.apps }));
       }
     });
+    // if request is to delete
+  } else if (req.body.removeApplication !== undefined) {
+    helpers.deleteApp(userId, req.body.removeApplication, (err, user) => {
+      if (err) {
+        console.log('Error deleting application');
+      } else {
+        res.send(JSON.stringify({ applications: user.apps }))
+      }
+    })
+
   }
 });
 
