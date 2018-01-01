@@ -7,6 +7,7 @@ const expressSession = require('express-session');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const db = require('../db/index.js');
 const helpers = require('../db/helpers.js');
+const metricsHelpers = require('../db/metricsHelpers.js');
 var googleAuth = require('google-auth-library');
 var google = require('googleapis');
 var oauth2Client;
@@ -95,6 +96,18 @@ app.get(
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '../dist/index.html');
+});
+
+app.get('/api/metrics', (req, res) => {
+  // to get main bar chart metrics
+  metricsHelpers.getAppsByStatus(req.user.googleId, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.send(500);
+    } else {
+      res.send(JSON.stringify({ metrics: data }));
+    }
+  });
 });
 
 app.post('/api/applications', (req, res) => {
