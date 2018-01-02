@@ -188,10 +188,13 @@ const updateApp = (userId, app, callback) => {
   });
 };
 
-const deleteApp = (userId, appId, callback) => {
+const deleteApp = (userId, appId, rejected, callback) => {
 
   db.User.find({ googleId: userId })
     .then(user => {
+      if (rejected) {
+        user.rejected = user.rejected + 1 || 1;
+      }
       for (let i = 0; i < user[0].apps.length; i ++) {
         console.log(user[0].apps[i]._id + ' uhh ' + appId)
         if (user[0].apps[i]._id == appId) {
@@ -201,7 +204,7 @@ const deleteApp = (userId, appId, callback) => {
               console.log('delete application error', err);
 
             } else {
-              console.log('delete application success');
+              console.log(user.rejected);
               callback(null, app);
 
             }

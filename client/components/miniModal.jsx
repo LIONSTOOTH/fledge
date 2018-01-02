@@ -5,19 +5,19 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 class MiniModal extends Component {
-  state = { open: false, reasonForDelete: 0 }
+  state = { open: false, rejected: undefined }
 
   show = () => this.setState({ open: true })
   close = () => this.setState({ open: false })
-  setAnswer = (reason) => this.setState({reasonForDelete: reason}, () => {
+  setAnswer = (reason) => this.setState({rejected: reason}, () => {
     console.log(this.state);
     this.close()
     }
   )
 
-  deleteApp = (appId) => {
-    console.log('hello???')
-    this.props.removeApplication(appId, this.close);
+  deleteApp = (appId, rejected) => {
+    this.setAnswer.bind(this)(rejected);
+    this.props.removeApplication(appId, rejected, this.close);
 
   }
 
@@ -40,10 +40,10 @@ class MiniModal extends Component {
             <p>Is this an application withdrawal or rejection?</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button negative onClick={this.deleteApp.bind(this, this.props.application._id)}>
+            <Button negative onClick={this.deleteApp.bind(this, this.props.application._id, false)}>
               Withdrawal
             </Button>
-            <Button positive icon='checkmark' labelPosition='right' content='Rejection' onClick={this.deleteApp.bind(this, this.props.application._id)} />
+            <Button positive icon='checkmark' labelPosition='right' content='Rejection' onClick={this.deleteApp.bind(this, this.props.application._id, true)} />
           </Modal.Actions>
         </Modal>
       </div>
@@ -58,10 +58,11 @@ const fetchApplicationsSuccess = (response) => {
   };
 };
 
-const removeApplication = (appId, callback) => {
+const removeApplication = (appId, rejected, callback) => {
+  let context = this;
   console.log('in removeApplication')
   return (dispatch) => {
-    const request = axios.post('/api/applications', {removeApplication: appId});
+    const request = axios.post('/api/applications', {removeApplication: appId, rejected:rejected});
     return request
       .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));

@@ -123,7 +123,7 @@ app.post('/api/applications', (req, res) => {
     });
     // if request is to delete
   } else if (req.body.removeApplication !== undefined) {
-    helpers.deleteApp(userId, req.body.removeApplication, (err, user) => {
+    helpers.deleteApp(userId, req.body.removeApplication, req.body.rejected, (err, user) => {
       if (err) {
         console.log('Error deleting application');
       } else {
@@ -213,7 +213,7 @@ app.post('/api/appReminders', (req, res) => {
 })
 
 app.post('/api/deleteReminder', (req, res) => {
-  console.log('delete reminders data ', req.body.id)
+  console.log('delete reminders data ', req.body)
   var params = {
         auth: oauth2Client,
         calendarId: 'primary',
@@ -222,7 +222,7 @@ app.post('/api/deleteReminder', (req, res) => {
   let calendar = google.calendar('v3');
   calendar.events.delete(params, function(err) {
     if (err) {
-      console.log('The API returned an error: ' + params);
+      console.log('The API returned an error: ' + err);
     } else {
     console.log('Event deleted in calendar');
     }

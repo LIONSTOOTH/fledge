@@ -61,6 +61,7 @@ const userSchema = new Schema({
   sessionID: String,
   email: String,
   password: String,
+  rejected: Number,
   apps: [appSchema], // array of _.id props of users apps
   reminders: [reminderSchema],
   contacts: [contactSchema],
