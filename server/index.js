@@ -115,10 +115,10 @@ app.post('/api/applications', (req, res) => {
 
   // if request is for edit
   if (req.body.edited !== undefined) {
-    console.log('edit application post request');
     helpers.updateApp(userId, req.body.edited, (err, updatedUser) => {
       if (err) {
         console.log('Error updating: ', err);
+        res.send(500);
       } else {
         res.send(JSON.stringify({ applications: updatedUser.apps }));
       }
@@ -126,10 +126,10 @@ app.post('/api/applications', (req, res) => {
 
     // if request is for adding new
   } else if (req.body.newApplication !== undefined) {
-    console.log('add application post request');
     helpers.saveApp(userId, req.body.newApplication, (err, user) => {
       if (err) {
         console.log('Error saving new:', err);
+        res.send(500);
       } else {
         res.send(JSON.stringify({ applications: user.apps }));
       }
@@ -139,6 +139,7 @@ app.post('/api/applications', (req, res) => {
     helpers.deleteApp(userId, req.body.removeApplication, req.body.rejected, (err, user) => {
       if (err) {
         console.log('Error deleting application');
+        res.send(500);
       } else {
         res.send(JSON.stringify({ applications: user.apps }))
       }
