@@ -74,6 +74,8 @@ class Reminders extends React.Component {
       return Math.floor((utc2 - utc1) / _MS_PER_DAY);
     }
 
+    console.log('a reminder', this.state.reminders[0])
+
     return (
       <div style={{ minHeight: 600 }}>
         <h1>Current Reminders</h1>
@@ -94,7 +96,7 @@ class Reminders extends React.Component {
                     <Button
                       basic
                       color="green"
-                      onClick={this.deleteReminder.bind(this, reminder._id)}
+                      onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
                     >
                       <i class="checkmark icon" />
                     </Button>
