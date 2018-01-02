@@ -9,6 +9,7 @@ const saveNewUser = (user, callback) => {
     googleId: user.googleId,
     sessionID: user.sessionID,
     email: user.email,
+    rejected: 0,
     password: user.password,
     apps: [],
     reminders: [],
@@ -193,8 +194,9 @@ const deleteApp = (userId, appId, rejected, callback) => {
   db.User.find({ googleId: userId })
     .then(user => {
       if (rejected) {
-        user.rejected = user.rejected + 1 || 1;
+        user[0].rejected = user[0].rejected + 1 || 1;
       }
+      console.log('user.rejected after tick', user[0].rejected)
       for (let i = 0; i < user[0].apps.length; i ++) {
         console.log(user[0].apps[i]._id + ' uhh ' + appId)
         if (user[0].apps[i]._id == appId) {
@@ -204,7 +206,7 @@ const deleteApp = (userId, appId, rejected, callback) => {
               console.log('delete application error', err);
 
             } else {
-              console.log(user.rejected);
+              console.log(user[0].rejected);
               callback(null, app);
 
             }

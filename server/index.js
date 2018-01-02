@@ -7,6 +7,7 @@ const expressSession = require('express-session');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const db = require('../db/index.js');
 const helpers = require('../db/helpers.js');
+const metricsHelpers = require('../db/metricsHelpers.js');
 var googleAuth = require('google-auth-library');
 var google = require('googleapis');
 var oauth2Client;
@@ -97,15 +98,27 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '../dist/index.html');
 });
 
+app.get('/api/metrics', (req, res) => {
+  // to get main bar chart metrics
+  metricsHelpers.getAppsByStatus(req.user.googleId, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.send(500);
+    } else {
+      res.send(JSON.stringify({ metrics: data }));
+    }
+  });
+});
+
 app.post('/api/applications', (req, res) => {
   var userId = req.user.googleId;
 
   // if request is for edit
   if (req.body.edited !== undefined) {
-    console.log('edit application post request');
     helpers.updateApp(userId, req.body.edited, (err, updatedUser) => {
       if (err) {
         console.log('Error updating: ', err);
+        res.send(500);
       } else {
         res.send(JSON.stringify({ applications: updatedUser.apps }));
       }
@@ -113,10 +126,10 @@ app.post('/api/applications', (req, res) => {
 
     // if request is for adding new
   } else if (req.body.newApplication !== undefined) {
-    console.log('add application post request');
     helpers.saveApp(userId, req.body.newApplication, (err, user) => {
       if (err) {
         console.log('Error saving new:', err);
+        res.send(500);
       } else {
         res.send(JSON.stringify({ applications: user.apps }));
       }
@@ -126,6 +139,7 @@ app.post('/api/applications', (req, res) => {
     helpers.deleteApp(userId, req.body.removeApplication, req.body.rejected, (err, user) => {
       if (err) {
         console.log('Error deleting application');
+        res.send(500);
       } else {
         res.send(JSON.stringify({ applications: user.apps }))
       }
