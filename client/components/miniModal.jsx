@@ -5,53 +5,64 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 class MiniModal extends Component {
-  state = { open: false, rejected: undefined }
-
-  show = () => this.setState({ open: true })
-  close = () => this.setState({ open: false })
-  setAnswer = (reason) => this.setState({rejected: reason}, () => {
-    console.log(this.state);
-    this.close()
-    }
-  )
+  state = { open: false, rejected: undefined };
+  show = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
+  setAnswer = reason =>
+    this.setState({ rejected: reason }, () => {
+      console.log(this.state);
+      this.close();
+    });
 
   deleteApp = (appId, rejected) => {
     this.setAnswer.bind(this)(rejected);
     this.props.removeApplication(appId, rejected, this.close);
-
-  }
+  };
 
   render() {
-    const { open } = this.state
+    const { open } = this.state;
 
     return (
       <div>
         <Button basic color="red" onClick={this.show}>
-                  <i class="lightning icon" />
-                </Button>
-
-
+          <i class="lightning icon" />
+        </Button>
 
         <Modal size={'small'} open={open} onClose={this.close}>
-          <Modal.Header>
-            Remove this application
-          </Modal.Header>
+          <Modal.Header>Remove this application</Modal.Header>
           <Modal.Content>
             <p>Is this an application withdrawal or rejection?</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button negative onClick={this.deleteApp.bind(this, this.props.application._id, false)}>
+            <Button
+              negative
+              onClick={this.deleteApp.bind(
+                this,
+                this.props.application._id,
+                false
+              )}
+            >
               Withdrawal
             </Button>
-            <Button positive icon='checkmark' labelPosition='right' content='Rejection' onClick={this.deleteApp.bind(this, this.props.application._id, true)} />
+            <Button
+              positive
+              icon="checkmark"
+              labelPosition="right"
+              content="Rejection"
+              onClick={this.deleteApp.bind(
+                this,
+                this.props.application._id,
+                true
+              )}
+            />
           </Modal.Actions>
         </Modal>
       </div>
-    )
+    );
   }
 }
 
-const fetchApplicationsSuccess = (response) => {
+const fetchApplicationsSuccess = response => {
   return {
     type: 'FETCH_SUCCESS',
     payload: response,
@@ -60,11 +71,14 @@ const fetchApplicationsSuccess = (response) => {
 
 const removeApplication = (appId, rejected, callback) => {
   let context = this;
-  console.log('in removeApplication')
-  return (dispatch) => {
-    const request = axios.post('/api/applications', {removeApplication: appId, rejected:rejected});
+  console.log('in removeApplication');
+  return dispatch => {
+    const request = axios.post('/api/applications', {
+      removeApplication: appId,
+      rejected: rejected,
+    });
     return request
-      .then((response) => {
+      .then(response => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .then(() => {
@@ -74,7 +88,7 @@ const removeApplication = (appId, rejected, callback) => {
   };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     applications: state.applicationReducer.applications,
   };

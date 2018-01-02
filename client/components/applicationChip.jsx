@@ -25,16 +25,19 @@ class ApplicationChip extends Component {
         <Segment style={style} application={this.props.application} basic>
           <Card>
             <Card.Content>
-              <Image floated='right' size='mini' rounded={true} src={this.props.application.companyImg} />
+              <Image
+                floated="right"
+                size="mini"
+                rounded={true}
+                src={this.props.application.companyImg}
+              />
               <Card.Header>{this.props.application.company}</Card.Header>
               <Card.Meta>{this.props.application.position}</Card.Meta>
             </Card.Content>
             <Card.Content extra>
-              <div className="ui two buttons">
+              <div className="ui large buttons">
                 <ApplicationModal application={this.props.application} />
-
-                <MiniModal application={this.props.application}/>
-
+                <MiniModal application={this.props.application} />
               </div>
             </Card.Content>
           </Card>
@@ -68,6 +71,7 @@ const applicationSPEC = {
   },
 
   endDrag(props, monitor, component) {
+    console.log(`END DRAG PROPS`, props);
     const edit = Object.assign(props.application, {
       status: props.getDropResult.component.title,
     });
