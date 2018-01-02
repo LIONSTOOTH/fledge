@@ -43,18 +43,18 @@ class Chart extends React.Component {
 
   render() {
     return (
-      <div className="chart">
+      <div className="chart" style={{ maxWidth: '90%' }}>
         <Bar
           data={this.state.chartData}
-          width={50}
+          // width={500}
           height={475}
           options={{
             scales: {
               xAxes: [{
-                stacked: true
+                // stacked: true
               }],
               yAxes: [{
-                stacked: true,
+                // stacked: true,
                 ticks: {
                   suggestedMin: 0,
                   stepSize: 1,
