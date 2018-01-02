@@ -20,7 +20,8 @@ class Chart extends React.Component {
             'rgba(255, 159, 64, 0.6)',
             'rgba(54, 159, 64, 0.6)',
           ]
-        }]
+        }],
+
       }
     }
   }
@@ -28,7 +29,6 @@ class Chart extends React.Component {
   componentWillMount() {
     axios.get('/api/metrics')
       .then((res) => {
-        console.log('response metrics', res.data.metrics);
         // push value for each chart label to data array
         const newData = [];
         this.state.chartData.labels.forEach((label) => {
@@ -61,7 +61,6 @@ class Chart extends React.Component {
                 }
               }]
             },
-
             maintainAspectRatio: false,
             title: {
               display: true,
@@ -69,7 +68,7 @@ class Chart extends React.Component {
               fontSize: 25,
             },
             legend: {
-              display: true,
+              display: false,
               position: 'top',
             }
           }}
