@@ -3272,3 +3272,11 @@ table.default thead {
   	background:white !important;
   }
 
+  .ui.black.segment:not(.inverted) {
+    background: #1b1c1d !important;
+  }
+
+  .ui.left.aligned.header {
+    color: white;
+  }
+
