@@ -127,9 +127,9 @@ class ModalContacts extends React.Component {
                     <br />
                     Phone: {contact.phone}
                     <br />
-               <button class="ui icon red button" value={contact._id} onClick={this.deleteContact}>
+               <Button compact color="red" size="mini" value={contact._id} onClick={this.deleteContact}>
                 Delete
-              </button>
+              </Button>
                   </Card.Content>
                 </Card>
               </Segment>

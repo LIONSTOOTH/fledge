@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Header,
@@ -8,11 +8,11 @@ import {
   Modal,
   Icon,
   Image
-} from "semantic-ui-react";
-import axios from "axios";
-import thunk from "redux-thunk";
-import { connect } from "react-redux";
-import ModalNavContainer from "../components/modalNavContainer.jsx";
+} from 'semantic-ui-react';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import { connect } from 'react-redux';
+import ModalNavContainer from '../components/modalNavContainer.jsx';
 
 class ApplicationModal extends React.Component {
   constructor(props) {
@@ -27,7 +27,8 @@ class ApplicationModal extends React.Component {
       selectedStatus: this.props.application.status,
       postUrl: this.props.application.postUrl,
       postDescription: this.props.application.postDescription,
-      notes: this.props.application.notes
+      notes: this.props.application.notes,
+      application: this.props.application,
     };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -36,6 +37,15 @@ class ApplicationModal extends React.Component {
     this.handleStatusChange = this.handleStatusChange.bind(this);
     this.show = this.show.bind(this);
     this.close = this.close.bind(this);
+    this.getID = this.getID.bind(this);
+  }
+
+  getID() {
+    axios.post('/api/applications', { newApplication: {} })
+      .then((res) => {
+        this.setState({ application: { _id: res.data._id } })
+      })
+      .catch((err) => console.log(err));
   }
 
   show() {
@@ -45,27 +55,26 @@ class ApplicationModal extends React.Component {
   close() {
     this.setState({
       open: false,
-      activeItem: "Application Details",
-      currentCompany: "",
+      activeItem: 'Application Details',
+      currentCompany: '',
       companyImg: null,
-      inputDate: "",
-      inputPosition: "",
-      selectedStatus: "",
-      postUrl: "",
-      postDescription: "",
-      notes: ""
+      inputDate: '',
+      inputPosition: '',
+      selectedStatus: '',
+      postUrl: '',
+      postDescription: '',
+      notes: '',
+      application: { _id: undefined },
     });
   }
 
   handleMouseDown(e, value) {
     // specifically for the company search bar
-
     if (e.target.innerText) {
       const obj = {};
       obj[value.id] = e.target.innerText;
       obj.companyImg =
-        e.target.getAttribute("logo") ||
-        e.target.parentNode.getAttribute("logo");
+        e.target.getAttribute('logo') || e.target.parentNode.getAttribute('logo');
       this.setState(obj);
     }
   }
@@ -90,37 +99,22 @@ class ApplicationModal extends React.Component {
   }
 
   sendData() {
-    // if application exists update vals
-    if (this.props.application && this.props.application._id) {
-      this.props.application.company = this.state.currentCompany;
-      this.props.application.date = this.state.inputDate;
-      this.props.application.position = this.state.inputPosition;
-      this.props.application.status = this.state.selectedStatus;
-      this.props.application.companyImg = this.state.companyImg;
-      this.props.application.postUrl = this.state.postUrl;
-      this.props.application.postDescription = this.state.postDescription;
-      this.props.application.notes = this.state.notes;
-      // send as edited
-      this.props.addOrUpdateApp({ edited: this.props.application });
-      // otherwise create new application object with vals
-    } else {
-      const newApp = {};
-      newApp.company = this.state.currentCompany;
-      newApp.date = this.state.inputDate;
-      newApp.position = this.state.inputPosition;
-      newApp.status = this.state.selectedStatus;
-      newApp.companyImg = this.state.companyImg;
-      newApp.postUrl = this.state.postUrl;
-      newApp.postDescription = this.state.postDescription;
-      newApp.notes = this.state.notes;
-      // send as new
-      this.props.addOrUpdateApp({ newApplication: newApp });
-    }
+    this.props.application.company = this.state.currentCompany;
+    this.props.application.date = this.state.inputDate;
+    this.props.application.position = this.state.inputPosition;
+    this.props.application.status = this.state.selectedStatus;
+    this.props.application.companyImg = this.state.companyImg;
+    this.props.application.postUrl = this.state.postUrl;
+    this.props.application.postDescription = this.state.postDescription;
+    this.props.application.notes = this.state.notes;
+    this.props.application._id = this.state.application._id;
+    // send as edited
+    this.props.addOrUpdateApp({ edited: this.props.application });
     this.close();
   }
 
   render() {
-    const { application, trigger, buttonLabel, className} = this.props;
+    const { trigger, buttonLabel, className } = this.props;
     const {
       open,
       activeItem,
@@ -131,7 +125,8 @@ class ApplicationModal extends React.Component {
       selectedStatus,
       postUrl,
       postDescription,
-      notes
+      notes,
+      application,
     } = this.state;
     return (
       <div>
@@ -183,31 +178,31 @@ class ApplicationModal extends React.Component {
                     />
                   </Menu>
                 </Grid.Column>
-
-                <Grid.Column stretched width={12}>
-                  <ModalNavContainer
-                    application={application}
-                    view={activeItem}
-                    company={currentCompany}
-                    position={inputPosition}
-                    status={selectedStatus}
-                    postUrl={postUrl}
-                    notes={notes}
-                    postDescription={postDescription}
-                    date={inputDate}
-                    handleMouseDown={this.handleMouseDown}
-                    handleChange={this.handleChange}
-                    handleStatusChange={this.handleStatusChange}
-                  />
-                </Grid.Column>
-              </Grid>
-            </Segment>
-            <Button onClick={this.sendData} size="small" color="blue">
-              Save Changes
-              <Icon name="right chevron" />
-            </Button>
-          </Modal.Content>
-        </Modal>
+              <Grid.Column stretched width={12}>
+                <ModalNavContainer
+                  getID={this.getID}
+                  application={application}
+                  view={activeItem}
+                  company={currentCompany}
+                  position={inputPosition}
+                  status={selectedStatus}
+                  postUrl={postUrl}
+                  notes={notes}
+                  postDescription={postDescription}
+                  date={inputDate}
+                  handleMouseDown={this.handleMouseDown}
+                  handleChange={this.handleChange}
+                  handleStatusChange={this.handleStatusChange}
+                />
+              </Grid.Column>
+            </Grid>
+          </Segment>
+          <Button onClick={this.sendData} size="small" color="blue">
+            Save Changes
+            <Icon name="right chevron" />
+          </Button>
+        </Modal.Content>
+      </Modal>
       </div>
     );
   }
