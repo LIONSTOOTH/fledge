@@ -59,10 +59,10 @@ class Column extends Component {
     return connectDropTarget(
       <div
         id={title}
-        class="ui center aligned tertiary inverted segment"
+        class="ui center aligned tertiary inverted columnColor"
         style={getStyle(backgroundColor)}
       >
-        <h4>{title}</h4>
+        <h4 className="columnTitle">{title}</h4>
         <span>
           {applications.map(application => (
             <ApplicationChip

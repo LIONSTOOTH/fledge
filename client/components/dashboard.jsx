@@ -4,7 +4,11 @@ import Kanban from "../containers/kanban.jsx";
 
 const Dashboard = (props) => (
   <div>
-    <ApplicationModal application="" buttonLabel="Add an application" />
+    <ApplicationModal
+      application=""
+      buttonLabel="Add an application"
+      className="applicationButton"
+    />
     <br />
     <br />
     <Kanban releaseConfetti={props.releaseConfetti} />

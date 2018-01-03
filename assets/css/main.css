@@ -3240,7 +3240,35 @@ table.default thead {
 		padding-right: 2em;
 	}
 
+
 	#header br {
 		display: none;
 	}
+
+
 }
+
+	#mainBackground {
+		background-image: url('http://i66.tinypic.com/291ox6w.jpg');
+		background-size: 100%;
+    background-attachment: fixed;
+ 	}
+
+	.ui.segment {
+		background: transparent !important;
+	}
+
+	 .columnColor {
+  	border: solid !important;
+  	border-width: 2px !important;
+  	border-color: white !important;
+  }
+
+    .columnTitle {
+  	color:white !important;
+  }
+
+  .applicationButton{
+  	background:white !important;
+  }
+

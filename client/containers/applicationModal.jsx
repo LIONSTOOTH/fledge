@@ -120,7 +120,7 @@ class ApplicationModal extends React.Component {
   }
 
   render() {
-    const { application, trigger, buttonLabel } = this.props;
+    const { application, trigger, buttonLabel, className} = this.props;
     const {
       open,
       activeItem,
@@ -135,7 +135,7 @@ class ApplicationModal extends React.Component {
     } = this.state;
     return (
       <div>
-        <Button basic onClick={this.show}>
+        <Button className={className} basic onClick={this.show}>
           {buttonLabel}
           <Icon name="external" />
         </Button>
