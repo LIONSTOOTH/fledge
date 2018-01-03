@@ -16,7 +16,7 @@ const Fetti0 = sizeMe({
       })
     };
     render() {
-      console.log('CONFETTI PROPS:', this.props)
+      console.log("CONFETTI PROPS:", this.props);
       return (
         <div
           style={{
@@ -24,7 +24,7 @@ const Fetti0 = sizeMe({
             top: 0,
             left: 0,
             width: "100%",
-            height: "100%",
+            height: "100%"
           }}
         >
           <Confetti
@@ -38,7 +38,5 @@ const Fetti0 = sizeMe({
     }
   }
 );
-
-
 
 export default Fetti0;
