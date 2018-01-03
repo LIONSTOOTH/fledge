@@ -18,6 +18,7 @@ class ApplicationModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       activeItem: 'Application Details',
       currentCompany: this.props.application.company,
       companyImg: this.props.application.companyImg,
@@ -33,6 +34,27 @@ class ApplicationModal extends React.Component {
     this.sendData = this.sendData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.show = this.show.bind(this);
+    this.close = this.close.bind(this);
+  }
+
+  show() {
+    this.setState({ open: true });
+  }
+
+  close() {
+    this.setState({
+      open: false,
+      activeItem: 'Application Details',
+      currentCompany: '',
+      companyImg: null,
+      inputDate: '',
+      inputPosition: '',
+      selectedStatus: '',
+      postUrl: '',
+      postDescription: '',
+      notes: '',
+    });
   }
 
   handleMouseDown(e, value) {
@@ -94,12 +116,13 @@ class ApplicationModal extends React.Component {
       // send as new
       this.props.addOrUpdateApp({ newApplication: newApp });
     }
-    // should also close the modal at this point?
+    this.close();
   }
 
   render() {
-    const { application, trigger } = this.props;
+    const { application, trigger, buttonLabel } = this.props;
     const {
+      open,
       activeItem,
       currentCompany,
       companyImg,
@@ -111,19 +134,15 @@ class ApplicationModal extends React.Component {
       notes,
     } = this.state;
     return (
-      <Modal
-        trigger={
-          trigger ? (
-            trigger
-          ) : (
-            <Button basic color="blue">
-              <i class="expand icon" />
-            </Button>
-          )
-        }
-      >
+      <div>
+        <Button basic onClick={this.show}>
+          {buttonLabel}
+          <Icon name="external" />
+        </Button>
+
+      <Modal open={open} onClose={this.close}>
         <Modal.Header>
-          <Image floated="left" rounded={true} size="tiny" src={companyImg} />
+          {companyImg ? (<Image floated="left" rounded={true} size="tiny" src={companyImg} />) : ''}
           <Header>{currentCompany}</Header>
           {inputPosition}
         </Modal.Header>
@@ -180,6 +199,7 @@ class ApplicationModal extends React.Component {
           </Button>
         </Modal.Content>
       </Modal>
+      </div>
     );
   }
 }
