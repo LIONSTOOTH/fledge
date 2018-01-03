@@ -12,6 +12,12 @@ class ModalForm extends React.Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
+  componentWillMount() {
+    if (this.props.application._id === undefined) {
+      this.props.getID();
+    }
+  }
+
   handleSearchChange(e, { searchQuery }) {
     this.setState({ searchQuery });
     axios.get(

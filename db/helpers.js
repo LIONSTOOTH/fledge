@@ -79,7 +79,6 @@ const deleteReminder = (userId, reminderId, callback) => {
 }
 
 const saveContactToExistingApp = (userId, appContact, callback) => {
-  console.log('saving contact in helpers: ',appContact)
   // find user
   db.User.findOne({ googleId: userId }).then(user => {
     // push new contact document to user contacts array
@@ -132,31 +131,19 @@ const deleteContact = (userId, contactId, callback) => {
 
 const saveApp = (userId, app, callback) => {
   db.User.findOne({ googleId: userId }).then(user => {
-    user.apps.push({
-      date: app.date,
-      position: app.position,
-      company: app.company,
-      companyImg: app.companyImg,
-      contactDate: app.lastContactDate,
-      postUrl: app.postUrl,
-      postDescription: app.postDescription,
-      notes: app.notes,
-      checklist: {
-        researched: app.checklist ? app.checklist.researched : null,
-        reachedOut: app.checklist ? app.checklist.reachedOut : null,
-        sentNote: app.checklist ? app.checklist.sentNote : null,
-        networked: app.checklist ? app.checklist.networked : null,
-      },
-      status: app.status,
-    });
-    user.save((err, app) => {
-      if (err) {
-        console.log('app db save error', err);
-        callback(err, null);
-      } else {
-        console.log('app db save success', app);
-        callback(null, app);
+    user.apps.push(
+      new db.App({
+        status: 'new',
+      })
+    );
+    user.save().then((u) => {
+      for (var i = 0; i < u.apps.length; i++) {
+        if (u.apps[i].status === 'new') {
+          callback(null, u.apps[i]._id);
+          return;
+        }
       }
+      callback('Error getting new app id', null);
     });
   });
 };
@@ -190,25 +177,20 @@ const updateApp = (userId, app, callback) => {
 };
 
 const deleteApp = (userId, appId, rejected, callback) => {
-
   db.User.find({ googleId: userId })
     .then(user => {
       if (rejected) {
         user[0].rejected = user[0].rejected + 1 || 1;
       }
-      console.log('user.rejected after tick', user[0].rejected)
       for (let i = 0; i < user[0].apps.length; i ++) {
         console.log(user[0].apps[i]._id + ' uhh ' + appId)
         if (user[0].apps[i]._id == appId) {
           user[0].apps.splice(i, 1);
           user[0].save((err, app) => {
             if (err) {
-              console.log('delete application error', err);
-
             } else {
               console.log(user[0].rejected);
               callback(null, app);
-
             }
           });
         }

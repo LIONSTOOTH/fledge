@@ -126,12 +126,12 @@ app.post('/api/applications', (req, res) => {
 
     // if request is for adding new
   } else if (req.body.newApplication !== undefined) {
-    helpers.saveApp(userId, req.body.newApplication, (err, user) => {
+    helpers.saveApp(userId, req.body.newApplication, (err, appId) => {
       if (err) {
-        console.log('Error saving new:', err);
+        console.log(err);
         res.send(500);
       } else {
-        res.send(JSON.stringify({ applications: user.apps }));
+        res.send(JSON.stringify({ _id: appId }));
       }
     });
     // if request is to delete

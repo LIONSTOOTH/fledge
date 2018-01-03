@@ -14,7 +14,7 @@ class Reminder extends React.Component {
     };
     this.setReminder = this.setReminder.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.getReminders = this.getReminders.bind(this)
+    this.getReminders = this.getReminders.bind(this);
   }
 
   setReminder() {
@@ -25,7 +25,6 @@ class Reminder extends React.Component {
     newReminder.description = this.state.reminderText;
     newReminder.start = next;
     newReminder.applicationId = this.props.application._id
-    // this.props.addReminderToApp({ addReminder: newReminder }, context.getReminders);
     axios.post('/api/reminders', { addReminder: newReminder }).then(function() {
       context.getReminders();
     })
@@ -33,12 +32,11 @@ class Reminder extends React.Component {
 
   getReminders() {
     let context = this;
-    // console.log(context.props.application)
     let id = context.props.application._id
-    axios.post('/api/appReminders', {appId: id}).then(res => {
-      console.log('GETTING REMINDERS ' + res.data)
-      context.setState({reminders: res.data}, () => {
-        console.log('reminders in state: ' + this.state.reminders);
+    axios.post('/api/appReminders', { appId: id }).then(res => {
+      context.setState({
+        reminders: res.data,
+        reminderText: ''
       });
     });
   }
@@ -70,7 +68,6 @@ class Reminder extends React.Component {
   }
 
   render() {
-    console.log('state during render', this.state.reminders);
     const { application, company } = this.props;
     const options = [
       { key: 1, text: '1', value: '1' },
@@ -98,6 +95,7 @@ class Reminder extends React.Component {
             type="text"
             id="reminderText"
             placeholder="Optional: Add a description"
+            value={this.state.reminderText}
           />
           Set reminder for
           <Dropdown
@@ -139,18 +137,6 @@ class Reminder extends React.Component {
     );
   }
 }
-
-// const addReminderToApp = (valuesObject, callback) => {
-//   return (dispatch) => {
-//     const request = axios.post('/api/reminders', valuesObject);
-//     return request
-//       .then((response) => {
-//         dispatch(fetchApplicationsSuccess(response.data.applications));
-//         callback();
-//       })
-//       .catch((err) => console.log(err));
-//   };
-// };
 
 const fetchApplicationsSuccess = response => {
   return {
