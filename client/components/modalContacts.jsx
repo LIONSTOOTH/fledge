@@ -42,7 +42,14 @@ class ModalContacts extends React.Component {
     newContact.contact._id = this.props.application._id;
 
     axios.post('/api/contacts', { addContact: newContact })
-      .then(res => this.setState({ contacts: res.data.contacts }))
+      .then(res => this.setState({
+        contacts: res.data.contacts,
+        contactName: '',
+        contactEmail: '',
+        contactPhone: '',
+        contactCompany: '',
+        contactPosition: '',
+      }))
       .catch(err => console.log(err));
   }
 
@@ -69,14 +76,14 @@ class ModalContacts extends React.Component {
               onChange={this.handleChange}
               id="contactName"
               label="Name"
-              placeholder={this.state.contactName}
+              value={this.state.contactName}
             />
             <Form.Field
               control={Input}
               onChange={this.handleChange}
               id="contactPosition"
               label="Position"
-              placeholder={this.state.contactPosition}
+              value={this.state.contactPosition}
             />
           </Form.Group>
           <Form.Group width="equal">
@@ -86,15 +93,14 @@ class ModalContacts extends React.Component {
               id="contactEmail"
               type="email"
               label="Email"
-              placeholder={this.state.contactEmail}
+              value={this.state.contactEmail}
             />
             <Form.Field
               control={Input}
               onChange={this.handleChange}
               id="contactPhone"
-              // type="phone"
               label="Phone"
-              placeholder={this.state.contactPhone}
+              value={this.state.contactPhone}
             />
           </Form.Group>
           <Form.Group width="equal">
@@ -103,7 +109,7 @@ class ModalContacts extends React.Component {
               onChange={this.handleChange}
               id="contactCompany"
               label="Company"
-              placeholder={this.state.contactCompany}
+              value={this.state.contactCompany}
             />
           </Form.Group>
           <Button size="tiny" type="submit">Submit</Button>
