@@ -197,11 +197,13 @@ class ApplicationModal extends React.Component {
               </Grid.Column>
             </Grid>
           </Segment>
+        </Modal.Content>
+        <Modal.Actions>
           <Button onClick={this.sendData} size="small" color="blue">
             Save Changes
             <Icon name="right chevron" />
           </Button>
-        </Modal.Content>
+          </Modal.Actions>
       </Modal>
       </div>
     );
