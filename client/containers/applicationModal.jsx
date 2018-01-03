@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   Header,
@@ -7,19 +7,19 @@ import {
   Segment,
   Modal,
   Icon,
-  Image,
-} from 'semantic-ui-react';
-import axios from 'axios';
-import thunk from 'redux-thunk';
-import { connect } from 'react-redux';
-import ModalNavContainer from '../components/modalNavContainer.jsx';
+  Image
+} from "semantic-ui-react";
+import axios from "axios";
+import thunk from "redux-thunk";
+import { connect } from "react-redux";
+import ModalNavContainer from "../components/modalNavContainer.jsx";
 
 class ApplicationModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      activeItem: 'Application Details',
+      activeItem: "Application Details",
       currentCompany: this.props.application.company,
       companyImg: this.props.application.companyImg,
       inputDate: this.props.application.date,
@@ -27,7 +27,7 @@ class ApplicationModal extends React.Component {
       selectedStatus: this.props.application.status,
       postUrl: this.props.application.postUrl,
       postDescription: this.props.application.postDescription,
-      notes: this.props.application.notes,
+      notes: this.props.application.notes
     };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -45,15 +45,15 @@ class ApplicationModal extends React.Component {
   close() {
     this.setState({
       open: false,
-      activeItem: 'Application Details',
-      currentCompany: '',
+      activeItem: "Application Details",
+      currentCompany: "",
       companyImg: null,
-      inputDate: '',
-      inputPosition: '',
-      selectedStatus: '',
-      postUrl: '',
-      postDescription: '',
-      notes: '',
+      inputDate: "",
+      inputPosition: "",
+      selectedStatus: "",
+      postUrl: "",
+      postDescription: "",
+      notes: ""
     });
   }
 
@@ -64,10 +64,10 @@ class ApplicationModal extends React.Component {
       const obj = {};
       obj[value.id] = e.target.innerText;
       obj.companyImg =
-        e.target.getAttribute('logo') || e.target.parentNode.getAttribute('logo') ;
+        e.target.getAttribute("logo") ||
+        e.target.parentNode.getAttribute("logo");
       this.setState(obj);
     }
-
   }
 
   handleItemClick(e, { name }) {
@@ -131,7 +131,7 @@ class ApplicationModal extends React.Component {
       selectedStatus,
       postUrl,
       postDescription,
-      notes,
+      notes
     } = this.state;
     return (
       <div>
@@ -140,91 +140,100 @@ class ApplicationModal extends React.Component {
           <Icon name="external" />
         </Button>
 
-      <Modal open={open} onClose={this.close}>
-        <Modal.Header>
-          {companyImg ? (<Image floated="left" rounded={true} size="tiny" src={companyImg} />) : ''}
-          <Header>{currentCompany}</Header>
-          {inputPosition}
-        </Modal.Header>
+        <Modal open={open} onClose={this.close}>
+          <Modal.Header>
+            {companyImg ? (
+              <Image
+                floated="left"
+                rounded={true}
+                size="tiny"
+                src={companyImg}
+              />
+            ) : (
+              ""
+            )}
+            <Header>{currentCompany}</Header>
+            {inputPosition}
+          </Modal.Header>
 
-        <Modal.Content scrolling>
-          <Segment>
-            <Grid>
-              <Grid.Column width={4}>
-                <Menu fluid vertical tabular>
-                  <Menu.Item
-                    name="Application Details"
-                    active={activeItem === 'Application Details'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    name="Original Posting"
-                    active={activeItem === 'Original Posting'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    name="Add A Reminder"
-                    active={activeItem === 'Add A Reminder'}
-                    onClick={this.handleItemClick}
-                  />
-                  <Menu.Item
-                    name="Contacts"
-                    active={activeItem === 'Contacts'}
-                    onClick={this.handleItemClick}
-                  />
-                </Menu>
-              </Grid.Column>
+          <Modal.Content scrolling>
+            <Segment>
+              <Grid>
+                <Grid.Column width={4}>
+                  <Menu fluid vertical tabular>
+                    <Menu.Item
+                      name="Application Details"
+                      active={activeItem === "Application Details"}
+                      onClick={this.handleItemClick}
+                    />
+                    <Menu.Item
+                      name="Original Posting"
+                      active={activeItem === "Original Posting"}
+                      onClick={this.handleItemClick}
+                    />
+                    <Menu.Item
+                      name="Add A Reminder"
+                      active={activeItem === "Add A Reminder"}
+                      onClick={this.handleItemClick}
+                    />
+                    <Menu.Item
+                      name="Contacts"
+                      active={activeItem === "Contacts"}
+                      onClick={this.handleItemClick}
+                    />
+                  </Menu>
+                </Grid.Column>
 
-              <Grid.Column stretched width={12}>
-                <ModalNavContainer
-                  application={application}
-                  view={activeItem}
-                  company={currentCompany}
-                  position={inputPosition}
-                  status={selectedStatus}
-                  postUrl={postUrl}
-                  notes={notes}
-                  postDescription={postDescription}
-                  date={inputDate}
-                  handleMouseDown={this.handleMouseDown}
-                  handleChange={this.handleChange}
-                  handleStatusChange={this.handleStatusChange}
-                />
-              </Grid.Column>
-            </Grid>
-          </Segment>
-          <Button onClick={this.sendData} size="small" color="blue">
-            Save Changes
-            <Icon name="right chevron" />
-          </Button>
-        </Modal.Content>
-      </Modal>
+                <Grid.Column stretched width={12}>
+                  <ModalNavContainer
+                    application={application}
+                    view={activeItem}
+                    company={currentCompany}
+                    position={inputPosition}
+                    status={selectedStatus}
+                    postUrl={postUrl}
+                    notes={notes}
+                    postDescription={postDescription}
+                    date={inputDate}
+                    handleMouseDown={this.handleMouseDown}
+                    handleChange={this.handleChange}
+                    handleStatusChange={this.handleStatusChange}
+                  />
+                </Grid.Column>
+              </Grid>
+            </Segment>
+            <Button onClick={this.sendData} size="small" color="blue">
+              Save Changes
+              <Icon name="right chevron" />
+            </Button>
+          </Modal.Content>
+        </Modal>
       </div>
     );
   }
 }
 
-const fetchApplicationsSuccess = (response) => {
+const fetchApplicationsSuccess = response => {
   return {
-    type: 'FETCH_SUCCESS',
-    payload: response,
+    type: "FETCH_SUCCESS",
+    payload: response
   };
 };
 
-const addOrUpdateApp = (valuesObject) => {
-  return (dispatch) => {
-    const request = axios.post('/api/applications', valuesObject);
+const addOrUpdateApp = valuesObject => {
+  return dispatch => {
+    const request = axios.post("/api/applications", valuesObject);
     return request
-      .then((response) => {
+      .then(response => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .catch(err => console.log(err));
   };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    applications: state.applicationReducer.applications,
+    applications: state.applicationReducer.applications
   };
 };
 

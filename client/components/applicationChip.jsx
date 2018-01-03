@@ -1,40 +1,49 @@
-import React, { Component } from 'react';
-import { Button, Card, Image, Segment, Modal } from 'semantic-ui-react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import thunk from 'redux-thunk';
-import { DragSource } from 'react-dnd';
-import ApplicationModal from '../containers/applicationModal.jsx';
-import { showModal } from '../actions/index.jsx';
-import ItemType from './ItemType.jsx';
-import MiniModal from './miniModal.jsx';
+import React, { Component } from "react";
+import { Button, Card, Image, Segment, Modal } from "semantic-ui-react";
+import axios from "axios";
+import { connect } from "react-redux";
+import thunk from "redux-thunk";
+import { DragSource } from "react-dnd";
+import ApplicationModal from "../containers/applicationModal.jsx";
+import { showModal } from "../actions/index.jsx";
+import ItemType from "./ItemType.jsx";
+import MiniModal from "./miniModal.jsx";
 
 const style = {
-  cursor: 'move',
+  cursor: "move"
 };
 
 class ApplicationChip extends Component {
   constructor(props) {
     super(props);
+    console.log("APPLICATION PROPS:", this.props);
   }
 
   render() {
-    const { connectDragSource, getItem, getDropResult } = this.props;
+    const {
+      releaseConfetti,
+      connectDragSource,
+      getItem,
+      getDropResult
+    } = this.props;
     return connectDragSource(
-      <div>
+      <div releaseConfetti={this.props.releaseConfetti}>
         <Segment style={style} application={this.props.application} basic>
           <Card>
             <Card.Content>
-              <Image floated='right' size='mini' rounded={true} src={this.props.application.companyImg} />
+              <Image
+                floated="right"
+                size="mini"
+                rounded={true}
+                src={this.props.application.companyImg}
+              />
               <Card.Header>{this.props.application.company}</Card.Header>
               <Card.Meta>{this.props.application.position}</Card.Meta>
             </Card.Content>
             <Card.Content extra>
-              <div className="ui two buttons">
+              <div className="ui large buttons">
                 <ApplicationModal application={this.props.application} />
-
-                <MiniModal application={this.props.application}/>
-
+                <MiniModal application={this.props.application} />
               </div>
             </Card.Content>
           </Card>
@@ -47,14 +56,14 @@ class ApplicationChip extends Component {
 // dispatches an action
 const fetchApplicationsSuccess = response => {
   return {
-    type: 'FETCH_SUCCESS',
-    payload: response,
+    type: "FETCH_SUCCESS",
+    payload: response
   };
 };
 
 const addOrUpdateApp = (valuesObject, func) => {
   axios
-    .post('/api/applications', valuesObject)
+    .post("/api/applications", valuesObject)
     .then(response => func(response))
     .catch(err => console.log(err));
 };
@@ -63,37 +72,41 @@ const applicationSPEC = {
   beginDrag(props) {
     console.log(`BEGIN DRAG PROPS`, props);
     return {
-      applicationId: props.id,
+      applicationId: props.id
     };
   },
 
   endDrag(props, monitor, component) {
+    console.log(`END DRAG PROPS`, props);
     const edit = Object.assign(props.application, {
-      status: props.getDropResult.component.title,
+      status: props.getDropResult.component.title
     });
+    if (edit.status === "Offer") {
+      props.releaseConfetti();
+    }
     addOrUpdateApp({ edited: edit }, props.dropItem);
-  },
+  }
 };
 
 function applicationCOLLECT(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    getItem: monitor.getItem(),
+    getItem: monitor.getItem()
   };
 }
 
 const mapStateToProps = state => {
   return {
     applications: state.applicationReducer.applications,
-    isFetching: state.fetchFlagReducer.isFetching,
+    isFetching: state.fetchFlagReducer.isFetching
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log('dispatch in map to props:', dispatch);
+  console.log("dispatch in map to props:", dispatch);
   return {
     dropItem: response =>
-      dispatch(fetchApplicationsSuccess(response.data.applications)),
+      dispatch(fetchApplicationsSuccess(response.data.applications))
   };
 };
 

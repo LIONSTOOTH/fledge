@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { DropTarget } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
-import { Segment } from 'semantic-ui-react';
-import ApplicationChip from '../components/applicationChip.jsx';
-import ItemType from './ItemType.jsx';
+import React, { Component } from "react";
+import { DropTarget } from "react-dnd";
+import { findDOMNode } from "react-dom";
+import { Segment } from "semantic-ui-react";
+import ApplicationChip from "../components/applicationChip.jsx";
+import ItemType from "./ItemType.jsx";
 
 function getStyle(backgroundColor) {
   return {
-    minHeight: '1200px',
+    minHeight: "1200px",
     backgroundColor,
-    textAlign: 'center',
+    textAlign: "center"
   };
 }
 
@@ -20,7 +20,7 @@ const columnSPEC = {
 
   hover(props, monitor, component) {
     // console.log('HOVER_PROPS, MONITOR, COMPONENT', props, monitor, component);
-  },
+  }
 };
 
 function columnCOLLECT(connect, monitor, component) {
@@ -29,7 +29,7 @@ function columnCOLLECT(connect, monitor, component) {
     draggedApp: monitor.getItem(),
     didDrop: monitor.didDrop(),
     getDropResult: monitor.getDropResult(),
-    connectDropTarget: connect.dropTarget(),
+    connectDropTarget: connect.dropTarget()
   };
 }
 
@@ -40,6 +40,7 @@ class Column extends Component {
 
   render() {
     const {
+      releaseConfetti,
       title,
       applications,
       application,
@@ -48,10 +49,12 @@ class Column extends Component {
       didDrop,
       getDropResult,
       connectDropTarget,
+      open
     } = this.props;
-    let backgroundColor = 'rgba(0, 0, 0, .5)'
+    console.log(`COLUMN PROPS:`, this.props);
+    let backgroundColor = "rgba(0, 0, 0, .5)";
     if (hovered) {
-      backgroundColor = 'darkgreen';
+      backgroundColor = "darkgreen";
     }
     return connectDropTarget(
       <div
@@ -70,6 +73,7 @@ class Column extends Component {
               draggedApp={draggedApp}
               getDropResult={getDropResult}
               didDrop={didDrop}
+              releaseConfetti={releaseConfetti}
             />
           ))}
         </span>

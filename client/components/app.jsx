@@ -1,18 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { render } from 'react-dom';
-import { createStore } from 'redux';
-import { Provider, connect } from 'react-redux';
-import thunk from 'redux-thunk';
-import axios from 'axios';
-import { Sidebar, Segment, Button, Menu, Icon } from 'semantic-ui-react';
-import Landing from './landing.jsx';
-import Head from './header.jsx';
-import Dashboard from './dashboard.jsx';
-import Materials from './materials.jsx';
-import Metrics from './metrics.jsx';
-import Contacts from './contacts.jsx';
-import Reminders from './reminders.jsx';
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { render } from "react-dom";
+import { createStore } from "redux";
+import { Provider, connect } from "react-redux";
+import thunk from "redux-thunk";
+import axios from "axios";
+import { Sidebar, Segment, Button, Menu, Icon } from "semantic-ui-react";
+import Landing from "./landing.jsx";
+import Head from "./header.jsx";
+import Dashboard from "./dashboard.jsx";
+import Materials from "./materials.jsx";
+import Metrics from "./metrics.jsx";
+import Contacts from "./contacts.jsx";
+import Reminders from "./reminders.jsx";
+import Fetti0 from "./confetti0.jsx";
+import Fetti1 from "./confetti1.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -21,19 +23,26 @@ class App extends React.Component {
     this.state = {
       visible: false,
       pusher: 1,
+      celebrate: false
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.releaseConfetti = this.releaseConfetti.bind(this);
   }
 
   toggleVisibility() {
     this.setState({
-      visible: !this.state.visible,
+      visible: !this.state.visible
     });
   }
 
+  releaseConfetti() {
+    this.setState({ celebrate: false });
+    this.setState({ celebrate: true });
+  }
+
   componentDidMount() {
-    //check whether authenticated
+    // check whether authenticated
     this.props.handleLogin();
   }
 
@@ -41,7 +50,7 @@ class App extends React.Component {
     const { visible } = this.state;
     let view = null;
     if (this.state.pusher === 1) {
-      view = <Dashboard />;
+      view = <Dashboard releaseConfetti={this.releaseConfetti} />;
     } else if (this.state.pusher === 2) {
       view = <Materials />;
     } else if (this.state.pusher === 3) {
@@ -51,6 +60,12 @@ class App extends React.Component {
     } else if (this.state.pusher === 5) {
       view = <Reminders />;
     }
+    let fetti = null;
+    if (this.state.celebrate) {
+      fetti = <Fetti1 />;
+    } else {
+      fetti = <Fetti0 />;
+    }
 
     return !this.props.isLoggedIn ? (
       <div>
@@ -59,6 +74,7 @@ class App extends React.Component {
       </div>
     ) : (
       <div>
+        {fetti}
         <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <div>
           <br />
@@ -113,7 +129,9 @@ class App extends React.Component {
               </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
-              <Segment centered basic>{view}</Segment>
+              <Segment centered basic>
+                {view}
+              </Segment>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </div>
@@ -125,12 +143,12 @@ class App extends React.Component {
 // service functions that dispatch action upon server response
 const handleLogin = () => {
   return dispatch => {
-    let request = axios.get('/logged');
+    let request = axios.get("/logged");
 
     return request
       .then(
         response =>
-          response.data ? dispatch(logIn()) : console.log('not logged in')
+          response.data ? dispatch(logIn()) : console.log("not logged in")
       )
       .catch(err => console.log(err));
   };
@@ -138,17 +156,17 @@ const handleLogin = () => {
 
 // action creator functions
 const logIn = () => {
-  console.log('logIn action called');
+  console.log("logIn action called");
   return {
-    type: 'LOG_IN',
-    payload: true,
+    type: "LOG_IN",
+    payload: true
   };
 };
 
 const mapStateToProps = state => {
-  console.log('state in map props', state);
+  console.log("state in map props", state);
   return {
-    isLoggedIn: state.loginReducer.isLoggedIn,
+    isLoggedIn: state.loginReducer.isLoggedIn
   };
 };
 
