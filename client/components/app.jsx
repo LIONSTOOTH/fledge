@@ -76,7 +76,7 @@ class App extends React.Component {
       <div>
         {fetti}
         <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
-        <div>
+        <div id="mainBackground">
           <br />
           <Button onClick={this.toggleVisibility} secondary>
             <i class="sidebar icon" />
