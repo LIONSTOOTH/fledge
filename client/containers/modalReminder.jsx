@@ -14,7 +14,7 @@ class Reminder extends React.Component {
     };
     this.setReminder = this.setReminder.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.getReminders = this.getReminders.bind(this)
+    this.getReminders = this.getReminders.bind(this);
   }
 
   setReminder() {
@@ -25,7 +25,6 @@ class Reminder extends React.Component {
     newReminder.description = this.state.reminderText;
     newReminder.start = next;
     newReminder.applicationId = this.props.application._id
-    // this.props.addReminderToApp({ addReminder: newReminder }, context.getReminders);
     axios.post('/api/reminders', { addReminder: newReminder }).then(function() {
       context.getReminders();
     })
