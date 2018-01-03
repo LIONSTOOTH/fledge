@@ -40,6 +40,7 @@ class Column extends Component {
 
   render() {
     const {
+      releaseConfetti,
       title,
       applications,
       application,
@@ -72,6 +73,7 @@ class Column extends Component {
               draggedApp={draggedApp}
               getDropResult={getDropResult}
               didDrop={didDrop}
+              releaseConfetti={releaseConfetti}
             />
           ))}
         </span>

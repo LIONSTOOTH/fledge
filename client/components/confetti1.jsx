@@ -29,6 +29,8 @@ const Fetti1 = sizeMe({
           <Confetti
             width={this.props.size.width}
             height={this.props.size.height}
+            gravity={0.15}
+            numberOfPieces={500}
             recycle={false}
             run={true}
           />
