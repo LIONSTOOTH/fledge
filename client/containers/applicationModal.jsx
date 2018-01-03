@@ -37,13 +37,15 @@ class ApplicationModal extends React.Component {
 
   handleMouseDown(e, value) {
     // specifically for the company search bar
+
     if (e.target.innerText) {
       const obj = {};
       obj[value.id] = e.target.innerText;
       obj.companyImg =
-        e.target.getAttribute('src') || e.target.getAttribute('logo');
+        e.target.getAttribute('logo') || e.target.parentNode.getAttribute('logo') ;
       this.setState(obj);
     }
+
   }
 
   handleItemClick(e, { name }) {

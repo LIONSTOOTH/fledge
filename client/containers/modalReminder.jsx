@@ -127,7 +127,7 @@ class Reminder extends React.Component {
                 basic
                 color="green"
                 floated="right"
-                onClick={this.deleteReminder.bind(this)}
+                onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
                 icon="checkmark" />
             </Segment>
           ))}
