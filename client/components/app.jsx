@@ -13,6 +13,8 @@ import Materials from './materials.jsx';
 import Metrics from './metrics.jsx';
 import Contacts from './contacts.jsx';
 import Reminders from './reminders.jsx';
+import Fetti0 from './confetti0.jsx';
+import Fetti1 from './confetti1.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,6 +23,7 @@ class App extends React.Component {
     this.state = {
       visible: false,
       pusher: 1,
+      celebrate: false,
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -57,8 +60,9 @@ class App extends React.Component {
         <Head isLoggedIn={this.props.isLoggedIn} logIn={handleLogin} />
         <Landing />
       </div>
-    ) : (
+    ) : !this.props.celebrate ? (
       <div>
+        <Fetti0 />
         <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <div>
           <br />
@@ -118,7 +122,69 @@ class App extends React.Component {
           </Sidebar.Pushable>
         </div>
       </div>
-    );
+    ) : (
+      <div>
+        <Fetti1 />
+        <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
+        <div>
+          <br />
+          <Button onClick={this.toggleVisibility} secondary>
+            <i class="sidebar icon" />
+            Menu
+          </Button>
+          <Sidebar.Pushable as={Segment}>
+            <Sidebar
+              as={Menu}
+              animation="slide out"
+              width="thin"
+              visible={visible}
+              icon="labeled"
+              vertical
+              inverted
+            >
+              <Menu.Item
+                name="Dashboard"
+                onClick={event => this.setState({ pusher: 1 })}
+              >
+                <Icon name="rocket" />
+                Dashboard
+              </Menu.Item>
+              <Menu.Item
+                name="App Materials"
+                onClick={event => this.setState({ pusher: 2 })}
+              >
+                <Icon name="folder" />
+                App Materials
+              </Menu.Item>
+              <Menu.Item
+                name="Metrics"
+                onClick={event => this.setState({ pusher: 3 })}
+              >
+                <Icon name="line graph" />
+                Metrics
+              </Menu.Item>
+              <Menu.Item
+                name="Contacts"
+                onClick={event => this.setState({ pusher: 4 })}
+              >
+                <Icon name="address card outline" />
+                Contacts
+              </Menu.Item>
+              <Menu.Item
+                name="Reminders"
+                onClick={event => this.setState({ pusher: 5 })}
+              >
+                <Icon name="bullhorn" />
+                Reminders
+              </Menu.Item>
+            </Sidebar>
+            <Sidebar.Pusher>
+              <Segment centered basic>{view}</Segment>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+        </div>
+      </div>
+    )
   }
 }
 
