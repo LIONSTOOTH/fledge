@@ -1,17 +1,8 @@
-import React from 'react';
-import ApplicationModal from '../containers/applicationModal.jsx';
-import Kanban from '../containers/kanban.jsx';
+import React from "react";
+import Kanban from "../containers/kanban.jsx";
 
-const Dashboard = (props) => (
+const Dashboard = props => (
   <div>
-    <ApplicationModal
-      application=""
-      buttonLabel="Add an application"
-      className="applicationButton"
-      application={{ _id: undefined }}
-    />
-    <br />
-    <br />
     <Kanban releaseConfetti={props.releaseConfetti} />
   </div>
 );
