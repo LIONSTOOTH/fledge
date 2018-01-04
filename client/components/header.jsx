@@ -24,7 +24,7 @@ class Head extends Component {
             Log out
           </Button>
           <Header as="h1" floated="left" inverted>
-            <Icon name="certificate" />
+            <img src="http://i68.tinypic.com/1z2m06f.png" style={{height: '53px', width: '53px', margin: '0', float: 'left', position: 'relative', bottom: '9px'}}></img>
             Fledge
           </Header>
           <ApplicationModal
