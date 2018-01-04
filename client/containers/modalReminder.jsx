@@ -121,7 +121,9 @@ class Reminder extends React.Component {
           <Button size="tiny" type="submit">Submit</Button>
         </Form>
         <Header as='span'>
-            Current Reminders:
+        {this.state.reminders
+            .filter(r => r.applicationId === application._id).length > 0 ?
+            'Current Reminders:' : null}
         </Header>
         <Segment basic>
           {this.state.reminders.sort(compare).map(reminder => (
