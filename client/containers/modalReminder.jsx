@@ -4,6 +4,16 @@ import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
 import { Button, Input, Form, Dropdown, Segment, Header, Icon } from 'semantic-ui-react';
 
+// sorts reminders by due date
+const compare = (a, b) => {
+  if (a.start < b.start) {
+    return -1;
+  } else if (a.start > b.start) {
+    return 1;
+  }
+  return 0;
+};
+
 class Reminder extends React.Component {
   constructor(props) {
     super(props);
@@ -111,10 +121,12 @@ class Reminder extends React.Component {
           <Button size="tiny" type="submit">Submit</Button>
         </Form>
         <Header as='span'>
-            Current Reminders:
+        {this.state.reminders
+            .filter(r => r.applicationId === application._id).length > 0 ?
+            'Current Reminders:' : null}
         </Header>
         <Segment basic>
-          {this.state.reminders.map(reminder => (
+          {this.state.reminders.sort(compare).map(reminder => (
             <Segment clearing>
               {reminder.summary}
               <br />

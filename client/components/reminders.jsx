@@ -13,6 +13,16 @@ import {
   Image,
 } from 'semantic-ui-react';
 
+// sorts reminders by due date
+const compare = (a, b) => {
+  if (a.start < b.start) {
+    return -1;
+  } else if (a.start > b.start) {
+    return 1;
+  }
+  return 0;
+};
+
 class Reminders extends React.Component {
   constructor(props) {
     super(props);
@@ -58,9 +68,7 @@ class Reminders extends React.Component {
 
   deleteReminder(eventId, reminderId) {
     let context = this;
-    console.log('HELLOOOO', reminderId);
     axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId }).then(() => {
-      console.log('deleted');
       context.populateState();
     });
   }
@@ -80,7 +88,7 @@ class Reminders extends React.Component {
       <div style={{ minHeight: 600 }}>
         <h1>Current Reminders</h1>
         <div>
-          {this.state.reminders.map(reminder => (
+          {this.state.reminders.sort(compare).map(reminder => (
             <Segment basic>
               <Card>
                 <Card.Content>
