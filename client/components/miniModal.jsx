@@ -41,6 +41,7 @@ class MiniModal extends Component {
       <div>
         <Button
           basic
+          className="ui chip button"
           onClick={this.show}
           icon="trash"
         >

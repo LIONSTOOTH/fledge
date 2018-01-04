@@ -3353,7 +3353,10 @@ h1 {
 	color: black;
 }
 
-.ui.positive.button {
+
+.ui.google.button {
+	background: #dc7a2f !important;
+	color: white !important;
 	width: 30%;
 	display: block;
 	margin: 0 auto;
@@ -3362,4 +3365,13 @@ h1 {
 .ui.basic.button {
 	color: white !important;
 	box-shadow: 0 0 0 1px rgb(255, 255, 255) inset !important;
+}
+
+.ui.chip.button {
+	color: black !important;
+	box-shadow: 0 0 0 1px black inset !important;
+}
+
+.ui.header {
+    margin: 0 !important;
 }
