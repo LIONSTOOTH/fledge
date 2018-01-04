@@ -7,7 +7,7 @@ import {
   Segment,
   Modal,
   Icon,
-  Image
+  Image,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -19,7 +19,7 @@ class ApplicationModal extends React.Component {
     super(props);
     this.state = {
       open: false,
-      activeItem: "Application Details",
+      activeItem: 'Application Details',
       currentCompany: this.props.application.company,
       companyImg: this.props.application.companyImg,
       inputDate: this.props.application.date,
@@ -43,7 +43,7 @@ class ApplicationModal extends React.Component {
   getID() {
     axios.post('/api/applications', { newApplication: {} })
       .then((res) => {
-        this.setState({ application: { _id: res.data._id } })
+        this.setState({ application: { _id: res.data._id } });
       })
       .catch((err) => console.log(err));
   }
@@ -56,6 +56,20 @@ class ApplicationModal extends React.Component {
     this.setState({
       open: false,
       activeItem: 'Application Details',
+    }, () => {
+      if (this.props.newApp) {
+        this.setState({
+          currentCompany: '',
+          companyImg: null,
+          inputDate: '',
+          inputPosition: '',
+          selectedStatus: '',
+          postUrl: '',
+          postDescription: '',
+          notes: '',
+          application: { _id: undefined },
+        });
+      }
     });
   }
 
@@ -169,59 +183,59 @@ class ApplicationModal extends React.Component {
                     />
                   </Menu>
                 </Grid.Column>
-              <Grid.Column stretched width={12}>
-                <ModalNavContainer
-                  getID={this.getID}
-                  application={application}
-                  view={activeItem}
-                  company={currentCompany}
-                  position={inputPosition}
-                  status={selectedStatus}
-                  postUrl={postUrl}
-                  notes={notes}
-                  postDescription={postDescription}
-                  date={inputDate}
-                  handleMouseDown={this.handleMouseDown}
-                  handleChange={this.handleChange}
-                  handleStatusChange={this.handleStatusChange}
-                />
-              </Grid.Column>
-            </Grid>
-          </Segment>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={this.sendData} size="small" color="blue">
-            Save Changes
-            <Icon name="right chevron" />
-          </Button>
+                <Grid.Column stretched width={12}>
+                  <ModalNavContainer
+                    getID={this.getID}
+                    application={application}
+                    view={activeItem}
+                    company={currentCompany}
+                    position={inputPosition}
+                    status={selectedStatus}
+                    postUrl={postUrl}
+                    notes={notes}
+                    postDescription={postDescription}
+                    date={inputDate}
+                    handleMouseDown={this.handleMouseDown}
+                    handleChange={this.handleChange}
+                    handleStatusChange={this.handleStatusChange}
+                  />
+                </Grid.Column>
+              </Grid>
+            </Segment>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button onClick={this.sendData} size="small" color="blue">
+              Save Changes
+              <Icon name="right chevron" />
+            </Button>
           </Modal.Actions>
-      </Modal>
+        </Modal>
       </div>
     );
   }
 }
 
-const fetchApplicationsSuccess = response => {
+const fetchApplicationsSuccess = (response) => {
   return {
-    type: "FETCH_SUCCESS",
-    payload: response
+    type: 'FETCH_SUCCESS',
+    payload: response,
   };
 };
 
-const addOrUpdateApp = valuesObject => {
-  return dispatch => {
-    const request = axios.post("/api/applications", valuesObject);
+const addOrUpdateApp = (valuesObject) => {
+  return (dispatch) => {
+    const request = axios.post('/api/applications', valuesObject);
     return request
-      .then(response => {
+      .then((response) => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .catch(err => console.log(err));
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    applications: state.applicationReducer.applications
+    applications: state.applicationReducer.applications,
   };
 };
 

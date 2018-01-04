@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import thunk from "redux-thunk";
-import axios from "axios";
-import { Button, Segment, Header, Icon } from "semantic-ui-react";
-import GooglePicker from "./react-google-picker.jsx";
-import ApplicationModal from "../containers/applicationModal.jsx";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import thunk from 'redux-thunk';
+import axios from 'axios';
+import { Button, Segment, Header, Icon } from 'semantic-ui-react';
+import GooglePicker from './react-google-picker.jsx';
+import ApplicationModal from '../containers/applicationModal.jsx';
 
 class Head extends Component {
   constructor(props) {
@@ -13,12 +13,10 @@ class Head extends Component {
   }
 
   onLogout() {
-    console.log("Within onLogout!");
     this.props.handleLogout();
   }
 
   render() {
-    console.log(`PROPS IN HEAD`, this.props);
     return this.props.isLoggedIn ? (
       <div>
         <Segment color="black" basic clearing>
@@ -34,6 +32,7 @@ class Head extends Component {
             buttonLabel="Add an application"
             className="applicationButton inverted olive"
             application={{ _id: undefined }}
+            newApp={true}
           />
         </Segment>
       </div>
@@ -52,17 +51,15 @@ class Head extends Component {
 }
 
 const logOut = () => {
-  console.log("logOut action called");
   return {
-    type: "LOG_OUT",
-    payload: false
+    type: 'LOG_OUT',
+    payload: false,
   };
 };
 
 const handleLogout = () => {
-  console.log("handleLogout called");
-  return dispatch => {
-    const request = axios.get("/logout");
+  return (dispatch) => {
+    const request = axios.get('/logout');
 
     return request
       .then(response => dispatch(logOut()))
@@ -70,10 +67,9 @@ const handleLogout = () => {
   };
 };
 
-const mapStateToProps = state => {
-  console.log(`STATE IN HEADER MtP`, state);
+const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.loginReducer.isLoggedIn
+    isLoggedIn: state.loginReducer.isLoggedIn,
   };
 };
 
