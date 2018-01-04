@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   Header,
@@ -7,19 +7,19 @@ import {
   Segment,
   Modal,
   Icon,
-  Image,
-} from 'semantic-ui-react';
-import axios from 'axios';
-import thunk from 'redux-thunk';
-import { connect } from 'react-redux';
-import ModalNavContainer from '../components/modalNavContainer.jsx';
+  Image
+} from "semantic-ui-react";
+import axios from "axios";
+import thunk from "redux-thunk";
+import { connect } from "react-redux";
+import ModalNavContainer from "../components/modalNavContainer.jsx";
 
 class ApplicationModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      activeItem: 'Application Details',
+      activeItem: "Application Details",
       currentCompany: this.props.application.company,
       companyImg: this.props.application.companyImg,
       inputDate: this.props.application.date,
@@ -28,7 +28,7 @@ class ApplicationModal extends React.Component {
       postUrl: this.props.application.postUrl,
       postDescription: this.props.application.postDescription,
       notes: this.props.application.notes,
-      application: this.props.application,
+      application: this.props.application
     };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -41,11 +41,12 @@ class ApplicationModal extends React.Component {
   }
 
   getID() {
-    axios.post('/api/applications', { newApplication: {} })
-      .then((res) => {
+    axios
+      .post("/api/applications", { newApplication: {} })
+      .then(res => {
         this.setState({ application: { _id: res.data._id } });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }
 
   show() {
@@ -53,24 +54,27 @@ class ApplicationModal extends React.Component {
   }
 
   close() {
-    this.setState({
-      open: false,
-      activeItem: 'Application Details',
-    }, () => {
-      if (this.props.newApp) {
-        this.setState({
-          currentCompany: '',
-          companyImg: null,
-          inputDate: '',
-          inputPosition: '',
-          selectedStatus: '',
-          postUrl: '',
-          postDescription: '',
-          notes: '',
-          application: { _id: undefined },
-        });
+    this.setState(
+      {
+        open: false,
+        activeItem: "Application Details"
+      },
+      () => {
+        if (this.props.newApp) {
+          this.setState({
+            currentCompany: "",
+            companyImg: null,
+            inputDate: "",
+            inputPosition: "",
+            selectedStatus: "",
+            postUrl: "",
+            postDescription: "",
+            notes: "",
+            application: { _id: undefined }
+          });
+        }
       }
-    });
+    );
   }
 
   handleMouseDown(e, value) {
@@ -79,7 +83,8 @@ class ApplicationModal extends React.Component {
       const obj = {};
       obj[value.id] = e.target.innerText;
       obj.companyImg =
-        e.target.getAttribute('logo') || e.target.parentNode.getAttribute('logo');
+        e.target.getAttribute("logo") ||
+        e.target.parentNode.getAttribute("logo");
       this.setState(obj);
     }
   }
@@ -131,13 +136,12 @@ class ApplicationModal extends React.Component {
       postUrl,
       postDescription,
       notes,
-      application,
+      application
     } = this.state;
     return (
       <div>
-        <Button className={className} basic onClick={this.show}>
+        <Button className={className} icon="expand" basic onClick={this.show}>
           {buttonLabel}
-          <Icon name="external" />
         </Button>
 
         <Modal open={open} onClose={this.close}>
@@ -204,7 +208,7 @@ class ApplicationModal extends React.Component {
             </Segment>
           </Modal.Content>
           <Modal.Actions>
-            <Button onClick={this.sendData} size="small" color="blue">
+            <Button id="modalSave" onClick={this.sendData} size="small" primary>
               Save Changes
               <Icon name="right chevron" />
             </Button>
@@ -215,27 +219,27 @@ class ApplicationModal extends React.Component {
   }
 }
 
-const fetchApplicationsSuccess = (response) => {
+const fetchApplicationsSuccess = response => {
   return {
-    type: 'FETCH_SUCCESS',
-    payload: response,
+    type: "FETCH_SUCCESS",
+    payload: response
   };
 };
 
-const addOrUpdateApp = (valuesObject) => {
-  return (dispatch) => {
-    const request = axios.post('/api/applications', valuesObject);
+const addOrUpdateApp = valuesObject => {
+  return dispatch => {
+    const request = axios.post("/api/applications", valuesObject);
     return request
-      .then((response) => {
+      .then(response => {
         dispatch(fetchApplicationsSuccess(response.data.applications));
       })
       .catch(err => console.log(err));
   };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    applications: state.applicationReducer.applications,
+    applications: state.applicationReducer.applications
   };
 };
 

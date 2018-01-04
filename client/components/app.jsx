@@ -131,7 +131,7 @@ class App extends React.Component {
                 Reminders
               </Menu.Item>
             </Sidebar>
-            <Segment centered basic style={{ marginLeft: 163 }}>
+            <Segment centered basic style={{ marginLeft: 133 }}>
               {view}
             </Segment>
           </Sidebar.Pushable>

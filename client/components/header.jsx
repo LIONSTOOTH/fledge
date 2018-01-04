@@ -20,7 +20,7 @@ class Head extends Component {
     return this.props.isLoggedIn ? (
       <div>
         <Segment color="black" basic clearing className="headerLine">
-          <Button inverted floated="right" className="logoutButton" onClick={event => this.onLogout()}>
+          <Button basic compact floated="right" className="logoutButton" onClick={event => this.onLogout()}>
             Log out
           </Button>
           <Header as="h1" floated="left" inverted>
@@ -29,7 +29,7 @@ class Head extends Component {
           </Header>
           <ApplicationModal
             application=""
-            buttonLabel="Add an application"
+            buttonLabel="Add Application"
             className="applicationButton inverted"
             application={{ _id: undefined }}
             newApp={true}

@@ -40,10 +40,10 @@ class MiniModal extends Component {
     return (
       <div>
         <Button
-          basic color="red"
+          basic
           onClick={this.show}
+          icon="trash"
         >
-          <i class="lightning icon" />
         </Button>
         <Modal
           size="small"
@@ -60,13 +60,11 @@ class MiniModal extends Component {
             <Button
             negative
             onClick={this.deleteApp.bind(this, this.props.application._id, false)}
+            content="Withdrawl"
             >
-              Withdrawal
             </Button>
             <Button
             positive
-            icon="checkmark"
-            labelPosition="right"
             content="Rejection"
             onClick={this.deleteApp.bind(this, this.props.application._id, true)}
             />
