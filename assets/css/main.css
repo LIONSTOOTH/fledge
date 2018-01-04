@@ -2633,13 +2633,12 @@ table.default thead {
 /* Header */
 
 #header {
-	background-attachment: scroll, scroll, fixed;
-	background-image: url('../../images/top-3200.svg'), url('../../images/bg.jpg'),
-		url('../../images/header.jpg');
-	background-position: bottom center, top left, center center;
-	background-repeat: repeat-x, repeat, no-repeat;
-	background-size: 3200px 460px, auto, cover;
-	color: rgba(255, 255, 255, 0.8);
+	background-attachment: fixed;
+	background-image: url(http://i63.tinypic.com/mahttd.jpg);
+	background-position: bottom, center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: white;
 	padding: 10em 0 20em 0;
 	position: relative;
 	text-align: center;
@@ -2651,7 +2650,6 @@ table.default thead {
 	content: '';
 	left: 50%;
 	position: absolute;
-	width: 1px;
 	z-index: 0;
 }
 
@@ -2690,7 +2688,7 @@ table.default thead {
 	color: #ffffff;
 }
 
-#header .logo {
+/*#header .logo {
 	background: #4eb980;
 	border-radius: 100%;
 	color: #ffffff;
@@ -2702,7 +2700,7 @@ table.default thead {
 	margin: 0 0 0.75em 0;
 	text-align: center;
 	width: 2.35em;
-}
+}*/
 
 #header .logo.fa-paper-plane-o:before {
 	left: -0.075em;
@@ -3249,9 +3247,10 @@ table.default thead {
 }
 
 	#mainBackground {
-		background-image: url('http://i66.tinypic.com/291ox6w.jpg');
-		background-size: 100%;
+		background-image: url('http://i67.tinypic.com/2vrvrqc.jpg');
+		background-size: cover;
     background-attachment: fixed;
+    background-repeat: no-repeat;
  	}
 
 	.ui.segment {
@@ -3281,5 +3280,55 @@ table.default thead {
   }
 
 .applicationButton.inverted.olive {
-	margin-left: 46px;
+	margin-left: 12px;
+	margin-top: 3px;
+}
+
+.headerLine {
+	margin: auto;
+	height: 73px;
+}
+
+.pushable {
+  width: 100%;
+}
+
+.logoutButton {
+	margin-top: 3px !important;
+}
+
+.ui.basic.inverted.button {
+	background: #dc7a2f !important;
+}
+
+.olive {
+	color: white !important;
+}
+
+.ui.card>.content>.header {
+	color: black;
+}
+
+
+.ui.card>.extra {
+  background: #b9b9b9;
+}
+
+.meta {
+	color: black;
+}
+
+.ui.button {
+	background: #dc7a2f !important;
+	color: white !important;
+}
+
+.ui.inverted.menu, .ui.black.segment:not(.inverted) {
+  background: #2a4456 !important;
+}
+
+
+.ui.inverted.olive.basic.button, .ui.inverted.olive.basic.buttons .button, .ui.inverted.olive.buttons .basic.button, .ui.inverted.button, .ui.basic.inverted.button, .ui.basic.inverted.buttons {
+	box-shadow: none !important;
+	font-weight: 600 !important;
 }
