@@ -54,7 +54,7 @@ class Column extends Component {
     console.log(`COLUMN PROPS:`, this.props);
     let backgroundColor = "rgba(0, 0, 0, .5)";
     if (hovered) {
-      backgroundColor = "darkgreen";
+      backgroundColor = "tomato";
     }
     return connectDropTarget(
       <div

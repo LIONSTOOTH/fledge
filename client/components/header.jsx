@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import thunk from 'redux-thunk';
-import axios from 'axios';
-import { Button, Segment, Header, Icon } from 'semantic-ui-react';
-import GooglePicker from './react-google-picker.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import thunk from "redux-thunk";
+import axios from "axios";
+import { Button, Segment, Header, Icon } from "semantic-ui-react";
+import GooglePicker from "./react-google-picker.jsx";
+import ApplicationModal from "../containers/applicationModal.jsx";
 
 class Head extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Head extends Component {
   }
 
   onLogout() {
-    console.log('Within onLogout!');
+    console.log("Within onLogout!");
     this.props.handleLogout();
   }
 
@@ -21,17 +22,19 @@ class Head extends Component {
     return this.props.isLoggedIn ? (
       <div>
         <Segment color="black" basic clearing>
-          <Button
-            color="orange"
-            floated="right"
-            onClick={event => this.onLogout()}
-          >
+          <Button inverted floated="right" onClick={event => this.onLogout()}>
             Log out
           </Button>
-          <Header as="h1" textAlign="left">
+          <Header as="h1" floated="left" inverted>
             <Icon name="certificate" />
             Fledge
           </Header>
+          <ApplicationModal
+            application=""
+            buttonLabel="Add an application"
+            className="applicationButton inverted olive"
+            application={{ _id: undefined }}
+          />
         </Segment>
       </div>
     ) : (
@@ -49,17 +52,17 @@ class Head extends Component {
 }
 
 const logOut = () => {
-  console.log('logOut action called');
+  console.log("logOut action called");
   return {
-    type: 'LOG_OUT',
-    payload: false,
+    type: "LOG_OUT",
+    payload: false
   };
 };
 
 const handleLogout = () => {
-  console.log('handleLogout called');
+  console.log("handleLogout called");
   return dispatch => {
-    const request = axios.get('/logout');
+    const request = axios.get("/logout");
 
     return request
       .then(response => dispatch(logOut()))
@@ -70,7 +73,7 @@ const handleLogout = () => {
 const mapStateToProps = state => {
   console.log(`STATE IN HEADER MtP`, state);
   return {
-    isLoggedIn: state.loginReducer.isLoggedIn,
+    isLoggedIn: state.loginReducer.isLoggedIn
   };
 };
 

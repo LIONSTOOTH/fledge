@@ -21,7 +21,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      visible: false,
+      visible: true,
       pusher: 1,
       celebrate: false
     };
@@ -77,18 +77,14 @@ class App extends React.Component {
         {fetti}
         <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
         <div id="mainBackground">
-          <br />
-          <Button onClick={this.toggleVisibility} secondary>
-            <i class="sidebar icon" />
-            Menu
-          </Button>
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Menu}
-              animation="slide out"
               width="thin"
               visible={visible}
               icon="labeled"
+              animation="scale down"
+              fixed
               vertical
               inverted
             >
@@ -128,11 +124,9 @@ class App extends React.Component {
                 Reminders
               </Menu.Item>
             </Sidebar>
-            <Sidebar.Pusher>
-              <Segment centered basic>
-                {view}
-              </Segment>
-            </Sidebar.Pusher>
+            <Segment centered basic style={{ marginLeft: 163 }}>
+              {view}
+            </Segment>
           </Sidebar.Pushable>
         </div>
       </div>
