@@ -3342,3 +3342,17 @@ table.default thead {
 	box-shadow: none !important;
 	font-weight: 600 !important;
 }
+
+#drive {
+	margin: 0 auto;
+}
+
+h1 {
+	color: black;
+}
+
+.ui.positive.button {
+	width: 30%;
+	display: block;
+	margin: 0 auto;
+}
