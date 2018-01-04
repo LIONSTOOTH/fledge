@@ -37,7 +37,7 @@ class Contacts extends React.Component {
   }
 
   deleteContact(e) {
-    axios.delete('/api/contacts', { params: { id: e.target.value } })
+    axios.delete('/api/contacts', { params: { id: e.target.value || e.target.parentNode.value } })
       .then(res => this.setState({ contacts: res.data.contacts }))
       .catch(err => console.log(err));
   }

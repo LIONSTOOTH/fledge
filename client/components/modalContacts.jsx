@@ -36,7 +36,7 @@ class ModalContacts extends React.Component {
   }
 
   deleteContact(e) {
-    axios.delete('/api/contacts', { params: { id: e.target.value } })
+    axios.delete('/api/contacts', { params: { id: e.target.value || e.target.parentNode.value } })
       .then(res => this.setState({ contacts: res.data.contacts }))
       .catch(err => console.log(err));
   }
@@ -132,7 +132,6 @@ class ModalContacts extends React.Component {
           {contacts.sort(compare)
             .filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
-              <Segment basic>
                 <Card raised>
                   <Card.Content>
                     <Card.Header>{contact.name}
@@ -160,7 +159,6 @@ class ModalContacts extends React.Component {
                     : ''}{contact.phone}
                   </Card.Content>
                 </Card>
-              </Segment>
             ))}
         </div>
       </div>
