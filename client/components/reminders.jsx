@@ -88,31 +88,35 @@ class Reminders extends React.Component {
       <div style={{ minHeight: 600 }}>
         <h1>Current Reminders</h1>
         <div>
+        <Card.Group>
           {this.state.reminders.sort(compare).map(reminder => (
-            <Segment basic>
-              <Card>
+              <Card fluid raised centered>
                 <Card.Content>
-                  <Card.Header>{reminder.summary}</Card.Header>
+                  <Card.Header>{reminder.summary}
+                    <Button.Group floated="right">
+                      <ApplicationModal
+                        application={reminder.application}
+                        key={reminder.applicationId}
+                        buttonLabel="View linked application"
+                      />
+                      <Button
+                        compact
+                        inverted
+                        icon="checkmark icon"
+                        size="mini"
+                        color="green"
+                        onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
+                      />
+                    </Button.Group>
+                    </Card.Header>
+                  {reminder.description}
                   <Card.Meta>
                     Days Left: {dateDiffInDays(a, new Date(reminder.start))}
                   </Card.Meta>
-                  <br />
-                  {reminder.description}
-                  <br />
-                  <div className="ui two buttons">
-                    <ApplicationModal application={reminder.application} />
-                    <Button
-                      basic
-                      color="green"
-                      onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
-                    >
-                      <i class="checkmark icon" />
-                    </Button>
-                  </div>
                 </Card.Content>
               </Card>
-            </Segment>
           ))}
+          </Card.Group>
         </div>
       </div>
     );

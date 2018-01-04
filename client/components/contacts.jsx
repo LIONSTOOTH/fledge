@@ -51,7 +51,7 @@ class Contacts extends React.Component {
           <Card.Group>
             {this.state.contacts.sort(compare).map(contact => (
               <Card raised centered stackable>
-                <Card.Content>
+                <Card.Content style={{ lineHeight: 1.2 }}>
                   <Card.Header>{contact.name}
                     <Button.Group floated="right">
                       <Button
@@ -69,6 +69,7 @@ class Contacts extends React.Component {
                     {contact.position && contact.company ? ', ' : ''}
                     {contact.company}
                   </Card.Meta>
+                  <br />
                   {contact.email ? (<Icon size="small" name="mail outline" />)
                   : ''}{contact.email}
                   <div />
@@ -77,7 +78,7 @@ class Contacts extends React.Component {
                   <ApplicationModal
                     application={applicationsObj[contact.applicationId]}
                     key={contact.applicationId}
-                    buttonLabel="See linked application"
+                    buttonLabel="View linked application"
                   />
                 </Card.Content>
               </Card>
