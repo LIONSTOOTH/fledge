@@ -56,15 +56,6 @@ class ApplicationModal extends React.Component {
     this.setState({
       open: false,
       activeItem: 'Application Details',
-      currentCompany: '',
-      companyImg: null,
-      inputDate: '',
-      inputPosition: '',
-      selectedStatus: '',
-      postUrl: '',
-      postDescription: '',
-      notes: '',
-      application: { _id: undefined },
     });
   }
 
