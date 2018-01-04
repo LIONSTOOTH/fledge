@@ -3317,7 +3317,7 @@ table.default thead {
 
 
 .ui.card>.extra {
-  background: #e8eaef;
+  background: #d8d8da;
 }
 
 .meta {
@@ -3355,4 +3355,9 @@ h1 {
 	width: 30%;
 	display: block;
 	margin: 0 auto;
+}
+
+.ui.basic.button {
+	color: white !important;
+	box-shadow: 0 0 0 1px rgb(255, 255, 255) inset !important;
 }
