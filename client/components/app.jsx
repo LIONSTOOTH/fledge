@@ -5,7 +5,14 @@ import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
 import thunk from "redux-thunk";
 import axios from "axios";
-import { Sidebar, Segment, Button, Menu, Icon } from "semantic-ui-react";
+import {
+  Sidebar,
+  Segment,
+  Button,
+  Menu,
+  Icon,
+  Sticky
+} from "semantic-ui-react";
 import Landing from "./landing.jsx";
 import Head from "./header.jsx";
 import Dashboard from "./dashboard.jsx";
@@ -124,7 +131,7 @@ class App extends React.Component {
                 Reminders
               </Menu.Item>
             </Sidebar>
-            <Segment centered basic style={{ marginLeft: 163 }}>
+            <Segment centered basic style={{ marginLeft: 133 }}>
               {view}
             </Segment>
           </Sidebar.Pushable>

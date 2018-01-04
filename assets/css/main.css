@@ -3253,6 +3253,12 @@ table.default thead {
     background-repeat: no-repeat;
  	}
 
+ 	#modalSave {
+ 		background-color: #1678c2 !important;
+ 		color: #fff !important;
+ 		text-shadow: none !important;
+ 	}
+
 	.ui.segment {
 		background: transparent !important;
 	}
@@ -3325,6 +3331,10 @@ table.default thead {
 
 .ui.inverted.menu, .ui.black.segment:not(.inverted) {
   background: #2a4456 !important;
+}
+
+.ui.thin.left.sidebar, .ui.thin.right.sidebar {
+  width: 120px;
 }
 
 
