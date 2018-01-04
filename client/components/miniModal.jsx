@@ -5,12 +5,16 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 class MiniModal extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       open: false,
       rejected: undefined,
     };
+    this.show = this.show.bind(this);
+    this.close = this.close.bind(this);
+    this.setAnswer = this.setAnswer.bind(this);
+    this.deleteApp = this.deleteApp.bind(this);
   }
 
   setAnswer(reason) {
@@ -60,10 +64,10 @@ class MiniModal extends Component {
               Withdrawal
             </Button>
             <Button
-            positive i
-            con='checkmark'
-            labelPosition='right'
-            content='Rejection'
+            positive
+            icon="checkmark"
+            labelPosition="right"
+            content="Rejection"
             onClick={this.deleteApp.bind(this, this.props.application._id, true)}
             />
           </Modal.Actions>
