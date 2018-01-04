@@ -52,20 +52,29 @@ class Chart extends React.Component {
             scales: {
               xAxes: [{
                 // stacked: true
+                ticks: {
+                  fontFamily: "Lato",
+                  fontColor: "black",
+                  fontSize: 15,
+                }
               }],
               yAxes: [{
                 // stacked: true,
                 ticks: {
                   suggestedMin: 0,
                   stepSize: 1,
+                  fontColor: "black",
+                  fontSize: 15,
                 }
               }]
             },
             maintainAspectRatio: false,
             title: {
               display: true,
-              text: 'Applications By Status',
+              text: 'APPLICATIONS BY STATUS',
               fontSize: 25,
+              fontColor: "black",
+              fontFamily: "Lato",
             },
             legend: {
               display: false,

@@ -2,8 +2,8 @@ import React from 'react';
 import GooglePicker from './react-google-picker.jsx';
 
 const Materials = props => (
-  <div>
-    Upload Application Materials
+  <div id="drive">
+    <h1>Upload Application Materials</h1>
     <GooglePicker
       clientId={
         '108994268957-a7mgrj68ai43tdd89ivrsmuk4jcnhi0i.apps.googleusercontent.com'

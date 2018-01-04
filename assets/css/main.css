@@ -3317,7 +3317,7 @@ table.default thead {
 
 
 .ui.card>.extra {
-  background: #b9b9b9;
+  background: #d8d8da;
 }
 
 .meta {
@@ -3341,4 +3341,23 @@ table.default thead {
 .ui.inverted.olive.basic.button, .ui.inverted.olive.basic.buttons .button, .ui.inverted.olive.buttons .basic.button, .ui.inverted.button, .ui.basic.inverted.button, .ui.basic.inverted.buttons {
 	box-shadow: none !important;
 	font-weight: 600 !important;
+}
+
+#drive {
+	margin: 0 auto;
+}
+
+h1 {
+	color: black;
+}
+
+.ui.positive.button {
+	width: 30%;
+	display: block;
+	margin: 0 auto;
+}
+
+.ui.basic.button {
+	color: white !important;
+	box-shadow: 0 0 0 1px rgb(255, 255, 255) inset !important;
 }
