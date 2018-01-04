@@ -23,7 +23,7 @@ class App extends React.Component {
     this.state = {
       visible: true,
       pusher: 1,
-      celebrate: false
+      celebrate: false,
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
