@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import { Button, Form, Input, Segment, Card, Header } from 'semantic-ui-react';
+import { Button, Form, Input, Segment, Card, Icon, Header } from 'semantic-ui-react';
 
 class ModalContacts extends React.Component {
   constructor() {
@@ -26,9 +26,9 @@ class ModalContacts extends React.Component {
   }
 
   deleteContact(e) {
-    axios.delete('/api/contacts', { params: { id: e.target.value }})
-    .then((res) => this.setState({ contacts: res.data.contacts }))
-    .catch((err) => console.log(err));
+    axios.delete('/api/contacts', { params: { id: e.target.value } })
+      .then(res => this.setState({ contacts: res.data.contacts }))
+      .catch(err => console.log(err));
   }
 
   saveContact() {
@@ -38,7 +38,6 @@ class ModalContacts extends React.Component {
     newContact.contact.phone = this.state.contactPhone;
     newContact.contact.position = this.state.contactPosition;
     newContact.contact.company = this.state.contactCompany;
-    // if app id is undefined, saveContact should save the entire application from parent state
     newContact.contact._id = this.props.application._id;
 
     axios.post('/api/contacts', { addContact: newContact })
@@ -115,36 +114,43 @@ class ModalContacts extends React.Component {
           <Button size="tiny" type="submit">Submit</Button>
         </Form>
         <Header as="span">
-          Related Contacts:
+          {contacts
+            .filter(c => c.applicationId === application._id).length > 0 ?
+            'Related Contacts:' : null}
         </Header>
         <div>
           {contacts
             .filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
               <Segment basic>
-                <Card>
+                <Card raised>
                   <Card.Content>
-                    <Card.Header>{contact.company}</Card.Header>
-                    <Card.Meta>{contact.position}</Card.Meta>
+                    <Card.Header>{contact.name}
+                      <Button.Group floated="right">
+                        <Button
+                          compact
+                          color="red"
+                          size="mini"
+                          value={contact._id}
+                          onClick={this.deleteContact}
+                        />
+                      </Button.Group>
+                    </Card.Header>
+                    <Card.Meta style={{ color: 'black' }}>{contact.position}
+                      {contact.position && contact.company ? ', ' : ''}
+                      {contact.company}
+                    </Card.Meta>
                     <br />
-                    Name: {contact.name}
-                    <br />
-                    Email: {contact.email}
-                    <br />
-                    Phone: {contact.phone}
-                    <br />
-               <Button compact color="red" size="mini" value={contact._id} onClick={this.deleteContact}>
-                Delete
-              </Button>
+                    {contact.email ? (<Icon size="small" name="mail outline" />)
+                    : ''}{contact.email}
+                    <div />
+                    {contact.phone ? (<Icon size="small" name="text telephone" />)
+                    : ''}{contact.phone}
                   </Card.Content>
                 </Card>
               </Segment>
             ))}
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     );
   }
