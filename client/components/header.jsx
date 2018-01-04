@@ -26,12 +26,13 @@ class Head extends Component {
             Log out
           </Button>
           <Header as="h1" floated="left" inverted>
+            <Icon name="certificate" />
             Fledge
           </Header>
           <ApplicationModal
             application=""
             buttonLabel="Add an application"
-            className="applicationButton inverted"
+            className="applicationButton inverted olive"
             application={{ _id: undefined }}
           />
         </Segment>

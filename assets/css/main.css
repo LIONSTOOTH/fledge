@@ -3280,3 +3280,6 @@ table.default thead {
     color: white;
   }
 
+.applicationButton.inverted.olive {
+	margin-left: 46px;
+}
