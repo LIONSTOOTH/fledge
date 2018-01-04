@@ -4,6 +4,16 @@ import { connect } from 'react-redux';
 import { Segment, Card, Image, Button, Icon } from 'semantic-ui-react';
 import ApplicationModal from '../containers/applicationModal.jsx';
 
+// sorts contacts by first name
+const compare = (a, b) => {
+  if (a.name < b.name) {
+    return -1;
+  } else if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
+};
+
 class Contacts extends React.Component {
   constructor() {
     super();
@@ -38,7 +48,7 @@ class Contacts extends React.Component {
       <div style={{ minHeight: 600 }}>
         <h1>Contact List</h1>
         <div>
-          {this.state.contacts.map(contact => (
+          {this.state.contacts.sort(compare).map(contact => (
           <Segment basic>
             <Card raised>
               <Card.Content>
@@ -67,12 +77,13 @@ class Contacts extends React.Component {
                 <ApplicationModal
                   application={applicationsObj[contact.applicationId]}
                   key={contact.applicationId}
-                  buttonLabel="See associated application"
+                  buttonLabel="See linked application"
                 />
               </Card.Content>
             </Card>
           </Segment>
-          ))}
+          ))
+        }
         </div>
       </div>
     );
