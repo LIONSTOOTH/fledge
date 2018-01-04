@@ -129,6 +129,8 @@ class ModalContacts extends React.Component {
                       <Button.Group floated="right">
                         <Button
                           compact
+                          inverted
+                          icon="close"
                           color="red"
                           size="mini"
                           value={contact._id}
