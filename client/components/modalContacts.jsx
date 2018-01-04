@@ -3,6 +3,16 @@ import axios from 'axios';
 import thunk from 'redux-thunk';
 import { Button, Form, Input, Segment, Card, Icon, Header } from 'semantic-ui-react';
 
+// sorts contacts by first name
+const compare = (a, b) => {
+  if (a.name < b.name) {
+    return -1;
+  } else if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
+};
+
 class ModalContacts extends React.Component {
   constructor() {
     super();
@@ -119,7 +129,7 @@ class ModalContacts extends React.Component {
             'Related Contacts:' : null}
         </Header>
         <div>
-          {contacts
+          {contacts.sort(compare)
             .filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
               <Segment basic>
