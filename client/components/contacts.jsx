@@ -78,7 +78,7 @@ class Contacts extends React.Component {
                   <ApplicationModal
                     application={applicationsObj[contact.applicationId]}
                     key={contact.applicationId}
-                    buttonLabel="View linked application"
+                    //buttonLabel="View linked application"
                   />
                 </Card.Content>
               </Card>
