@@ -30,7 +30,7 @@ class Head extends Component {
           <ApplicationModal
             application=""
             buttonLabel="Add an application"
-            className="applicationButton inverted olive"
+            className="applicationButton inverted"
             application={{ _id: undefined }}
             newApp={true}
           />
