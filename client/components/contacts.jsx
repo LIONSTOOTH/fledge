@@ -46,11 +46,11 @@ class Contacts extends React.Component {
     const { applicationsObj } = this.state;
     return (
       <div style={{ minHeight: 600 }}>
-        <h1>Contact List</h1>
+        <h1>Contacts</h1>
         <div>
+        <Card.Group>
           {this.state.contacts.sort(compare).map(contact => (
-          <Segment basic>
-            <Card raised>
+            <Card raised centered stackable>
               <Card.Content>
                 <Card.Header>{contact.name}
                   <Button.Group floated="right">
@@ -81,9 +81,9 @@ class Contacts extends React.Component {
                 />
               </Card.Content>
             </Card>
-          </Segment>
           ))
         }
+          </Card.Group>
         </div>
       </div>
     );
