@@ -48,41 +48,41 @@ class Contacts extends React.Component {
       <div style={{ minHeight: 600 }}>
         <h1>Contacts</h1>
         <div>
-        <Card.Group>
-          {this.state.contacts.sort(compare).map(contact => (
-            <Card raised centered stackable>
-              <Card.Content>
-                <Card.Header>{contact.name}
-                  <Button.Group floated="right">
-                    <Button
-                      compact
-                      inverted
-                      icon="close"
-                      color="red"
-                      size="mini"
-                      value={contact._id}
-                      onClick={this.deleteContact}
-                    />
-                  </Button.Group>
-                </Card.Header>
-                <Card.Meta style={{ color: 'black' }}>{contact.position}
-                  {contact.position && contact.company ? ', ' : ''}
-                  {contact.company}
-                </Card.Meta>
-                {contact.email ? (<Icon size="small" name="mail outline" />)
-                : ''}{contact.email}
-                <div />
-                {contact.phone ? (<Icon size="small" name="text telephone" />)
-                : ''}{contact.phone}
-                <ApplicationModal
-                  application={applicationsObj[contact.applicationId]}
-                  key={contact.applicationId}
-                  buttonLabel="See linked application"
-                />
-              </Card.Content>
-            </Card>
-          ))
-        }
+          <Card.Group>
+            {this.state.contacts.sort(compare).map(contact => (
+              <Card raised centered stackable>
+                <Card.Content>
+                  <Card.Header>{contact.name}
+                    <Button.Group floated="right">
+                      <Button
+                        compact
+                        inverted
+                        icon="close"
+                        color="red"
+                        size="mini"
+                        value={contact._id}
+                        onClick={this.deleteContact}
+                      />
+                    </Button.Group>
+                  </Card.Header>
+                  <Card.Meta style={{ color: 'black' }}>{contact.position}
+                    {contact.position && contact.company ? ', ' : ''}
+                    {contact.company}
+                  </Card.Meta>
+                  {contact.email ? (<Icon size="small" name="mail outline" />)
+                  : ''}{contact.email}
+                  <div />
+                  {contact.phone ? (<Icon size="small" name="text telephone" />)
+                  : ''}{contact.phone}
+                  <ApplicationModal
+                    application={applicationsObj[contact.applicationId]}
+                    key={contact.applicationId}
+                    buttonLabel="See linked application"
+                  />
+                </Card.Content>
+              </Card>
+            ))
+          }
           </Card.Group>
         </div>
       </div>
