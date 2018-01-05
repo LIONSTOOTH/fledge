@@ -29,7 +29,7 @@ class ApplicationChip extends Component {
     return connectDragSource(
       <div releaseConfetti={this.props.releaseConfetti}>
         <Segment style={style} application={this.props.application} basic>
-          <Card>
+          <Card centered>
             <Card.Content>
               <Image
                 floated="right"
