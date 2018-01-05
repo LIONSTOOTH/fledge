@@ -13,7 +13,7 @@ const Landing = props => (
       <div id="header">
         <span className="logo icon fa-paper-plane-o"></span>
         <h1>This is Fledge</h1>
-        <p>An intuitive job application tracker for the fledgling professional
+        <p>A job application tracker for the fledgling professional
         <br />
         </p>
       </div>
@@ -21,31 +21,35 @@ const Landing = props => (
       <div id="main">
 
         <header className="major container 75%">
-          <h2>Finding a job is hard enough.
-          <br />
-          Fledge does the legwork for you.</h2>
+          <h2>Because finding a job is hard enough.</h2>
         </header>
 
         <div className="box alt container">
           <section className="feature left">
-            <a href="#" className="image icon fa-signal"><img src={img1} alt="" /></a>
+            <a className="image icon fa-signal"><img src={img1} alt="" /></a>
             <div className="content">
               <h3>Interactive Kanban</h3>
-              <p>Our kanban design helps you organize your applications in a visual and intuitive away, allowing you to keep track at a glance.</p>
+              <p>Our kanban design helps you organize your applications in a visual and intuitive way,
+              <br />
+              allowing you to keep track at a glance.</p>
             </div>
           </section>
           <section className="feature right">
-            <a href="#" className="image icon fa-code"><img src={img2} alt="" /></a>
+            <a className="image icon fa-code"><img src={img2} alt="" /></a>
             <div className="content">
               <h3>Seamless Integration</h3>
-              <p>The application process doesn't end once the application is submitted. Fledge seamelessly integrates with your Google Calendar and Google Drive to help you stay organized.</p>
+              <p>The application process doesn't end once the application is submitted. Fledge integrates with your Google Calendar and Google Drive
+              <br />
+              to keep you up-to-date.</p>
             </div>
           </section>
           <section className="feature left">
-            <a href="#" className="image icon fa-mobile"><img src={img3} alt="" /></a>
+            <a className="image icon fa-mobile"><img src={img3} alt="" /></a>
             <div className="content">
               <h3>Organized Contacts</h3>
-              <p>We organize all your contact points in one place because business cards are a thing of the past.</p>
+              <p>We'll keep your contacts in one place.
+              <br />
+              This is networking made easier.</p>
             </div>
           </section>
         </div>
