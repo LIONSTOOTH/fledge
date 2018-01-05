@@ -326,28 +326,8 @@ app.post('/api/reminders', (req, res) => {
       console.log('Event created: %s', event.htmlLink + ' event' + event + '' + req.body.addReminder);
     }
   );
-
 });
 
 app.listen(app.get('port'), () =>
   console.log('app running on port', app.get('port'))
 );
-
-/*
-// need to refactor client side logout
-app.get('/logout', (req, res) => {
-  console.log("LOGOUT CALLED SERVER")
-  req.session.destroy((err) => {
-    if (err) {
-      console.log('error on logout: ', err);
-      res.send(false);
-    } else {
-      res.send(true);
-    }
-  });
-});
-*/
-
-// app.get('*', function(req, res) {
-//   res.render
-// })

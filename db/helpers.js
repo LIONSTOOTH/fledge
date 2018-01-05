@@ -51,7 +51,6 @@ const getReminders = (userId, callback) => {
 };
 
 const deleteReminder = (userId, reminderId, callback) => {
-
   db.User.find({ googleId: userId })
     .then(user => {
       for (let i = 0; i < user[0].reminders.length; i ++) {
@@ -62,16 +61,13 @@ const deleteReminder = (userId, reminderId, callback) => {
           user[0].save((err) => {
             if (err) {
               console.log('reminder db save error', err);
-
+              callback(err, null);
             } else {
               console.log('reminder db save success');
-
             }
           });
-  // db.Reminder.findByIdAndRemove(reminderId, function(){console.log('done')});
         }
       }
-      // console.log(user[0].reminders)
     })
     .catch(err => {
       callback(err, null);
