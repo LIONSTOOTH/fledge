@@ -1,11 +1,12 @@
 import React from 'react';
-import { Form, Input, TextArea } from 'semantic-ui-react';
+import { Form, Input, TextArea, Label } from 'semantic-ui-react';
 
 const originalPost = (props) => {
   const { postUrl, postDescription, handleChange } = props;
   return (
     <div>
       <Form widths="equal">
+      <Form.Group>
         <Form.Field
           control={Input}
           type="url"
@@ -15,6 +16,8 @@ const originalPost = (props) => {
           onChange={handleChange}
           value={postUrl}
         />
+        {postUrl ? (<a href={postUrl} target="_blank"><Label color="green" circular attached="top right">GO</Label></a>) : null }
+        </Form.Group>
         <Form.TextArea
           onChange={handleChange}
           id="postDescription"
