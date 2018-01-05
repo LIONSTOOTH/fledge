@@ -7,10 +7,6 @@ import img4 from '../../images/pic04.jpg';
 import img5 from '../../images/pic05.jpg';
 import img6 from '../../images/pic06.jpg';
 import img7 from '../../images/pic07.jpg';
-// import grace from '../../images/grace.jpg';
-// // import krista from '../../images/krista.jpg';
-// import arthur from '../../images/arthur.jpg';
-// import ben from '../../images/ben.jpg';
 
 const Landing = props => (
     <div>
@@ -28,10 +24,6 @@ const Landing = props => (
           <h2>Finding a job is hard enough.
           <br />
           Fledge does the legwork for you.</h2>
-
-          <p>We should totally add something awesome<br />
-            here in this little blurb.</p>
-
         </header>
 
         <div className="box alt container">
@@ -45,41 +37,33 @@ const Landing = props => (
           <section className="feature right">
             <a href="#" className="image icon fa-code"><img src={img2} alt="" /></a>
             <div className="content">
-              <h3>Proactive Reminders</h3>
-              <p>The application process doesn't end once the application is submitted. Fledge seamelessly integrates with your Google calendar to help you stay on top of all your applications.</p>
+              <h3>Seamless Integration</h3>
+              <p>The application process doesn't end once the application is submitted. Fledge seamelessly integrates with your Google Calendar and Google Drive to help you stay organized.</p>
             </div>
           </section>
           <section className="feature left">
             <a href="#" className="image icon fa-mobile"><img src={img3} alt="" /></a>
             <div className="content">
-              <h3>Insightful Metrics</h3>
-              <p>We gather information from your applications to provide charts to help you understand various data points, including total application counts and status conversion rates.</p>
+              <h3>Organized Contacts</h3>
+              <p>We organize all your contact points in one place because business cards are a thing of the past.</p>
             </div>
           </section>
         </div>
 
-        <footer className="major container 75%">
-          <h3>Get shady with science</h3>
-          <p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
-          <ul className="actions">
-            <li><a href="#" className="button">Join our crew</a></li>
-          </ul>
-        </footer>
 
       </div>
       <div id="footer">
         <div className="container 75%">
 
           <ul className="icons">
-            <li><a href="www.linkedin.com/in/ArthurLee144" className="icon arthur"><span className="label"></span></a></li>
-            <li><a href="www.linkedin.com/in/b-j-p" className="icon ben"><span className="label"></span></a></li>
-            <li><a href="www.linkedin.com/in/kristaabraham" className="icon krista"><span className="label"></span></a></li>
-            <li><a href="www.linkedin.com/in/iamgraceko" className="icon grace" ><span className="label"></span></a></li>
-
+            <li><a href="http://www.gihub.com/ArthurLee144" className="icon arthur"><span className="label"></span></a><br /> Arthur Lee </li>
+            <li><a href="http://www.github.com/b-j-p" className="icon ben"><span className="label"></span></a><br /> Benjamin Polansky </li>
+            <li><a href="http://www.linkedin.com/in/kristaabraham" className="icon krista"><span className="label"></span></a><br /> Krista Abraham </li>
+            <li><a href="http://www.linkedin.com/in/iamgraceko" className="icon grace" ><span className="label"></span></a><br /> Grace Ko </li>
           </ul>
 
           <ul className="copyright">
-            <li>&copy; Fledge. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            <li>&copy; Fledge. All rights reserved.</li>
           </ul>
 
         </div>
