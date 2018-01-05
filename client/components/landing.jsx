@@ -60,7 +60,7 @@ const Landing = props => (
         <div className="container 75%">
 
           <ul className="icons">
-            <li><a href="http://www.gihub.com/ArthurLee144" className="icon arthur"><span className="label"></span></a><br /> Arthur Lee </li>
+            <li><a href="http://www.github.com/ArthurLee144" className="icon arthur"><span className="label"></span></a><br /> Arthur Lee </li>
             <li><a href="http://www.github.com/b-j-p" className="icon ben"><span className="label"></span></a><br /> Benjamin Polansky </li>
             <li><a href="http://www.linkedin.com/in/kristaabraham" className="icon krista"><span className="label"></span></a><br /> Krista Abraham </li>
             <li><a href="http://www.linkedin.com/in/iamgraceko" className="icon grace" ><span className="label"></span></a><br /> Grace Ko </li>
