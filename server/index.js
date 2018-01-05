@@ -277,7 +277,7 @@ app.post('/api/reminders', (req, res) => {
 
   let event = {
     summary: req.body.addReminder.summary,
-    description: req.body.addReminder.description + ' https://murmuring-mesa-56363.herokuapp.com/',
+    description: req.body.addReminder.description + ' https://fledge.herokuapp.com/',
     start: {
       dateTime: startDate + 'T06:00:00-08:00',
     },
