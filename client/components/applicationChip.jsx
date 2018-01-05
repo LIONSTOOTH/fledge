@@ -42,7 +42,8 @@ class ApplicationChip extends Component {
             </Card.Content>
             <Card.Content extra>
               <div className="ui large buttons">
-                <ApplicationModal application={this.props.application} />
+                <ApplicationModal className="ui chip button"
+                  application={this.props.application} />
                 <MiniModal application={this.props.application} />
               </div>
             </Card.Content>

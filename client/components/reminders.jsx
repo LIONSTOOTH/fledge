@@ -5,12 +5,7 @@ import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
 import {
   Button,
-  Input,
-  Form,
-  Dropdown,
-  Segment,
   Card,
-  Image,
 } from 'semantic-ui-react';
 
 // sorts reminders by due date
@@ -32,7 +27,6 @@ class Reminders extends React.Component {
   }
 
   componentWillMount() {
-    console.log('getting reminders from client');
     let context = this;
     axios.get('/api/reminders').then(res => {
       let reminders = res.data;
@@ -74,44 +68,53 @@ class Reminders extends React.Component {
   }
 
   render() {
-    var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    var a = new Date();
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const a = new Date();
     function dateDiffInDays(a, b) {
       var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
       var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
       return Math.floor((utc2 - utc1) / _MS_PER_DAY);
     }
 
-    console.log('a reminder', this.state.reminders[0])
-
     return (
       <div style={{ minHeight: 600 }}>
         <h1>Current Reminders</h1>
         <div>
           {this.state.reminders.sort(compare).map(reminder => (
-            <Segment basic>
-              <Card>
-                <Card.Content>
-                  <Card.Header>{reminder.summary}</Card.Header>
-                  <Card.Meta>
-                    Days Left: {dateDiffInDays(a, new Date(reminder.start))}
-                  </Card.Meta>
-                  <br />
-                  {reminder.description}
-                  <br />
-                  <div className="ui two buttons">
-                    <ApplicationModal application={reminder.application} />
+            <Card
+              fluid
+              raised
+              centered
+              style={{ maxWidth: 650 }}
+            >
+              <Card.Content>
+                <Card.Header>{reminder.summary}
+                  <Button.Group floated="right">
                     <Button
-                      basic
+                      compact
+                      inverted
+                      icon="checkmark icon"
+                      size="mini"
                       color="green"
+                      style={{ marginLeft: 15 }}
                       onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
-                    >
-                      <i class="checkmark icon" />
-                    </Button>
-                  </div>
-                </Card.Content>
-              </Card>
-            </Segment>
+                    />
+                  </Button.Group>
+                  <Button.Group floated="right">
+                    <ApplicationModal
+                      application={reminder.application}
+                      key={reminder.applicationId}
+                      className="ui reminder button"
+                      // buttonLabel="View linked application"
+                    />
+                  </Button.Group>
+                </Card.Header>
+                {reminder.description}
+                <Card.Meta>
+                  Days Left: {dateDiffInDays(a, new Date(reminder.start))}
+                </Card.Meta>
+              </Card.Content>
+            </Card>
           ))}
         </div>
       </div>
@@ -119,7 +122,7 @@ class Reminders extends React.Component {
   }
 }
 
-const addOrUpdateApp = valuesObject => {
+const addOrUpdateApp = (valuesObject) => {
   console.log('calues object:', valuesObject);
   return dispatch => {
     const request = axios.post('/api/applications', valuesObject);
@@ -131,7 +134,7 @@ const addOrUpdateApp = valuesObject => {
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
   };

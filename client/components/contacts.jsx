@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Segment, Card, Image, Button, Icon } from 'semantic-ui-react';
+import { Card, Button, Icon } from 'semantic-ui-react';
 import ApplicationModal from '../containers/applicationModal.jsx';
 
 // sorts contacts by first name
@@ -51,7 +51,7 @@ class Contacts extends React.Component {
           <Card.Group>
             {this.state.contacts.sort(compare).map(contact => (
               <Card raised centered stackable>
-                <Card.Content>
+                <Card.Content style={{ lineHeight: 1.2 }}>
                   <Card.Header>{contact.name}
                     <Button.Group floated="right">
                       <Button
@@ -60,25 +60,30 @@ class Contacts extends React.Component {
                         icon="close"
                         color="red"
                         size="mini"
+                        style={{ marginLeft: 15 }}
                         value={contact._id}
                         onClick={this.deleteContact}
                       />
+                    </Button.Group>
+                    <Button.Group floated="right">
+                    <ApplicationModal
+                      application={applicationsObj[contact.applicationId]}
+                      key={contact.applicationId}
+                      className="ui contact button"
+                      //buttonLabel="View linked application"
+                    />
                     </Button.Group>
                   </Card.Header>
                   <Card.Meta style={{ color: 'black' }}>{contact.position}
                     {contact.position && contact.company ? ', ' : ''}
                     {contact.company}
                   </Card.Meta>
+                  <br />
                   {contact.email ? (<Icon size="small" name="mail outline" />)
                   : ''}{contact.email}
                   <div />
                   {contact.phone ? (<Icon size="small" name="text telephone" />)
                   : ''}{contact.phone}
-                  <ApplicationModal
-                    application={applicationsObj[contact.applicationId]}
-                    key={contact.applicationId}
-                    buttonLabel="See linked application"
-                  />
                 </Card.Content>
               </Card>
             ))

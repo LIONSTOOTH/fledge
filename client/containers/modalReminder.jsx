@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, Input, Form, Dropdown, Segment, Header, Icon } from 'semantic-ui-react';
+import { Button, Input, Form, Dropdown, Card, Header, Icon } from 'semantic-ui-react';
 
 // sorts reminders by due date
 const compare = (a, b) => {
@@ -120,28 +120,33 @@ class Reminder extends React.Component {
           <br />
           <Button size="tiny" type="submit">Submit</Button>
         </Form>
-        <Header as='span'>
+        <Header as="span">
         {this.state.reminders
             .filter(r => r.applicationId === application._id).length > 0 ?
             'Current Reminders:' : null}
         </Header>
-        <Segment basic>
           {this.state.reminders.sort(compare).map(reminder => (
-            <Segment clearing>
-              {reminder.summary}
-              <br />
-              {reminder.description}
-              <br />
-              Days left: {dateDiffInDays(a, new Date(reminder.start))}
-              <Button
-                basic
-                color="green"
-                floated="right"
-                onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
-                icon="checkmark" />
-            </Segment>
+            <Card fluid raised centered>
+              <Card.Content>
+                  <Card.Header>{reminder.summary}
+                    <Button.Group floated="right">
+                      <Button
+                        compact
+                        inverted
+                        icon="checkmark"
+                        size="mini"
+                        color="green"
+                        onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
+                      />
+                    </Button.Group>
+                    </Card.Header>
+                  {reminder.description}
+                  <Card.Meta>
+                    Days Left: {dateDiffInDays(a, new Date(reminder.start))}
+                  </Card.Meta>
+                </Card.Content>
+              </Card>
           ))}
-        </Segment>
         <br />
         <br />
         <br />

@@ -3324,10 +3324,12 @@ table.default thead {
 	color: black;
 }
 
+/*
 .ui.button {
 	background: #dc7a2f !important;
 	color: white !important;
 }
+*/
 
 .ui.inverted.menu, .ui.black.segment:not(.inverted) {
   background: #2a4456 !important;
@@ -3351,7 +3353,10 @@ h1 {
 	color: black;
 }
 
-.ui.positive.button {
+
+.ui.google.button {
+	background: #dc7a2f !important;
+	color: white !important;
 	width: 30%;
 	display: block;
 	margin: 0 auto;
@@ -3360,4 +3365,26 @@ h1 {
 .ui.basic.button {
 	color: white !important;
 	box-shadow: 0 0 0 1px rgb(255, 255, 255) inset !important;
+}
+
+.ui.chip.button {
+	color: black !important;
+	box-shadow: 0 0 0 1px black inset !important;
+}
+
+.ui.contact.button {
+  padding: .58928571em .58928571em .58928571em;
+	color: 	#696969 !important;
+	box-shadow: 0 0 0 1px #696969 inset !important;
+	vertical-align: bottom;
+}
+
+.ui.reminder.button {
+  padding: .58928571em .58928571em .58928571em;
+	color: 	#696969 !important;
+	box-shadow: 0 0 0 1px #696969 inset !important;
+}
+
+.ui.header {
+    margin: 0 !important;
 }

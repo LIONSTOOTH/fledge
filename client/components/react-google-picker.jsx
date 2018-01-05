@@ -149,7 +149,7 @@ export default class GoogleChooser extends React.Component {
         {
           this.props.children ?
             this.props.children :
-            <button class="positive ui button">
+            <button class="ui google button">
               Google Drive
             </button>
         }

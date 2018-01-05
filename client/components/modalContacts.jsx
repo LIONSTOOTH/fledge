@@ -128,7 +128,6 @@ class ModalContacts extends React.Component {
             .filter(c => c.applicationId === application._id).length > 0 ?
             'Related Contacts:' : null}
         </Header>
-        <div>
           {contacts.sort(compare)
             .filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
@@ -160,7 +159,6 @@ class ModalContacts extends React.Component {
                   </Card.Content>
                 </Card>
             ))}
-        </div>
       </div>
     );
   }
