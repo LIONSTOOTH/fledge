@@ -38,7 +38,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL:
         process.env.LOCAL_GOOGLE_REDIRECT ||
-        'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback',
+        'https://fledge.herokuapp.com/auth/google/callback',
     },
     // lookup or create a new user using the googleId (no associated username or password)
     (accessToken, refreshToken, profile, done) => {
@@ -46,7 +46,7 @@ passport.use(
       let clientId = process.env.GOOGLE_CLIENT_ID;
       let redirectUrl =
         process.env.LOCAL_GOOGLE_REDIRECT ||
-        'https://murmuring-mesa-56363.herokuapp.com/auth/google/callback';
+        'https://fledge.herokuapp.com/auth/google/callback';
       let auth = new googleAuth();
       oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
       let tokenObj = { access_token: accessToken, refresh_token: refreshToken };
