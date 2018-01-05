@@ -2947,6 +2947,7 @@ table.default thead {
 
 .ui.basic.inverted.button {
 	background: #dc7a2f !important;
+	margin-left: 15px;
 }
 
 .olive {
@@ -2987,7 +2988,7 @@ table.default thead {
 	font-weight: 600 !important;
 }
 
-#drive {
+.drive {
 	margin: 0 auto;
 }
 
@@ -3039,4 +3040,16 @@ h1 {
 
 .pushable {
 	min-height: 1300px;
+}
+
+.ui.circular.label {
+	width: 50px;
+}
+
+.ui.form .field>label {
+	margin-top: 7px;
+}
+
+.ui.form {
+	margin-top: 20px;
 }

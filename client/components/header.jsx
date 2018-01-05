@@ -40,7 +40,7 @@ class Head extends Component {
       <div>
         <Segment color="black" basic clearing>
           <Button
-            className="ui google login button"
+            className="ui google login button inverted"
             floated="left"
             href="/auth/google"
             content="Sign in with Google"
