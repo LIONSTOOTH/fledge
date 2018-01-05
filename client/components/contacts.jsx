@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Segment, Card, Image, Button, Icon } from 'semantic-ui-react';
+import { Card, Button, Icon } from 'semantic-ui-react';
 import ApplicationModal from '../containers/applicationModal.jsx';
 
 // sorts contacts by first name
@@ -60,9 +60,18 @@ class Contacts extends React.Component {
                         icon="close"
                         color="red"
                         size="mini"
+                        style={{ marginLeft: 15 }}
                         value={contact._id}
                         onClick={this.deleteContact}
                       />
+                    </Button.Group>
+                    <Button.Group floated="right">
+                    <ApplicationModal
+                      application={applicationsObj[contact.applicationId]}
+                      key={contact.applicationId}
+                      className="ui contact button"
+                      //buttonLabel="View linked application"
+                    />
                     </Button.Group>
                   </Card.Header>
                   <Card.Meta style={{ color: 'black' }}>{contact.position}
@@ -75,11 +84,6 @@ class Contacts extends React.Component {
                   <div />
                   {contact.phone ? (<Icon size="small" name="text telephone" />)
                   : ''}{contact.phone}
-                  <ApplicationModal
-                    application={applicationsObj[contact.applicationId]}
-                    key={contact.applicationId}
-                    //buttonLabel="View linked application"
-                  />
                 </Card.Content>
               </Card>
             ))

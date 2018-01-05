@@ -3372,6 +3372,19 @@ h1 {
 	box-shadow: 0 0 0 1px black inset !important;
 }
 
+.ui.contact.button {
+  padding: .58928571em .58928571em .58928571em;
+	color: 	#696969 !important;
+	box-shadow: 0 0 0 1px #696969 inset !important;
+	vertical-align: bottom;
+}
+
+.ui.reminder.button {
+  padding: .58928571em .58928571em .58928571em;
+	color: 	#696969 !important;
+	box-shadow: 0 0 0 1px #696969 inset !important;
+}
+
 .ui.header {
     margin: 0 !important;
 }

@@ -96,7 +96,7 @@ class Reminders extends React.Component {
                       icon="checkmark icon"
                       size="mini"
                       color="green"
-                      style={{ marginLeft: 20 }}
+                      style={{ marginLeft: 15 }}
                       onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
                     />
                   </Button.Group>
@@ -104,6 +104,7 @@ class Reminders extends React.Component {
                     <ApplicationModal
                       application={reminder.application}
                       key={reminder.applicationId}
+                      className="ui reminder button"
                       // buttonLabel="View linked application"
                     />
                   </Button.Group>
