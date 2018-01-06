@@ -12,13 +12,13 @@ Try it out at: https://fledge.herokuapp.com/
 
 ``` npm install ```
 
+Start your mongo database, server, and webpack
+
+```mongod```
+
 ```npm start```
 
 ```npm run wp```
-
-Start your mongo database
-
-```mongod```
 
 
 The app will run on http://127.0.0.1:2000
