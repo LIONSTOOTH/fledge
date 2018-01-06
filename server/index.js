@@ -5,13 +5,13 @@ const passport = require('passport');
 const logout = require('express-passport-logout');
 const expressSession = require('express-session');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const googleAuth = require('google-auth-library');
+const google = require('googleapis');
+let oauth2Client;
+const fs = require('fs');
 const db = require('../db/index.js');
 const helpers = require('../db/helpers.js');
 const metricsHelpers = require('../db/metricsHelpers.js');
-var googleAuth = require('google-auth-library');
-var google = require('googleapis');
-var oauth2Client;
-var fs = require('fs');
 
 const app = express();
 
@@ -136,15 +136,14 @@ app.post('/api/applications', (req, res) => {
     });
     // if request is to delete
   } else if (req.body.removeApplication !== undefined) {
-    helpers.deleteApp(userId, req.body.removeApplication, req.body.rejected, (err, user) => {
+    helpers.deleteApp(userId, req.body.removeApplication, req.body.rejected, oauth2Client, (err, user) => {
       if (err) {
-        console.log('Error deleting application');
+        console.log('Error deleting application', err);
         res.send(500);
       } else {
-        res.send(JSON.stringify({ applications: user.apps }))
+        res.send(JSON.stringify({ applications: user.apps }));
       }
-    })
-
+    });
   }
 });
 
@@ -160,24 +159,19 @@ app.get('/api/applications', (req, res) => {
 });
 
 app.post('/api/contacts', (req, res) => {
-  console.log('adding a contact in server', req.body.addContact)
   // if an app id has been provided
   if (req.body.addContact.contact._id) {
     helpers.saveContactToExistingApp(req.user.googleId, req.body.addContact, (err, user) => {
-      console.log('response from db contact:', user)
       if (err) {
         console.log('Error adding contact: ', err);
       } else {
         res.send(JSON.stringify({ contacts: user.contacts }));
       }
     });
-  } else {
-    //app has not been created yet, what to do?
   }
 });
 
 app.get('/api/contacts', (req, res) => {
-  console.log('getting contacts')
   // get contacts for specific user
   helpers.getContacts(req.user.googleId, (err, allContacts) => {
     if (err) {
@@ -204,11 +198,11 @@ app.delete('/api/contacts', (req, res) => {
 
 
 app.get('/api/reminders', (req, res) => {
-  console.log('getting reminders');
   // get reminders for specific user
   helpers.getReminders(req.user.googleId, (err, reminders) => {
     if (err) {
-      res.sendStatus(500)
+      console.log('Error getting reminders:', err);
+      res.sendStatus(500);
     } else {
       res.send(JSON.stringify(reminders));
     }
@@ -227,7 +221,6 @@ app.post('/api/appReminders', (req, res) => {
 })
 
 app.post('/api/deleteReminder', (req, res) => {
-  console.log('delete reminders data ', req.body)
   var params = {
         auth: oauth2Client,
         calendarId: 'primary',
@@ -238,7 +231,7 @@ app.post('/api/deleteReminder', (req, res) => {
     if (err) {
       console.log('The API returned an error: ' + err);
     } else {
-    console.log('Event deleted in calendar');
+      console.log('Event deleted in calendar');
     }
   });
 

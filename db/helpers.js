@@ -1,5 +1,9 @@
 const db = require('./index.js');
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
+const google = require('googleapis');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const googleAuth = require('google-auth-library');
 
 // saves new user to db with empty apps array
 const saveNewUser = (user, callback) => {
@@ -17,7 +21,7 @@ const saveNewUser = (user, callback) => {
   });
   newUser.save((err, savedUser) => {
     if (err) {
-      console.log('user save error', err);
+      callback(err, null);
     } else {
       callback(null, savedUser);
     }
@@ -25,115 +29,94 @@ const saveNewUser = (user, callback) => {
 };
 
 const saveReminder = (userId, reminder, callback) => {
-  console.log('saving reminder: ' + reminder + ' for userId: ' + userId)
-  db.User.findOne({ googleId: userId }).then(user => {
+  db.User.findOne({ googleId: userId }).then((user) => {
     user.reminders.push(reminder);
-    user.save((err, reminder) => {
+    user.save((err, r) => {
       if (err) {
-        console.log('reminder db save error', err);
         callback(err, null);
       } else {
-        console.log('reminder db save success', reminder);
-        callback(null, reminder);
+        callback(null, r);
       }
     });
   });
-}
+};
 
 const getReminders = (userId, callback) => {
-  db.User.find({ googleId: userId })
-    .then(user => {
-      callback(null, user[0].reminders);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
+  db.User.findOne({ googleId: userId })
+    .then(user => callback(null, user.reminders))
+    .catch(err => callback(err, null));
 };
 
 const deleteReminder = (userId, reminderId, callback) => {
-  db.User.find({ googleId: userId })
-    .then(user => {
-      for (let i = 0; i < user[0].reminders.length; i ++) {
-        console.log(user[0].reminders[i]._id + ' uhh ' + reminderId)
-        if (user[0].reminders[i]._id == reminderId) {
-          console.log('MATCHED!!!!!!!!!')
-          user[0].reminders.splice(i, 1);
-          user[0].save((err) => {
+  db.User.findOne({ googleId: userId })
+    .then((user) => {
+      for (let i = 0; i < user.reminders.length; i++) {
+        // has to be double equals
+        if (user.reminders[i]._id == reminderId) {
+          user.reminders.splice(i, 1);
+          user.save((err) => {
             if (err) {
-              console.log('reminder db save error', err);
               callback(err, null);
             } else {
-              console.log('reminder db save success');
+              callback(null);
             }
           });
         }
       }
     })
-    .catch(err => {
-      callback(err, null);
-    });
-}
+    .catch(err => callback(err, null));
+};
 
 const saveContactToExistingApp = (userId, appContact, callback) => {
   // find user
-  db.User.findOne({ googleId: userId }).then(user => {
+  db.User.findOne({ googleId: userId }).then((user) => {
     // push new contact document to user contacts array
-    user.contacts.push(
-      new db.Contact({
-        position: appContact.contact.position,
-        company: appContact.contact.company,
-        email: appContact.contact.email,
-        name: appContact.contact.name,
-        phone: appContact.contact.phone,
-        applicationId: appContact.contact._id,
-      })
-    );
+    user.contacts.push(new db.Contact({
+      position: appContact.contact.position,
+      company: appContact.contact.company,
+      email: appContact.contact.email,
+      name: appContact.contact.name,
+      phone: appContact.contact.phone,
+      applicationId: appContact.contact._id,
+    }));
     user.save((err, contact) => {
       if (err) {
-        console.log('contact db save error', err);
         callback(err, null);
       } else {
-        console.log('contact db save success', contact);
         callback(null, contact);
       }
     });
   });
-}
+};
 
 const getContacts = (userId, callback) => {
-  db.User.find({ googleId: userId })
-    .then(user => {
-      callback(null, user[0].contacts);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
+  db.User.findOne({ googleId: userId })
+    .then(user => callback(null, user.contacts))
+    .catch(err => callback(err, null));
 };
 
 
 const deleteContact = (userId, contactId, callback) => {
   db.User.findOne({ googleId: userId }, (err, data) => {
-    var c = data.contacts.id(contactId);
+    const c = data.contacts.id(contactId);
     c.remove();
-    data.save((err, saved) => {
+    data.save((error, saved) => {
       if (err) {
-        callback(err, null);
+        callback(error, null);
       } else {
-        callback(null, data)
+        callback(null, saved);
       }
     });
   });
 };
 
 const saveApp = (userId, app, callback) => {
-  db.User.findOne({ googleId: userId }).then(user => {
-    user.apps.push(
-      new db.App({
-        status: 'new',
-      })
-    );
+  db.User.findOne({ googleId: userId }).then((user) => {
+    user.apps.push(new db.App({
+      status: 'new',
+    }));
     user.save().then((u) => {
-      for (var i = 0; i < u.apps.length; i++) {
+      for (let i = 0; i < u.apps.length; i++) {
         if (u.apps[i].status === 'new') {
           callback(null, u.apps[i]._id);
           return;
@@ -146,7 +129,7 @@ const saveApp = (userId, app, callback) => {
 
 const updateApp = (userId, app, callback) => {
   db.User.findOne({ googleId: userId }, (err, data) => {
-    var a = data.apps.id(app._id);
+    const a = data.apps.id(app._id);
     a.date = app.date;
     a.position = app.position;
     a.company = app.company;
@@ -160,52 +143,72 @@ const updateApp = (userId, app, callback) => {
       reachedOut: app.checklist ? app.checklist.reachedOut : null,
       sentNote: app.checklist ? app.checklist.sentNote : null,
       networked: app.checklist ? app.checklist.networked : null,
-      }
+    },
     a.status = app.status;
-    data.save((err, saved) => {
+    data.save((error, saved) => {
       if (err) {
-        callback(err, null);
+        callback(error, null);
       } else {
-        callback(null, data)
+        callback(null, saved)
       }
     });
   });
 };
 
-const deleteApp = (userId, appId, rejected, callback) => {
-  db.User.find({ googleId: userId })
-    .then(user => {
-      if (rejected) {
-        user[0].rejected = user[0].rejected + 1 || 1;
-      }
-      for (let i = 0; i < user[0].apps.length; i ++) {
-        console.log(user[0].apps[i]._id + ' uhh ' + appId)
-        if (user[0].apps[i]._id == appId) {
-          user[0].apps.splice(i, 1);
-          user[0].save((err, app) => {
+const deleteApp = (userId, appId, rejected, oAuth, callback) => {
+  db.User.findOne({ googleId: userId })
+    .then((user) => {
+      Promise.each(user.reminders, (r) => {
+        // find any reminders linked to this appId
+        if (r.applicationId === appId) {
+          // remove from google cal too
+          const params = {
+            auth: oAuth,
+            calendarId: 'primary',
+            eventId: r.eventId,
+          };
+          const calendar = google.calendar('v3');
+          calendar.events.delete(params, (err) => {
             if (err) {
-            } else {
-              console.log(user[0].rejected);
-              callback(null, app);
+              console.log('Calendar API returned an error:', err);
             }
           });
+          r.remove();
         }
-      }
-    })
-    .catch(err => {
-      callback(err);
+      }).then((origR) => {
+        Promise.each(user.contacts, (c) => {
+          // find any contacts linked to this appId
+          if (c.applicationId === appId) {
+            c.remove();
+          }
+        }).then((origC) => {
+          if (rejected) {
+            user.rejected = user.rejected + 1 || 1;
+          }
+          Promise.each(user.apps, (a) => {
+            // appId comparison only works with double
+            if (a._id == appId) {
+              a.remove();
+            }
+          }).then((origA) => {
+            user.save((err, updatedUser) => {
+              if (err) {
+                callback(err, null);
+              } else {
+                callback(null, updatedUser);
+              }
+            });
+          });
+        });
+      });
     });
-}
+};
 
 
 const getApplications = (userId, callback) => {
-  db.User.find({ googleId: userId })
-    .then(user => {
-      callback(null, user[0].apps);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
+  db.User.findOne({ googleId: userId })
+    .then(user => callback(null, user.apps))
+    .catch(err => callback(err, null));
 };
 
 const findOrCreateUser = (query, callback) => {
@@ -215,7 +218,7 @@ const findOrCreateUser = (query, callback) => {
       // save new
       saveNewUser(query, (saveErr, savedUser) => {
         if (err) {
-          console.log('error saving user: ', err);
+          callback(saveErr, null);
         } else {
           callback(null, savedUser);
         }
@@ -227,7 +230,7 @@ const findOrCreateUser = (query, callback) => {
         { new: true },
         (updateUserErr, updatedUser) => {
           if (err) {
-            console.log('error updating user: ', err);
+            callback(updatedUser, null);
           } else {
             callback(null, updatedUser);
           }
