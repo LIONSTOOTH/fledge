@@ -102,7 +102,7 @@ app.get('/api/metrics', (req, res) => {
   // to get main bar chart metrics
   metricsHelpers.getAppsByStatus(req.user.googleId, (err, data) => {
     if (err) {
-      console.log(err);
+      console.log('Error getting metrics:', err);
       res.send(500);
     } else {
       res.send(JSON.stringify({ metrics: data }));
@@ -117,7 +117,7 @@ app.post('/api/applications', (req, res) => {
   if (req.body.edited !== undefined) {
     helpers.updateApp(userId, req.body.edited, (err, updatedUser) => {
       if (err) {
-        console.log('Error updating: ', err);
+        console.log('Error updating app: ', err);
         res.send(500);
       } else {
         res.send(JSON.stringify({ applications: updatedUser.apps }));
@@ -128,7 +128,7 @@ app.post('/api/applications', (req, res) => {
   } else if (req.body.newApplication !== undefined) {
     helpers.saveApp(userId, req.body.newApplication, (err, appId) => {
       if (err) {
-        console.log(err);
+        console.log('Error adding new app:', err);
         res.send(500);
       } else {
         res.send(JSON.stringify({ _id: appId }));
@@ -151,7 +151,8 @@ app.get('/api/applications', (req, res) => {
   // get applications for specific user
   helpers.getApplications(req.user.googleId, (err, apps) => {
     if (err) {
-      console.log(err);
+      console.log('Error getting apps:', err);
+      res.send(500);
     } else {
       res.send(JSON.stringify({ applications: apps }));
     }
@@ -164,6 +165,7 @@ app.post('/api/contacts', (req, res) => {
     helpers.saveContactToExistingApp(req.user.googleId, req.body.addContact, (err, user) => {
       if (err) {
         console.log('Error adding contact: ', err);
+        res.send(500);
       } else {
         res.send(JSON.stringify({ contacts: user.contacts }));
       }
@@ -176,8 +178,8 @@ app.get('/api/contacts', (req, res) => {
   helpers.getContacts(req.user.googleId, (err, allContacts) => {
     if (err) {
       console.log('Error getting contacts: ', err);
+      res.send(500);
     } else {
-      console.log('response:',allContacts)
       res.send(JSON.stringify({ contacts: allContacts }));
     }
   });
@@ -188,9 +190,8 @@ app.delete('/api/contacts', (req, res) => {
   helpers.deleteContact(req.user.googleId, req.query.id, (err, allContacts) => {
     if (err) {
       console.log('Error deleting contact: ', err);
-      res.sendStatus(500);
+      res.send(500);
     } else {
-      console.log('response after deleting:', allContacts);
       res.send(JSON.stringify({ contacts: allContacts.contacts }));
     }
   });
@@ -234,10 +235,6 @@ app.post('/api/deleteReminder', (req, res) => {
   });
 
   helpers.deleteReminder(req.user.googleId, req.body.reminderId, (err, remind) => {
-    let response = {
-        message: "Todo successfully deleted",
-        id: req.body.reminderId
-    };
     if (err) {
       console.log('Error deleting reminder:', err);
       res.send(500);
@@ -256,13 +253,11 @@ app.get('/logged', (req, res) => {
 });
 
 app.get('/logout', function(req, res) {
-  console.log('LOGOUT REQUEST RECEIVED', req);
   req.logout();
   res.redirect('/');
 });
 
 app.post('/api/reminders', (req, res) => {
-  console.log('setting google calendar reminder', req.body);
   let userId = req.user.googleId;
 
   let startDate = req.body.addReminder.start
