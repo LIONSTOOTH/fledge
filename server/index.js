@@ -210,13 +210,11 @@ app.get('/api/reminders', (req, res) => {
 });
 
 app.post('/api/appReminders', (req, res) => {
-  console.log('wtf ' + req.user)
   let allReminders = req.user.reminders;
   let id = req.body.appId;
   filteredReminders = allReminders.filter(function(reminder) {
     return reminder.applicationId === id
   })
-
   res.send(filteredReminders);
 })
 
@@ -235,15 +233,19 @@ app.post('/api/deleteReminder', (req, res) => {
     }
   });
 
-  helpers.deleteReminder(req.user.googleId, req.body.reminderId, (err, todo) => {
+  helpers.deleteReminder(req.user.googleId, req.body.reminderId, (err, remind) => {
     let response = {
         message: "Todo successfully deleted",
         id: req.body.reminderId
     };
-    res.status(200).send(response);
-  })
-  res.sendStatus(200)
-})
+    if (err) {
+      console.log('Error deleting reminder:', err);
+      res.send(500);
+    } else {
+      res.send(200);
+    }
+  });
+});
 
 app.get('/logged', (req, res) => {
   if (req.isAuthenticated()) {
