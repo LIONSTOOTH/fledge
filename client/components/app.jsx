@@ -1,27 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { render } from "react-dom";
-import { createStore } from "redux";
-import { Provider, connect } from "react-redux";
-import thunk from "redux-thunk";
-import axios from "axios";
-import {
-  Sidebar,
-  Segment,
-  Button,
-  Menu,
-  Icon,
-  Sticky
-} from "semantic-ui-react";
-import Landing from "./landing.jsx";
-import Head from "./header.jsx";
-import Dashboard from "./dashboard.jsx";
-import Materials from "./materials.jsx";
-import Metrics from "./metrics.jsx";
-import Contacts from "./contacts.jsx";
-import Reminders from "./reminders.jsx";
-import Fetti0 from "./confetti0.jsx";
-import Fetti1 from "./confetti1.jsx";
+import React from 'react';
+import { connect } from 'react-redux';
+import thunk from 'redux-thunk';
+import axios from 'axios';
+import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
+import Landing from './landing.jsx';
+import Head from './header.jsx';
+import Dashboard from './dashboard.jsx';
+import Materials from './materials.jsx';
+import Metrics from './metrics.jsx';
+import Contacts from './contacts.jsx';
+import Reminders from './reminders.jsx';
+import Fetti0 from './confetti0.jsx';
+import Fetti1 from './confetti1.jsx';
 import * as action from '../actions';
 
 class App extends React.Component {
@@ -31,27 +21,27 @@ class App extends React.Component {
     this.state = {
       visible: true,
       pusher: 1,
-      celebrate: false
+      celebrate: false,
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.releaseConfetti = this.releaseConfetti.bind(this);
   }
 
+  componentDidMount() {
+    // check whether authenticated
+    this.props.handleLogin();
+  }
+
   toggleVisibility() {
     this.setState({
-      visible: !this.state.visible
+      visible: !this.state.visible,
     });
   }
 
   releaseConfetti() {
     this.setState({ celebrate: false });
     this.setState({ celebrate: true });
-  }
-
-  componentDidMount() {
-    // check whether authenticated
-    this.props.handleLogin();
   }
 
   render() {
@@ -83,7 +73,7 @@ class App extends React.Component {
     ) : (
       <div>
         {fetti}
-        <Head isLoggedIn={this.props.isLoggedIn} /*logOut={handleLogout} */ />
+        <Head isLoggedIn={this.props.isLoggedIn} />
         <div id="mainBackground">
           <Sidebar.Pushable as={Segment}>
             <Sidebar
@@ -98,35 +88,35 @@ class App extends React.Component {
             >
               <Menu.Item
                 name="Dashboard"
-                onClick={event => this.setState({ pusher: 1 })}
+                onClick={() => this.setState({ pusher: 1 })}
               >
                 <Icon name="rocket" />
                 Dashboard
               </Menu.Item>
               <Menu.Item
                 name="App Materials"
-                onClick={event => this.setState({ pusher: 2 })}
+                onClick={() => this.setState({ pusher: 2 })}
               >
                 <Icon name="folder" />
                 App Materials
               </Menu.Item>
               <Menu.Item
                 name="Metrics"
-                onClick={event => this.setState({ pusher: 3 })}
+                onClick={() => this.setState({ pusher: 3 })}
               >
                 <Icon name="line graph" />
                 Metrics
               </Menu.Item>
               <Menu.Item
                 name="Contacts"
-                onClick={event => this.setState({ pusher: 4 })}
+                onClick={() => this.setState({ pusher: 4 })}
               >
                 <Icon name="address card outline" />
                 Contacts
               </Menu.Item>
               <Menu.Item
                 name="Reminders"
-                onClick={event => this.setState({ pusher: 5 })}
+                onClick={() => this.setState({ pusher: 5 })}
               >
                 <Icon name="bullhorn" />
                 Reminders
@@ -142,25 +132,22 @@ class App extends React.Component {
   }
 }
 
-// service functions that dispatch action upon server response
+// service function to dispatch action upon server response
 const handleLogin = () => {
-  return dispatch => {
-    let request = axios.get("/logged");
+  return (dispatch) => {
+    const request = axios.get('/logged');
 
     return request
-      .then(
-        response =>
-          response.data ? dispatch(action.logIn()) : console.log("not logged in")
-      )
+      .then((response) => {
+        response.data ? dispatch(action.logIn()) : console.log('Not logged in.');
+      })
       .catch(err => console.log(err));
   };
 };
 
-
-const mapStateToProps = state => {
-  console.log("state in map props", state);
+const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.loginReducer.isLoggedIn
+    isLoggedIn: state.loginReducer.isLoggedIn,
   };
 };
 
