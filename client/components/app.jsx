@@ -22,6 +22,7 @@ import Contacts from "./contacts.jsx";
 import Reminders from "./reminders.jsx";
 import Fetti0 from "./confetti0.jsx";
 import Fetti1 from "./confetti1.jsx";
+import * as action from '../actions';
 
 class App extends React.Component {
   constructor(props) {
@@ -149,20 +150,12 @@ const handleLogin = () => {
     return request
       .then(
         response =>
-          response.data ? dispatch(logIn()) : console.log("not logged in")
+          response.data ? dispatch(action.logIn()) : console.log("not logged in")
       )
       .catch(err => console.log(err));
   };
 };
 
-// action creator functions
-const logIn = () => {
-  console.log("logIn action called");
-  return {
-    type: "LOG_IN",
-    payload: true
-  };
-};
 
 const mapStateToProps = state => {
   console.log("state in map props", state);
@@ -171,4 +164,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { logIn, handleLogin })(App);
+export default connect(mapStateToProps, { handleLogin })(App);
