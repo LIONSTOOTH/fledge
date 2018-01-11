@@ -70,7 +70,6 @@ class Reminder extends React.Component {
   }
 
   deleteReminder(eventId, reminderId) {
-    console.log('delete called')
     axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId })
       .then(() => this.getReminders());
   }
