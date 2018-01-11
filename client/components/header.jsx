@@ -1,12 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import { Button, Segment, Header, Icon } from 'semantic-ui-react';
+import { Button, Segment, Header } from 'semantic-ui-react';
 import GooglePicker from './react-google-picker.jsx';
 import ApplicationModal from '../containers/applicationModal.jsx';
+import * as action from '../actions';
 
-class Head extends Component {
+const style = {
+  image: {
+    height: '53px',
+    width: '53px',
+    margin: '0',
+    float: 'left',
+    position: 'relative',
+    bottom: '9px',
+  },
+};
+
+class Head extends React.Component {
   constructor(props) {
     super(props);
     this.onLogout = this.onLogout.bind(this);
@@ -19,16 +31,34 @@ class Head extends Component {
   render() {
     return this.props.isLoggedIn ? (
       <div>
-        <Segment color="black" basic clearing className="headerLine">
-          <Button basic compact floated="right" className="logoutButton" onClick={event => this.onLogout()}>
+        <Segment
+          color="black"
+          basic
+          clearing
+          className="headerLine"
+        >
+          <Button
+            basic
+            compact
+            floated="right"
+            className="logoutButton"
+            onClick={() => this.onLogout()}
+          >
             Log out
           </Button>
-          <Header as="h1" floated="left" inverted>
-            <img src="http://i68.tinypic.com/1z2m06f.png" style={{height: '53px', width: '53px', margin: '0', float: 'left', position: 'relative', bottom: '9px'}}></img>
+          <Header
+            as="h1"
+            floated="left"
+            inverted
+          >
+            <img
+              src="http://i68.tinypic.com/1z2m06f.png"
+              alt=""
+              style={style.image}
+            />
             Fledge
           </Header>
           <ApplicationModal
-            application=""
             buttonLabel="Add Application"
             className="applicationButton inverted"
             application={{ _id: undefined }}
@@ -38,7 +68,11 @@ class Head extends Component {
       </div>
     ) : (
       <div>
-        <Segment color="black" basic clearing>
+        <Segment
+          color="black"
+          basic
+          clearing
+        >
           <Button
             className="ui google login button inverted"
             floated="left"
@@ -51,19 +85,12 @@ class Head extends Component {
   }
 }
 
-const logOut = () => {
-  return {
-    type: 'LOG_OUT',
-    payload: false,
-  };
-};
-
 const handleLogout = () => {
   return (dispatch) => {
     const request = axios.get('/logout');
 
     return request
-      .then(response => dispatch(logOut()))
+      .then(response => dispatch(action.logOut()))
       .catch(err => console.log(err));
   };
 };

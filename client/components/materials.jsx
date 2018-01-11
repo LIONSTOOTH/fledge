@@ -17,20 +17,6 @@ const Materials = props => (
       mimeTypes={[]}
       viewId={'DOCS'}
     />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
   </div>
 );
 
