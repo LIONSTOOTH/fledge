@@ -88,7 +88,6 @@ function applicationCOLLECT(connect, monitor) {
 const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
-    isFetching: state.fetchFlagReducer.isFetching,
   };
 };
 

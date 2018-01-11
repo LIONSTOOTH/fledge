@@ -2,6 +2,18 @@ import React from 'react';
 import axios from 'axios';
 import { Dropdown, Form, Input, TextArea } from 'semantic-ui-react';
 
+const style = {
+  text: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
+    paddingBottom: 5
+  },
+  requires: {
+    color: 'red',
+  },
+};
+
 class ModalForm extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +68,7 @@ class ModalForm extends React.Component {
     return (
       <div>
         <Form>
-          <div style={{ fontSize: 15, fontWeight: 'bold', color: 'black', paddingBottom: 5 }}>Company</div>
+          <div style={style.text}>Company</div>
           <Dropdown
             fluid
             selection
@@ -89,8 +101,8 @@ class ModalForm extends React.Component {
             type="date"
             id="inputDate"
           />
-          <div style={{ fontSize: 15, fontWeight: 'bold', color: 'black', paddingBottom: 5 }}>
-            Application Status<span style={{ color: 'red' }}> *</span>
+          <div style={style.text}>
+            Application Status<span style={style.required}> *</span>
           </div>
           <Dropdown
             onChange={handleStatusChange}

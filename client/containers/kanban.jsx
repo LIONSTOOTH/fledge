@@ -93,7 +93,6 @@ const getAllApplications = () => {
 const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
-    isFetching: state.fetchFlagReducer.isFetching,
   };
 };
 
