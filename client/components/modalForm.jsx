@@ -7,9 +7,9 @@ const style = {
     fontSize: 15,
     fontWeight: 'bold',
     color: 'black',
-    paddingBottom: 5
+    paddingBottom: 5,
   },
-  requires: {
+  required: {
     color: 'red',
   },
 };
