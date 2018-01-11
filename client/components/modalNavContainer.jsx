@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalForm from '../containers/modalForm.jsx';
+import ModalForm from './modalForm.jsx';
 import Reminder from '../containers/modalReminder.jsx';
 import OriginalPost from './originalPost.jsx';
 import Contacts from './modalContacts.jsx';

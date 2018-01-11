@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Grid } from 'semantic-ui-react';
-import Column from '../components/column.jsx';
+import Column from './column.jsx';
 import * as action from '../actions';
 
 class Kanban extends React.Component {

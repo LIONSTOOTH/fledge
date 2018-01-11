@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import { Button, Segment, Header } from 'semantic-ui-react';
-import GooglePicker from './react-google-picker.jsx';
-import ApplicationModal from '../containers/applicationModal.jsx';
 import * as action from '../actions';
+import ApplicationModal from './applicationModal.jsx';
+import GooglePicker from '../components/react-google-picker.jsx';
 
 const style = {
   image: {

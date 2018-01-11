@@ -1,8 +1,8 @@
 import React from 'react';
 import { DropTarget } from 'react-dnd';
 import { Segment } from 'semantic-ui-react';
-import ApplicationChip from '../components/applicationChip.jsx';
-import ItemType from './ItemType.jsx';
+import ApplicationChip from './applicationChip.jsx';
+import ItemType from '../components/ItemType.jsx';
 
 function getStyle(backgroundColor) {
   return {

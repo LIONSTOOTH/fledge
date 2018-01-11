@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Dashboard from './dashboard.jsx';
-import App from './app.jsx';
+import App from '../containers/app.jsx';
 
 const Main = () => (
   <Router>

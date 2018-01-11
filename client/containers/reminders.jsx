@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import ApplicationModal from '../containers/applicationModal.jsx';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
 import { Button, Card } from 'semantic-ui-react';
 import * as action from '../actions';
+import ApplicationModal from './applicationModal.jsx';
 
 // sorts reminders by due date
 const compare = (a, b) => {

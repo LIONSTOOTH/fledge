@@ -4,10 +4,10 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import { DragSource } from 'react-dnd';
-import ApplicationModal from '../containers/applicationModal.jsx';
-import ItemType from './ItemType.jsx';
-import MiniModal from './miniModal.jsx';
 import * as action from '../actions';
+import ApplicationModal from './applicationModal.jsx';
+import ItemType from '../components/ItemType.jsx';
+import MiniModal from './miniModal.jsx';
 
 const style = {
   cursor: 'move',

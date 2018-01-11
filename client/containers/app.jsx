@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
-import Landing from './landing.jsx';
-import Head from './header.jsx';
-import Dashboard from './dashboard.jsx';
-import Materials from './materials.jsx';
-import Metrics from './metrics.jsx';
-import Contacts from './contacts.jsx';
-import Reminders from './reminders.jsx';
-import Fetti0 from './confetti0.jsx';
-import Fetti1 from './confetti1.jsx';
 import * as action from '../actions';
+import Contacts from './contacts.jsx';
+import Dashboard from '../components/dashboard.jsx';
+import Fetti0 from '../components/confetti0.jsx';
+import Fetti1 from '../components/confetti1.jsx';
+import Head from './header.jsx';
+import Landing from '../components/landing.jsx';
+import Materials from '../components/materials.jsx';
+import Metrics from '../components/metrics.jsx';
+import Reminders from './reminders.jsx';
 
 class App extends React.Component {
   constructor(props) {
