@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Header,
@@ -7,19 +7,20 @@ import {
   Segment,
   Modal,
   Icon,
-  Image
-} from "semantic-ui-react";
-import axios from "axios";
-import thunk from "redux-thunk";
-import { connect } from "react-redux";
-import ModalNavContainer from "../components/modalNavContainer.jsx";
+  Image,
+} from 'semantic-ui-react';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import { connect } from 'react-redux';
+import ModalNavContainer from '../components/modalNavContainer.jsx';
+import * as action from '../actions';
 
 class ApplicationModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      activeItem: "Application Details",
+      activeItem: 'Application Details',
       currentCompany: this.props.application.company,
       companyImg: this.props.application.companyImg,
       inputDate: this.props.application.date,
@@ -28,7 +29,7 @@ class ApplicationModal extends React.Component {
       postUrl: this.props.application.postUrl,
       postDescription: this.props.application.postDescription,
       notes: this.props.application.notes,
-      application: this.props.application
+      application: this.props.application,
     };
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -42,8 +43,8 @@ class ApplicationModal extends React.Component {
 
   getID() {
     axios
-      .post("/api/applications", { newApplication: {} })
-      .then(res => {
+      .post('/api/applications', { newApplication: {} })
+      .then((res) => {
         this.setState({ application: { _id: res.data._id } });
       })
       .catch(err => console.log(err));
@@ -57,20 +58,20 @@ class ApplicationModal extends React.Component {
     this.setState(
       {
         open: false,
-        activeItem: "Application Details"
+        activeItem: 'Application Details',
       },
       () => {
         if (this.props.newApp) {
           this.setState({
-            currentCompany: "",
+            currentCompany: '',
             companyImg: null,
-            inputDate: "",
-            inputPosition: "",
-            selectedStatus: "",
-            postUrl: "",
-            postDescription: "",
-            notes: "",
-            application: { _id: undefined }
+            inputDate: '',
+            inputPosition: '',
+            selectedStatus: '',
+            postUrl: '',
+            postDescription: '',
+            notes: '',
+            application: { _id: undefined },
           });
         }
       }
@@ -83,8 +84,8 @@ class ApplicationModal extends React.Component {
       const obj = {};
       obj[value.id] = e.target.innerText;
       obj.companyImg =
-        e.target.getAttribute("logo") ||
-        e.target.parentNode.getAttribute("logo");
+        e.target.getAttribute('logo') ||
+        e.target.parentNode.getAttribute('logo');
       this.setState(obj);
     }
   }
@@ -136,7 +137,7 @@ class ApplicationModal extends React.Component {
       postUrl,
       postDescription,
       notes,
-      application
+      application,
     } = this.state;
     return (
       <div>
@@ -154,7 +155,7 @@ class ApplicationModal extends React.Component {
                 src={companyImg}
               />
             ) : (
-              ""
+              ''
             )}
             <Header>{currentCompany}</Header>
             {inputPosition}
@@ -167,22 +168,22 @@ class ApplicationModal extends React.Component {
                   <Menu fluid vertical tabular>
                     <Menu.Item
                       name="Application Details"
-                      active={activeItem === "Application Details"}
+                      active={activeItem === 'Application Details'}
                       onClick={this.handleItemClick}
                     />
                     <Menu.Item
                       name="Original Posting"
-                      active={activeItem === "Original Posting"}
+                      active={activeItem === 'Original Posting'}
                       onClick={this.handleItemClick}
                     />
                     <Menu.Item
                       name="Add A Reminder"
-                      active={activeItem === "Add A Reminder"}
+                      active={activeItem === 'Add A Reminder'}
                       onClick={this.handleItemClick}
                     />
                     <Menu.Item
                       name="Contacts"
-                      active={activeItem === "Contacts"}
+                      active={activeItem === 'Contacts'}
                       onClick={this.handleItemClick}
                     />
                   </Menu>
@@ -219,19 +220,13 @@ class ApplicationModal extends React.Component {
   }
 }
 
-const fetchApplicationsSuccess = response => {
-  return {
-    type: "FETCH_SUCCESS",
-    payload: response
-  };
-};
+const addOrUpdateApp = (valuesObject) => {
+  return (dispatch) => {
+    const request = axios.post('/api/applications', valuesObject);
 
-const addOrUpdateApp = valuesObject => {
-  return dispatch => {
-    const request = axios.post("/api/applications", valuesObject);
     return request
-      .then(response => {
-        dispatch(fetchApplicationsSuccess(response.data.applications));
+      .then((response) => {
+        dispatch(action.fetchApplicationsSuccess(response.data.applications));
       })
       .catch(err => console.log(err));
   };
