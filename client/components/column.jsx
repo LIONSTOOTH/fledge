@@ -1,15 +1,14 @@
-import React, { Component } from "react";
-import { DropTarget } from "react-dnd";
-import { findDOMNode } from "react-dom";
-import { Segment } from "semantic-ui-react";
-import ApplicationChip from "../components/applicationChip.jsx";
-import ItemType from "./ItemType.jsx";
+import React from 'react';
+import { DropTarget } from 'react-dnd';
+import { Segment } from 'semantic-ui-react';
+import ApplicationChip from '../components/applicationChip.jsx';
+import ItemType from './ItemType.jsx';
 
 function getStyle(backgroundColor) {
   return {
-    minHeight: "1200px",
+    minHeight: '1200px',
     backgroundColor,
-    textAlign: "center"
+    textAlign: 'center',
   };
 }
 
@@ -17,10 +16,6 @@ const columnSPEC = {
   drop(component) {
     return { component };
   },
-
-  hover(props, monitor, component) {
-    // console.log('HOVER_PROPS, MONITOR, COMPONENT', props, monitor, component);
-  }
 };
 
 function columnCOLLECT(connect, monitor, component) {
@@ -29,11 +24,11 @@ function columnCOLLECT(connect, monitor, component) {
     draggedApp: monitor.getItem(),
     didDrop: monitor.didDrop(),
     getDropResult: monitor.getDropResult(),
-    connectDropTarget: connect.dropTarget()
+    connectDropTarget: connect.dropTarget(),
   };
 }
 
-class Column extends Component {
+class Column extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -51,10 +46,9 @@ class Column extends Component {
       connectDropTarget,
       open
     } = this.props;
-    console.log(`COLUMN PROPS:`, this.props);
-    let backgroundColor = "rgba(0, 0, 0, .5)";
+    let backgroundColor = 'rgba(0, 0, 0, .5)';
     if (hovered) {
-      backgroundColor = "#9abc67";
+      backgroundColor = '#9abc67';
     }
     return connectDropTarget(
       <div
@@ -82,6 +76,4 @@ class Column extends Component {
   }
 }
 
-export default DropTarget(ItemType.APPLICATION, columnSPEC, columnCOLLECT)(
-  Column
-);
+export default DropTarget(ItemType.APPLICATION, columnSPEC, columnCOLLECT)(Column);

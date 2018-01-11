@@ -1,30 +1,29 @@
-import PropTypes from "prop-types";
-import React from "react";
-import ReactDOM from "react-dom";
-import sizeMe from "react-sizeme";
-import Confetti from "react-confetti";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import sizeMe from 'react-sizeme';
+import Confetti from 'react-confetti';
 
 const Fetti0 = sizeMe({
   monitorHeight: true,
-  monitorWidth: true
+  monitorWidth: true,
 })(
   class Example0 extends React.PureComponent {
     static propTypes = {
       size: PropTypes.shape({
         width: PropTypes.number,
-        height: PropTypes.number
+        height: PropTypes.number,
       })
     };
     render() {
-      console.log("CONFETTI PROPS:", this.props);
       return (
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 0,
             left: 0,
-            width: "100%",
-            height: "100%"
+            width: '100%',
+            height: '100%',
           }}
         >
           <Confetti

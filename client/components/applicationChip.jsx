@@ -1,22 +1,21 @@
-import React, { Component } from "react";
-import { Button, Card, Image, Segment, Modal } from "semantic-ui-react";
-import axios from "axios";
-import { connect } from "react-redux";
-import thunk from "redux-thunk";
-import { DragSource } from "react-dnd";
-import ApplicationModal from "../containers/applicationModal.jsx";
-import { showModal } from "../actions/index.jsx";
-import ItemType from "./ItemType.jsx";
-import MiniModal from "./miniModal.jsx";
+import React from 'react';
+import { Card, Image, Segment } from 'semantic-ui-react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import thunk from 'redux-thunk';
+import { DragSource } from 'react-dnd';
+import ApplicationModal from '../containers/applicationModal.jsx';
+import ItemType from './ItemType.jsx';
+import MiniModal from './miniModal.jsx';
+import * as action from '../actions';
 
 const style = {
-  cursor: "move"
+  cursor: 'move',
 };
 
-class ApplicationChip extends Component {
+class ApplicationChip extends React.Component {
   constructor(props) {
     super(props);
-    console.log("APPLICATION PROPS:", this.props);
   }
 
   render() {
@@ -54,35 +53,25 @@ class ApplicationChip extends Component {
   }
 }
 
-// dispatches an action
-const fetchApplicationsSuccess = response => {
-  return {
-    type: "FETCH_SUCCESS",
-    payload: response
-  };
-};
-
 const addOrUpdateApp = (valuesObject, func) => {
   axios
-    .post("/api/applications", valuesObject)
+    .post('/api/applications', valuesObject)
     .then(response => func(response))
     .catch(err => console.log(err));
 };
 
 const applicationSPEC = {
   beginDrag(props) {
-    console.log(`BEGIN DRAG PROPS`, props);
     return {
-      applicationId: props.id
+      applicationId: props.id,
     };
   },
 
   endDrag(props, monitor, component) {
-    console.log(`END DRAG PROPS`, props);
     const edit = Object.assign(props.application, {
-      status: props.getDropResult.component.title
+      status: props.getDropResult.component.title,
     });
-    if (edit.status === "Offer") {
+    if (edit.status === 'Offer') {
       props.releaseConfetti();
     }
     addOrUpdateApp({ edited: edit }, props.dropItem);
@@ -92,22 +81,21 @@ const applicationSPEC = {
 function applicationCOLLECT(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    getItem: monitor.getItem()
+    getItem: monitor.getItem(),
   };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
-    isFetching: state.fetchFlagReducer.isFetching
+    isFetching: state.fetchFlagReducer.isFetching,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  console.log("dispatch in map to props:", dispatch);
+const mapDispatchToProps = (dispatch) => {
   return {
     dropItem: response =>
-      dispatch(fetchApplicationsSuccess(response.data.applications))
+      dispatch(action.fetchApplicationsSuccess(response.data.applications))
   };
 };
 
