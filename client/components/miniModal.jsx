@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import * as action from '../actions';
 
-class MiniModal extends Component {
+class MiniModal extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -31,12 +32,13 @@ class MiniModal extends Component {
   }
 
   deleteApp(appId, rejected) {
-    this.setAnswer.bind(this)(rejected);
+    this.setAnswer(rejected);
     this.props.removeApplication(appId, rejected, this.close);
   }
 
   render() {
     const { open } = this.state;
+    const { application } = this.props;
     return (
       <div>
         <Button
@@ -44,8 +46,7 @@ class MiniModal extends Component {
           className="ui chip button"
           onClick={this.show}
           icon="trash"
-        >
-        </Button>
+        />
         <Modal
           size="small"
           open={open}
@@ -59,15 +60,14 @@ class MiniModal extends Component {
           </Modal.Content>
           <Modal.Actions>
             <Button
-            negative
-            onClick={this.deleteApp.bind(this, this.props.application._id, false)}
-            content="Withdrawl"
-            >
-            </Button>
+              negative
+              onClick={() => this.deleteApp(application._id, false)}
+              content="Withdrawl"
+            />
             <Button
-            positive
-            content="Rejection"
-            onClick={this.deleteApp.bind(this, this.props.application._id, true)}
+              positive
+              content="Rejection"
+              onClick={() => this.deleteApp(application._id, true)}
             />
           </Modal.Actions>
         </Modal>
@@ -76,29 +76,20 @@ class MiniModal extends Component {
   }
 }
 
-const fetchApplicationsSuccess = response => {
-  return {
-    type: 'FETCH_SUCCESS',
-    payload: response,
-  };
-};
-
 const removeApplication = (appId, rejected, callback) => {
-  let context = this;
   return (dispatch) => {
     const request = axios.post('/api/applications', { removeApplication: appId, rejected: rejected });
+
     return request
       .then(response => {
-        dispatch(fetchApplicationsSuccess(response.data.applications));
+        dispatch(action.fetchApplicationsSuccess(response.data.applications));
       })
-      .then(() => {
-        callback();
-      })
+      .then(() => callback())
       .catch(err => console.log(err));
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
   };

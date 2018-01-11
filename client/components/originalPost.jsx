@@ -6,17 +6,20 @@ const originalPost = (props) => {
   return (
     <div>
       <Form widths="equal">
-      <Form.Group>
-        <Form.Field
-          control={Input}
-          type="url"
-          id="postUrl"
-          label="Link to original job posting"
-          placeholder="Save url"
-          onChange={handleChange}
-          value={postUrl}
-        />
-        {postUrl ? (<a href={postUrl} target="_blank"><Label color="green" circular attached="top right">GO</Label></a>) : null }
+        <Form.Group>
+          <Form.Field
+            control={Input}
+            type="url"
+            id="postUrl"
+            label="Link to original job posting"
+            placeholder="Save url"
+            onChange={handleChange}
+            value={postUrl}
+          />
+          {postUrl ?
+              (<a href={postUrl} target="_blank">
+                <Label color="green" circular attached="top right">GO</Label>
+              </a>) : null }
         </Form.Group>
         <Form.TextArea
           onChange={handleChange}

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import { Button, Form, Input, Segment, Card, Icon, Header } from 'semantic-ui-react';
+import { Button, Form, Input, Card, Icon, Header } from 'semantic-ui-react';
 
 // sorts contacts by first name
 const compare = (a, b) => {
@@ -128,36 +128,36 @@ class ModalContacts extends React.Component {
             .filter(c => c.applicationId === application._id).length > 0 ?
             'Related Contacts:' : null}
         </Header>
-          {contacts.sort(compare)
+        {contacts.sort(compare)
             .filter(allContacts => allContacts.applicationId === application._id)
             .map(contact => (
-                <Card raised>
-                  <Card.Content>
-                    <Card.Header>{contact.name}
-                      <Button.Group floated="right">
-                        <Button
-                          compact
-                          inverted
-                          icon="close"
-                          color="red"
-                          size="mini"
-                          value={contact._id}
-                          onClick={this.deleteContact}
-                        />
-                      </Button.Group>
-                    </Card.Header>
-                    <Card.Meta style={{ color: 'black' }}>{contact.position}
-                      {contact.position && contact.company ? ', ' : ''}
-                      {contact.company}
-                    </Card.Meta>
-                    <br />
-                    {contact.email ? (<Icon size="small" name="mail outline" />)
-                    : ''}{contact.email}
-                    <div />
-                    {contact.phone ? (<Icon size="small" name="text telephone" />)
-                    : ''}{contact.phone}
-                  </Card.Content>
-                </Card>
+              <Card raised>
+                <Card.Content>
+                  <Card.Header>{contact.name}
+                    <Button.Group floated="right">
+                      <Button
+                        compact
+                        inverted
+                        icon="close"
+                        color="red"
+                        size="mini"
+                        value={contact._id}
+                        onClick={this.deleteContact}
+                      />
+                    </Button.Group>
+                  </Card.Header>
+                  <Card.Meta style={{ color: 'black' }}>{contact.position}
+                    {contact.position && contact.company ? ', ' : ''}
+                    {contact.company}
+                  </Card.Meta>
+                  <br />
+                  {contact.email ? (<Icon size="small" name="mail outline" />)
+                  : ''}{contact.email}
+                  <div />
+                  {contact.phone ? (<Icon size="small" name="text telephone" />)
+                  : ''}{contact.phone}
+                </Card.Content>
+              </Card>
             ))}
       </div>
     );
