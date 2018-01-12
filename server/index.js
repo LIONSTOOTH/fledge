@@ -42,14 +42,14 @@ passport.use(
     },
     // lookup or create a new user using the googleId (no associated username or password)
     (accessToken, refreshToken, profile, done) => {
-      let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-      let clientId = process.env.GOOGLE_CLIENT_ID;
-      let redirectUrl =
+      const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      const redirectUrl =
         process.env.LOCAL_GOOGLE_REDIRECT ||
         'https://fledge.herokuapp.com/auth/google/callback';
-      let auth = new googleAuth();
+      const auth = new googleAuth();
       oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-      let tokenObj = { access_token: accessToken, refresh_token: refreshToken };
+      const tokenObj = { access_token: accessToken, refresh_token: refreshToken };
       oauth2Client.credentials = tokenObj;
 
       helpers.findOrCreateUser(
@@ -95,7 +95,7 @@ app.get(
 );
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '../dist/index.html');
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.get('/api/metrics', (req, res) => {
@@ -111,7 +111,7 @@ app.get('/api/metrics', (req, res) => {
 });
 
 app.post('/api/applications', (req, res) => {
-  var userId = req.user.googleId;
+  const userId = req.user.googleId;
 
   // if request is for edit
   if (req.body.edited !== undefined) {
@@ -211,35 +211,36 @@ app.get('/api/reminders', (req, res) => {
 });
 
 app.post('/api/appReminders', (req, res) => {
-  let allReminders = req.user.reminders;
-  let id = req.body.appId;
-  filteredReminders = allReminders.filter(function(reminder) {
-    return reminder.applicationId === id
-  })
+  const allReminders = req.user.reminders;
+  const id = req.body.appId;
+  const filteredReminders = allReminders.filter((reminder) => {
+    return reminder.applicationId === id;
+  });
   res.send(filteredReminders);
-})
+});
 
 app.post('/api/deleteReminder', (req, res) => {
-  var params = {
-        auth: oauth2Client,
-        calendarId: 'primary',
-        eventId: req.body.eventId,
-      };
-  let calendar = google.calendar('v3');
-  calendar.events.delete(params, function(err) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-    } else {
-      console.log('Event deleted in calendar');
-    }
-  });
-
-  helpers.deleteReminder(req.user.googleId, req.body.reminderId, (err, remind) => {
-    if (err) {
-      console.log('Error deleting reminder:', err);
+  const params = {
+    auth: oauth2Client,
+    calendarId: 'primary',
+    eventId: req.body.eventId,
+  };
+  const calendar = google.calendar('v3');
+  // delete from google cal
+  calendar.events.delete(params, (notDeletedErr) => {
+    if (notDeletedErr) {
+      console.log('Error deleting reminder from Google calendar: ', notDeletedErr);
       res.send(500);
     } else {
-      res.send(200);
+      // once deleted from google, delete from db
+      helpers.deleteReminder(req.user.googleId, req.body.reminderId, (err, remind) => {
+        if (err) {
+          console.log('Error deleting reminder from db:', err);
+          res.send(500);
+        } else {
+          res.send(200);
+        }
+      });
     }
   });
 });
@@ -252,20 +253,20 @@ app.get('/logged', (req, res) => {
   }
 });
 
-app.get('/logout', function(req, res) {
+app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
 
 app.post('/api/reminders', (req, res) => {
-  let userId = req.user.googleId;
+  const userId = req.user.googleId;
 
-  let startDate = req.body.addReminder.start
+  const startDate = req.body.addReminder.start
     .split('')
     .slice(0, 10)
     .join('');
 
-  let event = {
+  const event = {
     summary: req.body.addReminder.summary,
     description: req.body.addReminder.description + ' https://fledge.herokuapp.com/',
     start: {
@@ -283,41 +284,36 @@ app.post('/api/reminders', (req, res) => {
     },
   };
 
-  let calendar = google.calendar('v3');
-
+  const calendar = google.calendar('v3');
   calendar.events.insert(
     {
       auth: oauth2Client,
       calendarId: 'primary',
       resource: event,
-    },
-    function(err, event) {
+    }, (err, event) => {
       if (err) {
-        console.log(
-          'There was an error contacting the Calendar service: ' + err
-        );
-        return;
+        console.log('Error contacting the Calendar service:', err);
+        res.send(500);
+      } else {
+        req.body.addReminder.eventId = event.id;
+        helpers.saveReminder(userId, req.body.addReminder, (notSaved) => {
+          if (notSaved) {
+            console.log('Error saving reminder in db:', notSaved);
+            res.send(500);
+          } else {
+            console.log('Reminder Saved, Event ID:', req.body.addReminder.eventId);
+            helpers.getApplications(req.user.googleId, (failure, apps) => {
+              if (failure) {
+                console.log('Error getting applications:', failure);
+              } else {
+                console.log('Event created: %s', event.htmlLink, 'event', event, req.body.addReminder);
+                res.send(JSON.stringify({ applications: apps }));
+              }
+            });
+          }
+        });
       }
-      req.body.addReminder.eventId = event.id;
-      helpers.saveReminder(userId, req.body.addReminder, err => {
-        if (err) {
-          console.log('Error saving reminder:', err);
-        } else {
-          console.log('Reminder Saved Event ID: ' + req.body.addReminder.eventId);
-          helpers.getApplications(req.user.googleId, (err, apps) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.send(JSON.stringify({ applications: apps }));
-            }
-          });
-        }
-      });
-      console.log('Event created: %s', event.htmlLink + ' event' + event + '' + req.body.addReminder);
-    }
-  );
+    });
 });
 
-app.listen(app.get('port'), () =>
-  console.log('app running on port', app.get('port'))
-);
+app.listen(app.get('port'), () => console.log('App running on port', app.get('port')));
