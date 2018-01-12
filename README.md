@@ -13,6 +13,7 @@ Create .env file in the root of the directory containing the following:
 
 GOOGLE_CLIENT_ID={YOUR CLIENT ID}
 GOOGLE_CLIENT_SECRET={YOUR CLIENT SECRET}
+GOOGLE_API_KEY={YOUR KEY}
 LOCAL_GOOGLE_REDIRECT=http://127.0.0.1:2000/auth/google/callback
 
 ##### Google API
@@ -25,7 +26,7 @@ LOCAL_GOOGLE_REDIRECT=http://127.0.0.1:2000/auth/google/callback
 ##### OAuth 2.0 client ID
 This is necessary to enable Google sign-in
 
-Create a client ID from console.developers.google.com for OAuth 2.0 client IDs (https://developers.google.com/identity/sign-in/web/devconsole-project is a helpful tutorial), and add your new GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and LOCAL_GOOGLE_REDIRECT variables to your .env file.
+Create a client ID from console.developers.google.com for OAuth 2.0 client IDs (https://developers.google.com/identity/sign-in/web/devconsole-project is a helpful tutorial), and add your new GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_API_KEY, and LOCAL_GOOGLE_REDIRECT variables to your .env file.
 
 Inside Credentials, select the OAuth 2.0 client ID.
 Under 'Authorized JavaScript origins', enter:
