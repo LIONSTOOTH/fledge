@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
   entry: './client/index.jsx',
@@ -41,4 +43,10 @@ module.exports = {
   resolveLoader: {
     moduleExtensions: ['-loader'],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.GOOGLE_API_KEY': JSON.stringify(process.env.GOOGLE_API_KEY),
+      'process.env.GOOGLE_CLIENT_ID': JSON.stringify(process.env.GOOGLE_CLIENT_ID),
+    }),
+  ],
 };

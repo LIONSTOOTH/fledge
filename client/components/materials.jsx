@@ -5,12 +5,9 @@ const Materials = props => (
   <div id="drive">
     <h1>Upload Application Materials</h1>
     <GooglePicker
-      clientId={
-        '108994268957-a7mgrj68ai43tdd89ivrsmuk4jcnhi0i.apps.googleusercontent.com'
-      }
-      developerKey={'AIzaSyDdoVy5ZiRcUdnK_y171ocM4385IWaRbCg'}
+      clientId={process.env.GOOGLE_CLIENT_ID}
+      developerKey={process.env.GOOGLE_API_KEY}
       scope={['https://www.googleapis.com/auth/drive']}
-      onChange={data => console.log('on change:', data)}
       multiselect={true}
       navHidden={true}
       authImmediate={false}
