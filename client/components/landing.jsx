@@ -74,7 +74,7 @@ const Landing = props => (
         <ul className="icons">
           <li>
             <a
-              href="http://www.github.com/ArthurLee144"
+              href="http://www.linkedin.com/in/arthurlee44"
               className="icon arthur"
             >
               <span className="label" />

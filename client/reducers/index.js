@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { LOG_IN, FETCH_SUCCESS, LOG_OUT } from '../constants/ActionTypes';
+import { LOG_IN, FETCH_SUCCESS, LOG_OUT } from '../constants/actionTypes';
 
 const initialState = {
   applications: [],
