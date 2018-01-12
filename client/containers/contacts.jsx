@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Card, Button, Icon } from 'semantic-ui-react';
-import ApplicationModal from '../containers/applicationModal.jsx';
+import ApplicationModal from './applicationModal.jsx';
 
 // sorts contacts by first name
 const compare = (a, b) => {
@@ -70,7 +70,6 @@ class Contacts extends React.Component {
                       application={applicationsObj[contact.applicationId]}
                       key={contact.applicationId}
                       className="ui contact button"
-                      //buttonLabel="View linked application"
                     />
                     </Button.Group>
                   </Card.Header>

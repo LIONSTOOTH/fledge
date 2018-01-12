@@ -1,12 +1,12 @@
-import React from "react";
-import axios from "axios";
-import thunk from "redux-thunk";
-import { connect } from "react-redux";
-import { DragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
-import { Grid } from "semantic-ui-react";
-import Column from "../components/column.jsx";
-import Waiting from "../components/waiting.jsx";
+import React from 'react';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { Grid } from 'semantic-ui-react';
+import Column from './column.jsx';
+import * as action from '../actions';
 
 class Kanban extends React.Component {
   constructor(props) {
@@ -19,110 +19,85 @@ class Kanban extends React.Component {
   }
 
   render() {
-    console.log("applications in kanban: ", this.props.applications);
-    console.log(`PROPS IN KANBAN!`, this.props);
-    if (this.props.isFetching) {
-      return (
-        <div>
-          <Waiting />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <Grid columns={5}>
-            <Grid.Row>
-              <Grid.Column>
-                <Column
-                  title="In Progress"
-                  applications={this.props.applications.filter(
-                    application => application.status === "In Progress"
-                  )}
-                  releaseConfetti={this.props.releaseConfetti}
-                />
-              </Grid.Column>
-              <Grid.Column>
-                <Column
-                  title="Submitted"
-                  applications={this.props.applications.filter(
-                    application =>
-                      application.status === "Submitted" ||
-                      application.status === "Applied"
-                  )}
-                  releaseConfetti={this.props.releaseConfetti}
-                />
-              </Grid.Column>
-              <Grid.Column>
-                <Column
-                  title="Phone Screen"
-                  applications={this.props.applications.filter(
-                    application => application.status === "Phone Screen"
-                  )}
-                  releaseConfetti={this.props.releaseConfetti}
-                />
-              </Grid.Column>
-              <Grid.Column>
-                <Column
-                  title="Onsite Interview"
-                  applications={this.props.applications.filter(
-                    application => application.status === "Onsite Interview"
-                  )}
-                  releaseConfetti={this.props.releaseConfetti}
-                />
-              </Grid.Column>
-              <Grid.Column>
-                <Column
-                  title="Offer"
-                  applications={this.props.applications.filter(
-                    application => application.status === "Offer"
-                  )}
-                  releaseConfetti={this.props.releaseConfetti}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </div>
-      );
-    }
+    const { applications, releaseConfetti } = this.props;
+    return (
+      <div>
+        <Grid columns={5}>
+          <Grid.Row>
+            <Grid.Column>
+              <Column
+                title="In Progress"
+                applications={applications.filter(
+                  application => application.status === 'In Progress'
+                )}
+                releaseConfetti={releaseConfetti}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Column
+                title="Submitted"
+                applications={applications.filter(
+                  application =>
+                    application.status === 'Submitted' ||
+                    application.status === 'Applied'
+                )}
+                releaseConfetti={releaseConfetti}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Column
+                title="Phone Screen"
+                applications={applications.filter(
+                  application => application.status === 'Phone Screen'
+                )}
+                releaseConfetti={releaseConfetti}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Column
+                title="Onsite Interview"
+                applications={applications.filter(
+                  application => application.status === 'Onsite Interview'
+                )}
+                releaseConfetti={releaseConfetti}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Column
+                title="Offer"
+                applications={applications.filter(
+                  application => application.status === 'Offer'
+                )}
+                releaseConfetti={releaseConfetti}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </div>
+    );
   }
 }
 
-// should take user obj with id property (googleId)
 const getAllApplications = () => {
-  return dispatch => {
-    // dispatch a flag action to show waiting view
-    dispatch({ type: "IS_FETCHING", payload: true });
-
-    const request = axios.get("/api/applications");
+  return (dispatch) => {
+    const request = axios.get('/api/applications');
 
     return request
-      .then(response => {
-        console.log("response from server:", response);
-        dispatch(fetchApplicationsSuccess(response.data.applications));
+      .then((response) => {
+        dispatch(action.fetchApplicationsSuccess(response.data.applications));
       })
-      .then(dispatch({ type: "IS_FETCHING", payload: false }))
       .catch(err => console.log(err));
   };
 };
 
-// dispatches an action
-const fetchApplicationsSuccess = response => {
-  return {
-    type: "FETCH_SUCCESS",
-    payload: response
-  };
-};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
-    isFetching: state.fetchFlagReducer.isFetching
   };
 };
 
 Kanban = DragDropContext(HTML5Backend)(Kanban);
 
 export default connect(mapStateToProps, {
-  fetchApplicationsSuccess,
-  getAllApplications
+  getAllApplications,
 })(Kanban);

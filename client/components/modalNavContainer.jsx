@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalForm from '../containers/modalForm.jsx';
+import ModalForm from './modalForm.jsx';
 import Reminder from '../containers/modalReminder.jsx';
 import OriginalPost from './originalPost.jsx';
 import Contacts from './modalContacts.jsx';
@@ -26,7 +26,7 @@ const modalNavContainer = ({ view, date, company, position, status, getID, notes
     return (<OriginalPost
       handleChange={handleChange}
       postUrl={postUrl}
-      postDescription={postDescription}/>);
+      postDescription={postDescription} />);
   } else if (view === 'Contacts') {
     return <Contacts application={application} />;
   }

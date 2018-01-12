@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, Input, Form, Dropdown, Card, Header, Icon } from 'semantic-ui-react';
+import { Button, Input, Form, Dropdown, Card, Header } from 'semantic-ui-react';
 
 // sorts reminders by due date
 const compare = (a, b) => {
@@ -25,44 +25,43 @@ class Reminder extends React.Component {
     this.setReminder = this.setReminder.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.getReminders = this.getReminders.bind(this);
-  }
-
-  setReminder() {
-    let context = this;
-    const next = this.nextWeek(this.state.numWeeks);
-    const newReminder = {};
-    newReminder.summary = 'Follow up with ' + this.props.company;
-    newReminder.description = this.state.reminderText;
-    newReminder.start = next;
-    newReminder.applicationId = this.props.application._id
-    axios.post('/api/reminders', { addReminder: newReminder }).then(function() {
-      context.getReminders();
-    })
-  }
-
-  getReminders() {
-    let context = this;
-    let id = context.props.application._id
-    axios.post('/api/appReminders', { appId: id }).then(res => {
-      context.setState({
-        reminders: res.data,
-        reminderText: ''
-      });
-    });
+    this.deleteReminder = this.deleteReminder.bind(this);
   }
 
   componentWillMount() {
     this.getReminders();
   }
 
+  setReminder() {
+    const next = this.nextWeek(this.state.numWeeks);
+    const newReminder = {};
+    newReminder.summary = 'Follow up with ' + this.props.company;
+    newReminder.description = this.state.reminderText;
+    newReminder.start = next;
+    newReminder.applicationId = this.props.application._id;
+    axios.post('/api/reminders', { addReminder: newReminder })
+      .then(() => this.getReminders());
+  }
+
+  getReminders() {
+    const id = this.props.application._id;
+    axios.post('/api/appReminders', { appId: id })
+      .then((res) => {
+        this.setState({
+          reminders: res.data,
+          reminderText: '',
+        });
+      });
+  }
+
   handleChange(e, value) {
-    let obj = {};
+    const obj = {};
     obj[value.id] = value.value;
     this.setState(obj);
   }
 
   nextWeek(weeks) {
-    var next = new Date();
+    const next = new Date();
     return new Date(
       next.getFullYear(),
       next.getMonth(),
@@ -71,10 +70,8 @@ class Reminder extends React.Component {
   }
 
   deleteReminder(eventId, reminderId) {
-    let context = this;
-    axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId }).then(() => {
-      context.getReminders();
-    })
+    axios.post('/api/deleteReminder', { eventId: eventId, reminderId: reminderId })
+      .then(() => this.getReminders());
   }
 
   render() {
@@ -83,25 +80,25 @@ class Reminder extends React.Component {
       { key: 1, text: '1', value: '1' },
       { key: 2, text: '2', value: '2' },
     ];
-    var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    var a = new Date();
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const a = new Date();
     function dateDiffInDays(a, b) {
-      var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-      var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+      const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
       return Math.floor((utc2 - utc1) / _MS_PER_DAY);
     }
     return (
       <div>
-      <Header as='div'>
-        <Header.Content>
-          Add A Reminder:
-        </Header.Content>
-      </Header>
+        <Header as="div">
+          <Header.Content>
+            Add A Reminder:
+          </Header.Content>
+        </Header>
         <Form onSubmit={this.setReminder}>
           <Form.Field
             control={Input}
             onChange={this.handleChange}
-            label={`Follow up with ${this.props.company}`}
+            label={`Follow up with ${company}`}
             type="text"
             id="reminderText"
             placeholder="Optional: Add a description"
@@ -121,31 +118,31 @@ class Reminder extends React.Component {
           <Button size="tiny" type="submit">Submit</Button>
         </Form>
         <Header as="span">
-        {this.state.reminders
+          {this.state.reminders
             .filter(r => r.applicationId === application._id).length > 0 ?
             'Current Reminders:' : null}
         </Header>
-          {this.state.reminders.sort(compare).map(reminder => (
-            <Card fluid raised centered>
-              <Card.Content>
-                  <Card.Header>{reminder.summary}
-                    <Button.Group floated="right">
-                      <Button
-                        compact
-                        inverted
-                        icon="checkmark"
-                        size="mini"
-                        color="green"
-                        onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
-                      />
-                    </Button.Group>
-                    </Card.Header>
-                  {reminder.description}
-                  <Card.Meta>
-                    Days Left: {dateDiffInDays(a, new Date(reminder.start))}
-                  </Card.Meta>
-                </Card.Content>
-              </Card>
+        {this.state.reminders.sort(compare).map(reminder => (
+          <Card fluid raised centered>
+            <Card.Content>
+              <Card.Header>{reminder.summary}
+                <Button.Group floated="right">
+                  <Button
+                    compact
+                    inverted
+                    icon="checkmark"
+                    size="mini"
+                    color="green"
+                    onClick={this.deleteReminder.bind(this, reminder.eventId, reminder._id)}
+                  />
+                </Button.Group>
+              </Card.Header>
+              {reminder.description}
+              <Card.Meta>
+                Days Left: {dateDiffInDays(a, new Date(reminder.start))}
+              </Card.Meta>
+            </Card.Content>
+          </Card>
           ))}
         <br />
         <br />
@@ -155,14 +152,7 @@ class Reminder extends React.Component {
   }
 }
 
-const fetchApplicationsSuccess = response => {
-  return {
-    type: 'FETCH_SUCCESS',
-    payload: response,
-  };
-};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applicationReducer.applications,
   };

@@ -1,5 +1,5 @@
-import React from "react";
-import Kanban from "../containers/kanban.jsx";
+import React from 'react';
+import Kanban from '../containers/kanban.jsx';
 
 const Dashboard = props => (
   <div>

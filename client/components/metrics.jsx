@@ -46,24 +46,21 @@ class Chart extends React.Component {
       <div className="chart" style={{ maxWidth: '90%' }}>
         <Bar
           data={this.state.chartData}
-          // width={500}
           height={475}
           options={{
             scales: {
               xAxes: [{
-                // stacked: true
                 ticks: {
-                  fontFamily: "Lato",
-                  fontColor: "black",
+                  fontFamily: 'Lato',
+                  fontColor: 'black',
                   fontSize: 15,
                 }
               }],
               yAxes: [{
-                // stacked: true,
                 ticks: {
                   suggestedMin: 0,
                   stepSize: 1,
-                  fontColor: "black",
+                  fontColor: 'black',
                   fontSize: 15,
                 }
               }]
@@ -73,8 +70,8 @@ class Chart extends React.Component {
               display: true,
               text: 'APPLICATIONS BY STATUS',
               fontSize: 25,
-              fontColor: "black",
-              fontFamily: "Lato",
+              fontColor: 'black',
+              fontFamily: 'Lato',
             },
             legend: {
               display: false,
