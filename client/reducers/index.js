@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { LOG_IN, FETCH_SUCCESS, LOG_OUT } from '../constants/ActionTypes';
 
 const initialState = {
   applications: [],
@@ -8,7 +9,7 @@ const initialState = {
 // takes in current state and action
 const applicationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'FETCH_SUCCESS':
+    case FETCH_SUCCESS:
       return { applications: action.payload };
     default:
       return state;
@@ -17,9 +18,9 @@ const applicationReducer = (state = initialState, action) => {
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOG_IN':
+    case LOG_IN:
       return { isLoggedIn: action.payload };
-    case 'LOG_OUT':
+    case LOG_OUT:
       return { isLoggedIn: action.payload };
     default:
       return state;
