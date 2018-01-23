@@ -11,6 +11,7 @@ import MiniModal from './miniModal.jsx';
 
 const style = {
   cursor: 'move',
+  height: '104px'
 };
 
 class ApplicationChip extends React.Component {
@@ -26,7 +27,7 @@ class ApplicationChip extends React.Component {
       getDropResult
     } = this.props;
     return connectDragSource(
-      <div releaseConfetti={this.props.releaseConfetti}>
+      <div releaseConfetti={this.props.releaseConfetti} id="appChip">
         <Segment style={style} application={this.props.application} basic>
           <Card centered>
             <Card.Content>

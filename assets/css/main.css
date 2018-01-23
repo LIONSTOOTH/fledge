@@ -2958,13 +2958,19 @@ table.default thead {
 	color: black;
 }
 
+.ui.card>.content {
+	height: 58px;
+}
 
 .ui.card>.extra {
   background: #d8d8da;
+  height: 40px;
 }
+
 
 .meta {
 	color: black;
+	line-height: 20px;
 }
 
 /*
@@ -3019,6 +3025,9 @@ h1 {
 .ui.chip.button {
 	color: black !important;
 	box-shadow: 0 0 0 1px black inset !important;
+	height: 50%;
+	width: 65px;
+	margin: 0px 4px 0px 4px !important;
 }
 
 .ui.contact.button {
@@ -3053,3 +3062,27 @@ h1 {
 .ui.form {
 	margin-top: 20px;
 }
+
+i.icon.expand:before {
+	position: relative;
+	bottom: 7px;
+}
+
+i.icon.trash:before {
+	position: relative;
+	bottom: 7px;
+}
+
+.ui.buttons .button {
+	margin: auto;
+}
+
+#appChip {
+	height: 110px;
+}
+
+.ui.large.buttons {
+	position: relative;
+	bottom: 3px;
+}
+
