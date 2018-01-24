@@ -19,6 +19,9 @@ const style = {
   head: {
     paddingTop: 16,
   },
+  logInHead: {
+    padding: 16,
+  }
 };
 
 class Head extends React.Component {
@@ -74,6 +77,7 @@ class Head extends React.Component {
       <div>
         <Segment
           color="black"
+          style={style.logInHead}
           basic
           clearing
         >

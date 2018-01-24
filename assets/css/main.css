@@ -2339,6 +2339,7 @@ ul.default li {
 
 ul.icons {
 	cursor: default;
+	padding-left: 0;
 }
 
 ul.icons li {
@@ -2346,6 +2347,7 @@ ul.icons li {
 	font-size: 1.25em;
 	line-height: 1em;
 	padding-left: 0.5em;
+	min-width: 198px;
 }
 
 ul.icons li:first-child {
