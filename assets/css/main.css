@@ -2959,13 +2959,13 @@ table.default thead {
 }
 
 .ui.card>.content>.header:not(.ui) {
-	font-size: 1.2em;
-	text-align: left;
+  font-size: 1.2em;
+  text-align: left;
 }
 
 .ui.card>.content {
-	height: auto;
-  padding: 0.75em 0.75em !important;
+  height: auto;
+	padding: 0.75em 0.75em !important;
 }
 
 .ui.card>.extra {
@@ -2975,14 +2975,14 @@ table.default thead {
 }
 
 .ui.card .meta {
-	font-size: 0.85em;
-	text-align: left;
+  font-size: 0.85em;
+  text-align: left;
 }
 
 .meta {
-	color: black;
-	line-height: 12px;
-	margin-top: 5px;
+  color: black;
+  line-height: 12px;
+  margin-top: 5px;
 }
 
 /*
@@ -3056,7 +3056,7 @@ h1 {
 }
 
 .ui.header {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .pushable {
@@ -3090,22 +3090,21 @@ i.icon.trash:before {
 }
 
 #appChip {
-	height: 100%;
-	position: relative;
+  height: 100%;
+  position: relative;
 }
 
 .ui.large.buttons {
-    position: absolute;
-    top: 50%;
-    /* left: 50%; */
-    transform: translate(-50%, -50%);
-    margin: 5% 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 5% 0;
 }
 
 .ui.right.floated.image {
-	margin: 0px;
+  margin: 0px;
 }
 
 .ui.basic.segment {
-	padding: 0.5em 1em;
+  padding: 0.5em 1em;
 }
