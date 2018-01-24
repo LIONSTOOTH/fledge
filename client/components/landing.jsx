@@ -26,9 +26,8 @@ const Landing = props => (
 
       <div className="box alt container">
         <section className="feature left">
-          <a className="image icon fa-signal">
-            <img src={img1} alt="" />
-          </a>
+          <img className="image icon fa-signal" src="https://media.giphy.com/media/3ohjULQC6JaWjQRroc/giphy.gif"></img>
+
           <div className="content">
             <h3>Interactive Kanban</h3>
             <p>
@@ -106,15 +105,17 @@ const Landing = props => (
             <br /> Grace Ko{' '}
           </li>
         </ul>
-
         <ul className="copyright">
           <li>&copy; Fledge. All rights reserved.</li>
-          <li><a
+          <li>
+            <a
               href="https://sites.google.com/view/fledge-privacy"
-            >Privacy Policy
-            </a></li>
+              target="_blank"
+            >
+            Privacy Policy
+            </a>
+          </li>
         </ul>
-
       </div>
     </div>
   </div>
