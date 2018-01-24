@@ -2958,19 +2958,31 @@ table.default thead {
 	color: black;
 }
 
+.ui.card>.content>.header:not(.ui) {
+  font-size: 1.2em;
+  text-align: left;
+}
+
 .ui.card>.content {
-	height: 58px;
+  height: auto;
+	padding: 0.75em 0.75em !important;
 }
 
 .ui.card>.extra {
   background: #d8d8da;
   height: 40px;
+  position: relative;
 }
 
+.ui.card .meta {
+  font-size: 0.85em;
+  text-align: left;
+}
 
 .meta {
-	color: black;
-	line-height: 20px;
+  color: black;
+  line-height: 12px;
+  margin-top: 5px;
 }
 
 /*
@@ -3044,7 +3056,7 @@ h1 {
 }
 
 .ui.header {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .pushable {
@@ -3078,11 +3090,21 @@ i.icon.trash:before {
 }
 
 #appChip {
-	height: 110px;
+  height: 100%;
+  position: relative;
 }
 
 .ui.large.buttons {
-	position: relative;
-	bottom: 3px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 5% 0;
 }
 
+.ui.right.floated.image {
+  margin: 0px;
+}
+
+.ui.basic.segment {
+  padding: 0.5em 1em;
+}

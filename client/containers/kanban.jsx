@@ -11,11 +11,21 @@ import * as action from '../actions';
 class Kanban extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      colHeight: '',
+    };
+    this.setColHeight = this.setColHeight.bind(this);
   }
 
   componentWillMount() {
     // dispatches an action on mount
     this.props.getAllApplications();
+  }
+
+  setColHeight(num) {
+    if (num > this.state.colHeight) {
+      this.setState({ colHeight: num });
+    }
   }
 
   render() {
@@ -26,6 +36,8 @@ class Kanban extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <Column
+                setColHeight={this.setColHeight}
+                colHeight={this.state.colHeight}
                 title="In Progress"
                 applications={applications.filter(
                   application => application.status === 'In Progress'
@@ -35,6 +47,8 @@ class Kanban extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Column
+                setColHeight={this.setColHeight}
+                colHeight={this.state.colHeight}
                 title="Submitted"
                 applications={applications.filter(
                   application =>
@@ -46,6 +60,8 @@ class Kanban extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Column
+                setColHeight={this.setColHeight}
+                colHeight={this.state.colHeight}
                 title="Phone Screen"
                 applications={applications.filter(
                   application => application.status === 'Phone Screen'
@@ -55,6 +71,8 @@ class Kanban extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Column
+                setColHeight={this.setColHeight}
+                colHeight={this.state.colHeight}
                 title="Onsite Interview"
                 applications={applications.filter(
                   application => application.status === 'Onsite Interview'
@@ -64,6 +82,8 @@ class Kanban extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <Column
+                setColHeight={this.setColHeight}
+                colHeight={this.state.colHeight}
                 title="Offer"
                 applications={applications.filter(
                   application => application.status === 'Offer'

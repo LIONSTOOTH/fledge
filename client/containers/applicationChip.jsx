@@ -11,7 +11,6 @@ import MiniModal from './miniModal.jsx';
 
 const style = {
   cursor: 'move',
-  height: '104px'
 };
 
 class ApplicationChip extends React.Component {
