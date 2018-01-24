@@ -10,6 +10,8 @@ function getStyle(backgroundColor, colHeight) {
     minHeight: colHeight,
     backgroundColor,
     textAlign: 'center',
+    paddingBottom: 12,
+
   };
 }
 
