@@ -2312,6 +2312,11 @@ span.image.icon {
 	background-image: url('../../images/grace.jpg');
 }
 
+.image.icon.gif {
+	object-fit: cover;
+}
+
+
 /* List */
 
 ol.default {

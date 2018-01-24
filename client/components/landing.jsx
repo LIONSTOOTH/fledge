@@ -26,7 +26,7 @@ const Landing = props => (
 
       <div className="box alt container">
         <section className="feature left">
-          <img className="image icon fa-signal" src="https://media.giphy.com/media/3ohjULQC6JaWjQRroc/giphy.gif"></img>
+          <img className="image icon gif" src="https://media.giphy.com/media/3ohjULQC6JaWjQRroc/giphy.gif"></img>
 
           <div className="content">
             <h3>Interactive Kanban</h3>
