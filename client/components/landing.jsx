@@ -69,7 +69,7 @@ const Landing = props => (
       </div>
     </div>
     <div id="footer">
-      <div className="container 75%">
+      <div className="container 75%" style={{ width: '100%' }}>
         <ul className="icons">
           <li>
             <a
@@ -81,7 +81,10 @@ const Landing = props => (
             <br /> Arthur Lee{' '}
           </li>
           <li>
-            <a href="http://www.github.com/b-j-p" className="icon ben">
+            <a
+              href="http://www.github.com/b-j-p"
+              className="icon ben"
+            >
               <span className="label" />
             </a>
             <br /> Benjamin Polansky{' '}
