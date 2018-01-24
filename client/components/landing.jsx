@@ -109,7 +109,12 @@ const Landing = props => (
 
         <ul className="copyright">
           <li>&copy; Fledge. All rights reserved.</li>
+          <li><a
+              href="https://sites.google.com/view/fledge-privacy"
+            >Privacy Policy
+            </a></li>
         </ul>
+
       </div>
     </div>
   </div>
