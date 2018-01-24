@@ -2312,6 +2312,11 @@ span.image.icon {
 	background-image: url('../../images/grace.jpg');
 }
 
+.image.icon.gif {
+	object-fit: cover;
+}
+
+
 /* List */
 
 ol.default {
@@ -2334,6 +2339,7 @@ ul.default li {
 
 ul.icons {
 	cursor: default;
+	padding-left: 0;
 }
 
 ul.icons li {
@@ -2341,6 +2347,7 @@ ul.icons li {
 	font-size: 1.25em;
 	line-height: 1em;
 	padding-left: 0.5em;
+	min-width: 198px;
 }
 
 ul.icons li:first-child {
@@ -2785,21 +2792,22 @@ table.default thead {
 }
 
 #footer form {
-	margin: 3em 0;
+	/*margin: 3em 0;*/
 }
 
 #footer .copyright {
 	color: rgba(255, 255, 255, 0.5);
 	font-size: 0.8em;
-	line-height: 1em;
-	margin: 3em 0 0 0;
+	/*line-height: 1.5em;*/
+	padding-left: 0;
+	/*margin: 3em 0 0 0;*/
 }
 
 #footer .copyright li {
-	border-left: dotted 1px;
+	/*border-left: dotted 1px;*/
 	display: inline-block;
-	margin-left: 1em;
-	padding-left: 1em;
+/*	margin-left: 1em;
+	padding-left: 1em;*/
 }
 
 #footer .copyright li:first-child {

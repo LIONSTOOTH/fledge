@@ -26,9 +26,8 @@ const Landing = props => (
 
       <div className="box alt container">
         <section className="feature left">
-          <a className="image icon fa-signal">
-            <img src={img1} alt="" />
-          </a>
+          <img className="image icon gif" src="https://media.giphy.com/media/3ohjULQC6JaWjQRroc/giphy.gif"></img>
+
           <div className="content">
             <h3>Interactive Kanban</h3>
             <p>
@@ -70,7 +69,7 @@ const Landing = props => (
       </div>
     </div>
     <div id="footer">
-      <div className="container 75%">
+      <div className="container 75%" style={{ width: '100%' }}>
         <ul className="icons">
           <li>
             <a
@@ -82,7 +81,10 @@ const Landing = props => (
             <br /> Arthur Lee{' '}
           </li>
           <li>
-            <a href="http://www.github.com/b-j-p" className="icon ben">
+            <a
+              href="http://www.github.com/b-j-p"
+              className="icon ben"
+            >
               <span className="label" />
             </a>
             <br /> Benjamin Polansky{' '}
@@ -106,15 +108,18 @@ const Landing = props => (
             <br /> Grace Ko{' '}
           </li>
         </ul>
-
         <ul className="copyright">
           <li>&copy; Fledge. All rights reserved.</li>
-          <li><a
+          <br/>
+          <li>
+            <a
               href="https://sites.google.com/view/fledge-privacy"
-            >Privacy Policy
-            </a></li>
+              target="_blank"
+            >
+            Privacy Policy
+            </a>
+          </li>
         </ul>
-
       </div>
     </div>
   </div>

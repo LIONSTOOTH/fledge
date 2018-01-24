@@ -16,6 +16,12 @@ const style = {
     position: 'relative',
     bottom: '9px',
   },
+  head: {
+    paddingTop: 16,
+  },
+  logInHead: {
+    padding: 16,
+  }
 };
 
 class Head extends React.Component {
@@ -36,6 +42,7 @@ class Head extends React.Component {
           basic
           clearing
           className="headerLine"
+          style={style.head}
         >
           <Button
             basic
@@ -70,6 +77,7 @@ class Head extends React.Component {
       <div>
         <Segment
           color="black"
+          style={style.logInHead}
           basic
           clearing
         >
