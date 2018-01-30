@@ -70,6 +70,7 @@ class Contacts extends React.Component {
                       application={applicationsObj[contact.applicationId]}
                       key={contact.applicationId}
                       className="ui contact button"
+                      id="contact-reminder"
                     />
                     </Button.Group>
                   </Card.Header>
