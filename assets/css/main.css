@@ -3036,6 +3036,18 @@ a.ui.left.floated.button.google.login {
 	width: 190px;
 }
 
+a.ui.left.floated.button.google.login:hover {
+	background: url('../../images/btn_google_signin_light_focus_web.png') 0 0 transparent;
+	height: 46px;
+	width: 190px;
+}
+
+a.ui.left.floated.button.google.login:active {
+	background: url('../../images/btn_google_signin_light_pressed_web.png') 0 0 transparent;
+	height: 46px;
+	width: 190px;
+}
+
 .ui.basic.button {
 	color: white !important;
 	box-shadow: 0 0 0 1px rgb(255, 255, 255) inset !important;
