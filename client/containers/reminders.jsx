@@ -99,6 +99,7 @@ class Reminders extends React.Component {
                       application={reminder.application}
                       key={reminder.applicationId}
                       className="ui reminder button"
+                      id="contact-reminder"
                     />
                   </Button.Group>
                 </Card.Header>

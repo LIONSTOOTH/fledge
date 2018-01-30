@@ -141,7 +141,7 @@ class ApplicationModal extends React.Component {
     } = this.state;
     return (
       <div>
-        <Button className={className} icon="expand" basic onClick={this.show}>
+        <Button id={this.props.id} className={className} icon="expand" basic onClick={this.show}>
           {buttonLabel}
         </Button>
 

@@ -3022,8 +3022,6 @@ h1 {
 	color: black;
 }
 
-
-
 .ui.google.drive.button {
 	background: #dc7a2f !important;
 	color: white !important;
@@ -3032,9 +3030,22 @@ h1 {
 	margin: 0 auto;
 }
 
-.ui.google.login.button {
-	background: #dc7a2f !important;
-	color: white !important;
+a.ui.left.floated.button.google.login {
+	background: url('../../images/btn_google_signin_light_normal_web.png') 0 0 transparent;
+	height: 46px;
+	width: 190px;
+}
+
+a.ui.left.floated.button.google.login:hover {
+	background: url('../../images/btn_google_signin_light_focus_web.png') 0 0 transparent;
+	height: 46px;
+	width: 190px;
+}
+
+a.ui.left.floated.button.google.login:active {
+	background: url('../../images/btn_google_signin_light_pressed_web.png') 0 0 transparent;
+	height: 46px;
+	width: 190px;
 }
 
 .ui.basic.button {
@@ -3115,4 +3126,9 @@ i.icon.trash:before {
 
 .ui.basic.segment {
   padding: 0.5em 1em;
+}
+
+#contact-reminder {
+  padding-bottom: 2px;
+  padding-top: 14px !important;
 }
