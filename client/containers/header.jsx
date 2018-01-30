@@ -82,10 +82,9 @@ class Head extends React.Component {
           clearing
         >
           <Button
-            className="ui google login button inverted"
+            className="google login button"
             floated="left"
             href="/auth/google"
-            content="Sign in with Google"
           />
         </Segment>
       </div>

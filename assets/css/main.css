@@ -3030,9 +3030,10 @@ h1 {
 	margin: 0 auto;
 }
 
-.ui.google.login.button {
-	background: #dc7a2f !important;
-	color: white !important;
+a.ui.left.floated.button.google.login {
+	background: url('../../images/btn_google_signin_light_normal_web.png') 0 0 transparent;
+	height: 46px;
+	width: 190px;
 }
 
 .ui.basic.button {
