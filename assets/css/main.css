@@ -3022,8 +3022,6 @@ h1 {
 	color: black;
 }
 
-
-
 .ui.google.drive.button {
 	background: #dc7a2f !important;
 	color: white !important;
@@ -3115,4 +3113,9 @@ i.icon.trash:before {
 
 .ui.basic.segment {
   padding: 0.5em 1em;
+}
+
+#contact-reminder {
+  padding-bottom: 2px;
+	padding-top: 14px !important;
 }
