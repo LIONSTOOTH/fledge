@@ -24,7 +24,8 @@ class ModalForm extends React.Component {
     this.state = {
       businessList: [],
       searchQuery: '',
-      startDate: this.props.date ? moment(this.props.date.slice(0, 11), 'YYYY-MM-DD') : null,
+      date: this.props.date,
+      momentDate: moment(this.props.momentDate), //can you call moment on a stringified moment?
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -33,6 +34,12 @@ class ModalForm extends React.Component {
   componentWillMount() {
     if (this.props.application._id === undefined) {
       this.props.getID();
+    }
+    if (this.props.date) {
+      this.setState({
+        momentDate: moment(this.props.date.slice(0,11)),
+        date: null
+      });
     }
   }
 
@@ -53,7 +60,7 @@ class ModalForm extends React.Component {
   }
 
   handleChange(date) {
-    this.setState({ startDate: date });
+    this.setState({ momentDate: date });
     this.props.handleDateChange(date);
   }
 
@@ -63,7 +70,6 @@ class ModalForm extends React.Component {
       handleChange,
       handleStatusChange,
       position,
-      date,
       company,
       status,
       notes,
@@ -75,8 +81,8 @@ class ModalForm extends React.Component {
       { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
-    console.log('date from props', date)
-    console.log('startDate',this.state.startDate)
+    console.log('old date',this.state.date)
+    console.log('new date',this.state.momentDate)
     return (
       <div>
         <Form>
@@ -108,10 +114,9 @@ class ModalForm extends React.Component {
             Date Applied
           </div>
           <DatePicker
-            selected={this.state.startDate}
+            selected={this.props.momentDate}
             onChange={this.handleChange}
             placeholderText="Click to select date"
-
           />
           <br />
           <div style={style.text}>

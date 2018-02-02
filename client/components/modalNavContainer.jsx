@@ -4,11 +4,12 @@ import Reminder from '../containers/modalReminder.jsx';
 import OriginalPost from './originalPost.jsx';
 import Contacts from './modalContacts.jsx';
 
-const modalNavContainer = ({ view, date, company, position, status, getID, notes, application, postUrl, postDescription, handleMouseDown, handleChange, handleStatusChange, handleDateChange }) => {
+const modalNavContainer = ({ view, date, company, position, status, getID, notes, application, postUrl, postDescription, handleMouseDown, handleChange, handleStatusChange, handleDateChange, momentDate }) => {
   if (view === 'Application Details') {
     return (
       <ModalForm
         date={date}
+        momentDate={momentDate}
         getID={getID}
         application={application}
         company={company}
