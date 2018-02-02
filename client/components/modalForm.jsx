@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { Dropdown, Form, Input, TextArea } from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const style = {
   text: {
@@ -20,8 +24,10 @@ class ModalForm extends React.Component {
     this.state = {
       businessList: [],
       searchQuery: '',
+      startDate: this.props.date ? moment(this.props.date.slice(0, 11), 'YYYY-MM-DD') : null,
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
@@ -46,6 +52,11 @@ class ModalForm extends React.Component {
       .catch(err => console.log(err));
   }
 
+  handleChange(date) {
+    this.setState({ startDate: date });
+    this.props.handleDateChange(date);
+  }
+
   render() {
     const {
       handleMouseDown,
@@ -57,7 +68,6 @@ class ModalForm extends React.Component {
       status,
       notes,
     } = this.props;
-    const d = new Date(date);
     const options = [
       { key: 1, text: 'In Progress', value: 'In Progress' },
       { key: 2, text: 'Submitted', value: 'Submitted' },
@@ -65,6 +75,8 @@ class ModalForm extends React.Component {
       { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
+    console.log('date from props', date)
+    console.log('startDate',this.state.startDate)
     return (
       <div>
         <Form>
@@ -92,15 +104,16 @@ class ModalForm extends React.Component {
             placeholder={position}
             value={position}
           />
-          <Form.Field
-            control={Input}
-            onChange={handleChange}
-            label={`Date Applied: ${
-              isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}`
-            }
-            type="date"
-            id="inputDate"
+          <div style={style.text}>
+            Date Applied
+          </div>
+          <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+            placeholderText="Click to select date"
+
           />
+          <br />
           <div style={style.text}>
             Application Status<span style={style.required}> *</span>
           </div>

@@ -36,6 +36,7 @@ class ApplicationModal extends React.Component {
     this.sendData = this.sendData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.show = this.show.bind(this);
     this.close = this.close.bind(this);
     this.getID = this.getID.bind(this);
@@ -109,6 +110,11 @@ class ApplicationModal extends React.Component {
     this.setState(obj);
   }
 
+  handleDateChange(date) {
+    console.log('date is',date)
+    this.setState({ inputDate: date });
+  }
+
   sendData() {
     this.props.application.company = this.state.currentCompany;
     this.props.application.date = this.state.inputDate;
@@ -139,6 +145,7 @@ class ApplicationModal extends React.Component {
       notes,
       application,
     } = this.state;
+    console.log('inputDate in modal', inputDate)
     return (
       <div>
         <Button id={this.props.id} className={className} icon="expand" basic onClick={this.show}>
@@ -200,6 +207,7 @@ class ApplicationModal extends React.Component {
                     notes={notes}
                     postDescription={postDescription}
                     date={inputDate}
+                    handleDateChange={this.handleDateChange}
                     handleMouseDown={this.handleMouseDown}
                     handleChange={this.handleChange}
                     handleStatusChange={this.handleStatusChange}
