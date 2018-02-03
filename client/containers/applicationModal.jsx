@@ -15,13 +15,8 @@ import { connect } from 'react-redux';
 import ModalNavContainer from '../components/modalNavContainer.jsx';
 import * as action from '../actions';
 
-
-// keep old date property separate
-// add new moment date property to schema
-// when date is rendered in app modal, check for old date
-// if old date exists, convert to moment
-// save new moment date
-// save old date to db as null
+// store all dates in old format
+// convert to new at time of render
 
 
 class ApplicationModal extends React.Component {
@@ -121,13 +116,14 @@ class ApplicationModal extends React.Component {
   }
 
   handleDateChange(date) {
-    this.setState({ momentDate: date });
+    // change moment date back to old format
+    console.log('handleDateChange called with ', date)
+    this.setState({ inputDate: date._i });
   }
 
   sendData() {
     this.props.application.company = this.state.currentCompany;
     this.props.application.date = this.state.inputDate;
-    this.props.application.momentDate = this.state.momentDate;
     this.props.application.position = this.state.inputPosition;
     this.props.application.status = this.state.selectedStatus;
     this.props.application.companyImg = this.state.companyImg;
@@ -156,8 +152,8 @@ class ApplicationModal extends React.Component {
       notes,
       application,
     } = this.state;
-    console.log('inputDate in modal', inputDate)
-    console.log('momentDate in modal', momentDate)
+    //console.log('inputDate in modal', inputDate)
+    //console.log('momentDate in modal', momentDate)
     return (
       <div>
         <Button id={this.props.id} className={className} icon="expand" basic onClick={this.show}>
@@ -219,7 +215,6 @@ class ApplicationModal extends React.Component {
                     notes={notes}
                     postDescription={postDescription}
                     date={inputDate}
-                    momentDate={momentDate}
                     handleDateChange={this.handleDateChange}
                     handleMouseDown={this.handleMouseDown}
                     handleChange={this.handleChange}

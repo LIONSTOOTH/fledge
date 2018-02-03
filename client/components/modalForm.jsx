@@ -25,21 +25,17 @@ class ModalForm extends React.Component {
       businessList: [],
       searchQuery: '',
       date: this.props.date,
-      momentDate: moment(this.props.momentDate), //can you call moment on a stringified moment?
+
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
     if (this.props.application._id === undefined) {
       this.props.getID();
     }
-    if (this.props.date) {
-      this.setState({
-        momentDate: moment(this.props.date.slice(0,11)),
-        date: null
-      });
+    if (this.state.date !== null) {
+      console.log('componentWillMount called with non null date: ', this.state.date.slice(0, 10))
     }
   }
 
@@ -59,16 +55,12 @@ class ModalForm extends React.Component {
       .catch(err => console.log(err));
   }
 
-  handleChange(date) {
-    this.setState({ momentDate: date });
-    this.props.handleDateChange(date);
-  }
-
   render() {
     const {
       handleMouseDown,
       handleChange,
       handleStatusChange,
+      handleDateChange,
       position,
       company,
       status,
@@ -81,8 +73,8 @@ class ModalForm extends React.Component {
       { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
-    console.log('old date',this.state.date)
-    console.log('new date',this.state.momentDate)
+    console.log('moment date',moment(this.state.date, moment.ISO_8601))
+    const momentDate = moment(this.state.date, moment.ISO_8601)
     return (
       <div>
         <Form>
@@ -114,8 +106,8 @@ class ModalForm extends React.Component {
             Date Applied
           </div>
           <DatePicker
-            selected={this.props.momentDate}
-            onChange={this.handleChange}
+            selected={momentDate}
+            onChange={handleDateChange}
             placeholderText="Click to select date"
           />
           <br />
