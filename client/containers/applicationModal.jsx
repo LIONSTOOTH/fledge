@@ -117,8 +117,8 @@ class ApplicationModal extends React.Component {
 
   handleDateChange(date) {
     // change moment date back to old format
-    console.log('handleDateChange called with ', date)
-    this.setState({ inputDate: date._i });
+    console.log('handleDateChange called with ', date.toISOString())
+    this.setState({ inputDate: date.toISOString() });
   }
 
   sendData() {
@@ -152,8 +152,6 @@ class ApplicationModal extends React.Component {
       notes,
       application,
     } = this.state;
-    //console.log('inputDate in modal', inputDate)
-    //console.log('momentDate in modal', momentDate)
     return (
       <div>
         <Button id={this.props.id} className={className} icon="expand" basic onClick={this.show}>

@@ -28,6 +28,7 @@ class ModalForm extends React.Component {
 
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
 
   componentWillMount() {
@@ -55,6 +56,12 @@ class ModalForm extends React.Component {
       .catch(err => console.log(err));
   }
 
+  changeDate(date) {
+    console.log('change date called with', date.toISOString())
+    this.setState({ date: date.toISOString() });
+    this.props.handleDateChange(date);
+  }
+
   render() {
     const {
       handleMouseDown,
@@ -74,7 +81,7 @@ class ModalForm extends React.Component {
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
     console.log('moment date',moment(this.state.date, moment.ISO_8601))
-    const momentDate = moment(this.state.date, moment.ISO_8601)
+    // const momentDate = moment(this.state.date, moment.ISO_8601)
     return (
       <div>
         <Form>
@@ -106,8 +113,8 @@ class ModalForm extends React.Component {
             Date Applied
           </div>
           <DatePicker
-            selected={momentDate}
-            onChange={handleDateChange}
+            selected={moment(this.state.date, moment.ISO_8601)}
+            onChange={this.changeDate}
             placeholderText="Click to select date"
           />
           <br />
