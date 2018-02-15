@@ -35,9 +35,6 @@ class ModalForm extends React.Component {
     if (this.props.application._id === undefined) {
       this.props.getID();
     }
-    if (this.state.date !== null) {
-      console.log('componentWillMount called with non null date: ', this.state.date.slice(0, 10))
-    }
   }
 
   handleSearchChange(e, { searchQuery }) {
@@ -57,7 +54,6 @@ class ModalForm extends React.Component {
   }
 
   changeDate(date) {
-    console.log('change date called with', date.toISOString())
     this.setState({ date: date.toISOString() });
     this.props.handleDateChange(date);
   }
@@ -80,8 +76,7 @@ class ModalForm extends React.Component {
       { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
-    console.log('moment date',moment(this.state.date, moment.ISO_8601))
-    // const momentDate = moment(this.state.date, moment.ISO_8601)
+
     return (
       <div>
         <Form>
@@ -113,7 +108,7 @@ class ModalForm extends React.Component {
             Date Applied
           </div>
           <DatePicker
-            selected={moment(this.state.date, moment.ISO_8601)}
+            selected={this.state.date ? moment(this.state.date, moment.ISO_8601) : null}
             onChange={this.changeDate}
             placeholderText="Click to select date"
           />
