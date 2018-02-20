@@ -62,7 +62,7 @@ class MiniModal extends React.Component {
             <Button
               negative
               onClick={() => this.deleteApp(application._id, false)}
-              content="Withdrawl"
+              content="Withdrawal"
             />
             <Button
               positive
