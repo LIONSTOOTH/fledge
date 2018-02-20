@@ -15,10 +15,6 @@ import { connect } from 'react-redux';
 import ModalNavContainer from '../components/modalNavContainer.jsx';
 import * as action from '../actions';
 
-// store all dates in old format
-// convert to new at time of render
-
-
 class ApplicationModal extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +24,6 @@ class ApplicationModal extends React.Component {
       currentCompany: this.props.application.company,
       companyImg: this.props.application.companyImg,
       inputDate: this.props.application.date,
-      momentDate: this.props.application.momentDate,
       inputPosition: this.props.application.position,
       selectedStatus: this.props.application.status,
       postUrl: this.props.application.postUrl,
@@ -116,8 +111,6 @@ class ApplicationModal extends React.Component {
   }
 
   handleDateChange(date) {
-    // change moment date back to old format
-    console.log('handleDateChange called with ', date.toISOString())
     this.setState({ inputDate: date.toISOString() });
   }
 
@@ -144,7 +137,6 @@ class ApplicationModal extends React.Component {
       currentCompany,
       companyImg,
       inputDate,
-      momentDate,
       inputPosition,
       selectedStatus,
       postUrl,
