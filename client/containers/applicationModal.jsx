@@ -36,6 +36,7 @@ class ApplicationModal extends React.Component {
     this.sendData = this.sendData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.show = this.show.bind(this);
     this.close = this.close.bind(this);
     this.getID = this.getID.bind(this);
@@ -65,7 +66,7 @@ class ApplicationModal extends React.Component {
           this.setState({
             currentCompany: '',
             companyImg: null,
-            inputDate: '',
+            inputDate: null,
             inputPosition: '',
             selectedStatus: '',
             postUrl: '',
@@ -107,6 +108,10 @@ class ApplicationModal extends React.Component {
     const obj = {};
     obj[value.id] = value.value;
     this.setState(obj);
+  }
+
+  handleDateChange(date) {
+    this.setState({ inputDate: date.toISOString() });
   }
 
   sendData() {
@@ -200,6 +205,7 @@ class ApplicationModal extends React.Component {
                     notes={notes}
                     postDescription={postDescription}
                     date={inputDate}
+                    handleDateChange={this.handleDateChange}
                     handleMouseDown={this.handleMouseDown}
                     handleChange={this.handleChange}
                     handleStatusChange={this.handleStatusChange}

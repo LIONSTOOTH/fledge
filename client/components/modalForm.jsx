@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { Dropdown, Form, Input, TextArea } from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const style = {
   text: {
@@ -20,8 +24,11 @@ class ModalForm extends React.Component {
     this.state = {
       businessList: [],
       searchQuery: '',
+      date: this.props.date,
+
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
 
   componentWillMount() {
@@ -46,18 +53,22 @@ class ModalForm extends React.Component {
       .catch(err => console.log(err));
   }
 
+  changeDate(date) {
+    this.setState({ date: date.toISOString() });
+    this.props.handleDateChange(date);
+  }
+
   render() {
     const {
       handleMouseDown,
       handleChange,
       handleStatusChange,
+      handleDateChange,
       position,
-      date,
       company,
       status,
       notes,
     } = this.props;
-    const d = new Date(date);
     const options = [
       { key: 1, text: 'In Progress', value: 'In Progress' },
       { key: 2, text: 'Submitted', value: 'Submitted' },
@@ -65,6 +76,7 @@ class ModalForm extends React.Component {
       { key: 4, text: 'Onsite Interview', value: 'Onsite Interview' },
       { key: 5, text: 'Offer', value: 'Offer' },
     ];
+
     return (
       <div>
         <Form>
@@ -92,15 +104,15 @@ class ModalForm extends React.Component {
             placeholder={position}
             value={position}
           />
-          <Form.Field
-            control={Input}
-            onChange={handleChange}
-            label={`Date Applied: ${
-              isNaN(d.getMonth()) ? '' : ((d.getMonth()+1) +'/'+ (d.getDate()+1) +'/'+ d.getFullYear())}`
-            }
-            type="date"
-            id="inputDate"
+          <div style={style.text}>
+            Date Applied
+          </div>
+          <DatePicker
+            selected={this.state.date ? moment(this.state.date, moment.ISO_8601) : null}
+            onChange={this.changeDate}
+            placeholderText="Click to select date"
           />
+          <br />
           <div style={style.text}>
             Application Status<span style={style.required}> *</span>
           </div>
