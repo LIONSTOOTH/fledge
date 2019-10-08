@@ -58,11 +58,7 @@ class Head extends React.Component {
             floated="left"
             inverted
           >
-            <img
-              src="http://i68.tinypic.com/1z2m06f.png"
-              alt=""
-              style={style.image}
-            />
+
             Fledge
           </Header>
           <ApplicationModal

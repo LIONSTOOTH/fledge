@@ -2640,7 +2640,7 @@ table.default thead {
 
 #header {
 	background-attachment: fixed;
-	background-image: url(http://i63.tinypic.com/mahttd.jpg);
+	background: black;
 	background-position: bottom, center center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -2897,7 +2897,7 @@ table.default thead {
 
 
 	#mainBackground {
-		background-image: url('http://i67.tinypic.com/2vrvrqc.jpg');
+		background: black;
 		background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
