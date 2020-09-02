@@ -34,7 +34,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "google-auth-library": "^0.12.0",
-    "googleapis": "^23.0.0",
+    "googleapis": "^39.1.0",
     "load-script": "^1.0.0",
     "moment": "^2.20.1",
     "mongo": "^0.1.0",
